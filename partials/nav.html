@@ -1,0 +1,70 @@
+<nav id="vjti-main-nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4 px-4 md:px-8 border-b border-transparent">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <!-- Brand: Logo + Wordmark -->
+    <a href="/" class="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#31d47b] rounded-lg">
+      <div class="w-10 h-10 rounded-full bg-white/10 p-1 flex items-center justify-center border border-white/20 shadow-md group-hover:scale-105 transition-transform">
+        <svg viewBox="0 0 100 100" class="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="48" fill="#F4F1E8" stroke="#0F6B3D" stroke-width="3"/>
+          <path d="M50 18 L70 34 L70 65 L50 78 L30 65 L30 34 Z" fill="#0B120E"/>
+          <text x="50" y="55" fill="#F4F1E8" font-family="'Barlow Condensed', sans-serif" font-weight="900" font-size="20" text-anchor="middle">VJTI</text>
+          <text x="50" y="90" fill="#0F6B3D" font-family="sans-serif" font-size="8" font-weight="bold" text-anchor="middle">1887</text>
+        </svg>
+      </div>
+      <div class="flex flex-col">
+        <span class="font-display font-extrabold text-xl md:text-2xl tracking-wider text-white leading-none">
+          VJTI <span class="text-[#31d47b]">CRICKET</span>
+        </span>
+        <span class="font-mono text-[9px] tracking-widest text-[#a7b2ac] uppercase mt-0.5">
+          Trials 2026–27
+        </span>
+      </div>
+    </a>
+
+    <!-- Desktop Navigation Links -->
+    <div class="hidden md:flex items-center gap-8">
+      <a href="/#hero" class="text-sm font-semibold tracking-wider text-[#a7b2ac] hover:text-[#f4f1e8] transition-colors uppercase">Home</a>
+      <a href="/#fixture" class="text-sm font-semibold tracking-wider text-[#a7b2ac] hover:text-[#f4f1e8] transition-colors uppercase">Schedule</a>
+      <a href="/#rules" class="text-sm font-semibold tracking-wider text-[#a7b2ac] hover:text-[#f4f1e8] transition-colors uppercase">Rules</a>
+      <a href="/#process" class="text-sm font-semibold tracking-wider text-[#a7b2ac] hover:text-[#f4f1e8] transition-colors uppercase">Selection</a>
+      <a href="/#announcements" class="text-sm font-semibold tracking-wider text-[#a7b2ac] hover:text-[#f4f1e8] transition-colors uppercase">Announcements</a>
+      <a href="/#faq" class="text-sm font-semibold tracking-wider text-[#a7b2ac] hover:text-[#f4f1e8] transition-colors uppercase">FAQ</a>
+    </div>
+
+    <!-- Right Action Slot (Desktop CTA or Player Chip) -->
+    <div class="hidden md:flex items-center gap-4">
+      <div id="nav-cta-slot">
+        <a href="/register.html" class="btn-primary py-2.5 px-5 text-sm tracking-widest">
+          <span>REGISTER NOW</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Mobile Hamburger Toggle -->
+    <button id="nav-mobile-toggle" type="button" class="md:hidden p-2 text-white/80 hover:text-white rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[#31d47b]" aria-label="Toggle Navigation Menu">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+  </div>
+
+  <!-- Mobile Fullscreen Drawer / Menu -->
+  <div id="nav-mobile-menu" class="hidden md:hidden fixed inset-0 top-[72px] bg-[#050807]/95 backdrop-blur-xl z-40 p-6 flex flex-col justify-between overflow-y-auto">
+    <div class="flex flex-col gap-6 pt-4">
+      <a href="/#hero" class="mobile-nav-link text-2xl font-display font-extrabold text-white tracking-wider hover:text-[#31d47b]">01 // HOME</a>
+      <a href="/#fixture" class="mobile-nav-link text-2xl font-display font-extrabold text-white tracking-wider hover:text-[#31d47b]">02 // SCHEDULE & VENUE</a>
+      <a href="/#rules" class="mobile-nav-link text-2xl font-display font-extrabold text-white tracking-wider hover:text-[#31d47b]">03 // RULES & GEAR</a>
+      <a href="/#process" class="mobile-nav-link text-2xl font-display font-extrabold text-white tracking-wider hover:text-[#31d47b]">04 // SELECTION PROCESS</a>
+      <a href="/#announcements" class="mobile-nav-link text-2xl font-display font-extrabold text-white tracking-wider hover:text-[#31d47b]">05 // ANNOUNCEMENTS</a>
+      <a href="/#faq" class="mobile-nav-link text-2xl font-display font-extrabold text-white tracking-wider hover:text-[#31d47b]">06 // FAQ</a>
+      <a href="/find-id.html" class="mobile-nav-link text-lg font-mono text-[#a7b2ac] tracking-wider hover:text-white mt-2">→ FIND MY REGISTRATION ID</a>
+    </div>
+
+    <div class="pt-6 border-t border-white/10 flex flex-col gap-3">
+      <div id="nav-mobile-cta-slot">
+        <a href="/register.html" class="btn-primary w-full text-center py-4 text-lg">
+          REGISTER FOR TRIALS →
+        </a>
+      </div>
+      <p class="text-center font-mono text-xs text-[#64716A]">10–11 OCT 2026 • VJTI CRICKET GROUND</p>
+    </div>
+  </div>
+</nav>

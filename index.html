@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- include:partials/head.html -->
+  <title>VJTI Cricket Trials 2026–27 | Official Selection</title>
+</head>
+<body class="bg-[#050807] text-white">
+  <!-- Subtle film grain overlay -->
+  <div class="film-grain"></div>
+
+  <!-- include:partials/nav.html -->
+
+  <!-- Main Content Shell -->
+  <main id="main-content">
+    <!-- HERO SECTION (Camera Dolly Foundation) -->
+    <section id="hero" class="relative min-h-[100svh] flex items-center justify-center pt-24 pb-16 px-4 overflow-hidden">
+      <!-- Background stadium haze & glows -->
+      <div class="absolute inset-0 bg-gradient-to-b from-[#0F6B3D]/10 via-transparent to-[#050807] pointer-events-none"></div>
+      <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-[#31D47B]/10 rounded-full blur-[140px] pointer-events-none"></div>
+
+      <div class="vjti-container relative z-10 flex flex-col items-center text-center">
+        <!-- Eyebrow -->
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-6">
+          <span class="w-2 h-2 rounded-full bg-[#31D47B] animate-pulse"></span>
+          <span class="font-mono text-xs uppercase tracking-widest text-[#A7B2AC]">
+            VJTI SPORTS • LEATHER-BALL CRICKET • 2026–27
+          </span>
+        </div>
+
+        <!-- Headline Stacked Huge -->
+        <h1 class="font-display font-black text-6xl sm:text-7xl md:text-9xl leading-[0.88] tracking-tighter text-[#F4F1E8] mb-4">
+          <span class="block">VJTI</span>
+          <span class="block text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/70">CRICKET</span>
+          <span class="block text-[#31D47B]">TRIALS</span>
+        </h1>
+
+        <!-- Date & Venue line -->
+        <div class="font-mono text-sm sm:text-base md:text-lg text-[#F4F1E8] font-bold tracking-wider mb-4 flex items-center gap-2">
+          <span>10–11 OCT</span>
+          <span class="text-[#31D47B]">•</span>
+          <span>VJTI CRICKET GROUND</span>
+        </div>
+
+        <!-- Statement -->
+        <p class="font-display font-extrabold text-2xl sm:text-3xl md:text-4xl text-[#31D47B] uppercase tracking-wide mb-3">
+          ONE CAMPUS. ONE TEAM. ONE SHOT.
+        </p>
+
+        <!-- Support copy -->
+        <p class="text-[#A7B2AC] max-w-xl text-base sm:text-lg mb-8 font-normal">
+          The road to wearing the VJTI whites starts here. Register for the official leather-ball selection trials and earn your place.
+        </p>
+
+        <!-- Countdown -->
+        <div class="mb-8">
+          <vjti-countdown></vjti-countdown>
+        </div>
+
+        <!-- Hero CTAs -->
+        <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+          <a href="/register.html" class="btn-primary w-full sm:w-auto py-3.5 px-8 text-base">
+            REGISTER FOR TRIALS →
+          </a>
+          <a href="#fixture" class="btn-secondary w-full sm:w-auto py-3.5 px-8 text-base">
+            SEE THE PLAN
+          </a>
+        </div>
+
+        <!-- Registration Status Badge -->
+        <div class="mt-8 flex items-center gap-2">
+          <span class="status-badge open">
+            <span class="pulse-dot green"></span>
+            REGISTRATIONS OPEN
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Placeholder anchor for fixture -->
+    <section id="fixture" class="py-20 border-t border-white/10 vjti-container">
+      <div class="text-center">
+        <span class="font-mono text-xs text-[#31D47B] tracking-widest uppercase">Phase 1 Initial Layout</span>
+        <h2 class="font-display text-4xl font-extrabold text-[#F4F1E8] mt-2">THE FIXTURE</h2>
+        <p class="text-[#A7B2AC] mt-1">Full scroll sections, fixture cards, and animations in Phase 2 & 3.</p>
+        <div class="mt-6 flex justify-center">
+          <a href="/styleguide.html" class="btn-secondary text-sm">
+            VIEW DESIGN SYSTEM STYLE GUIDE →
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- include:partials/footer.html -->
+
+  <!-- Client bundle -->
+  <script type="module" src="/src/js/main.js"></script>
+</body>
+</html>

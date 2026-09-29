@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- include:partials/head.html -->
+  <title>VJTI Cricket Trials 2026 | Design System Style Guide</title>
+</head>
+<body class="bg-[#050807] text-white">
+  <div class="film-grain"></div>
+  
+  <!-- include:partials/nav.html -->
+
+  <main class="pt-32 pb-24 px-4 md:px-8 max-w-7xl mx-auto">
+    <div class="mb-12 border-b border-white/10 pb-6">
+      <span class="font-mono text-xs text-[#31D47B] tracking-widest uppercase font-bold">Phase 1 Foundation</span>
+      <h1 class="font-display text-4xl md:text-6xl font-black tracking-tight text-[#F4F1E8] mt-2">
+        DESIGN SYSTEM & TOKEN SHOWCASE
+      </h1>
+      <p class="text-[#A7B2AC] text-lg mt-2">
+        Live validation of Tailwind v4 CSS-first @theme tokens, typography, components, and color variables.
+      </p>
+    </div>
+
+    <!-- Color Tokens Grid -->
+    <section class="mb-16">
+      <h2 class="font-display text-2xl font-bold text-[#F4F1E8] mb-6 flex items-center gap-3">
+        <span class="w-3 h-3 bg-[#31D47B] rounded-sm"></span>
+        01 // COLOR TOKENS
+      </h2>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 font-mono text-xs">
+        <div class="p-4 rounded-xl border border-white/10 bg-[#050807] flex flex-col justify-between h-28">
+          <span class="font-bold">--bg-0</span>
+          <span class="text-white/60">#050807 (Pitch Black)</span>
+        </div>
+        <div class="p-4 rounded-xl border border-white/10 bg-[#07100B] flex flex-col justify-between h-28">
+          <span class="font-bold">--bg-1</span>
+          <span class="text-white/60">#07100B (Night Grass)</span>
+        </div>
+        <div class="p-4 rounded-xl border border-white/10 bg-[#0B120E] flex flex-col justify-between h-28">
+          <span class="font-bold">--bg-2</span>
+          <span class="text-white/60">#0B120E (Surface Dark)</span>
+        </div>
+        <div class="p-4 rounded-xl border border-white/10 bg-[#0F6B3D] flex flex-col justify-between h-28 text-white">
+          <span class="font-bold">--green-deep</span>
+          <span>#0F6B3D (Outfield)</span>
+        </div>
+        <div class="p-4 rounded-xl border border-white/10 bg-[#117A46] flex flex-col justify-between h-28 text-white">
+          <span class="font-bold">--green-mid</span>
+          <span>#117A46 (Turf)</span>
+        </div>
+        <div class="p-4 rounded-xl border border-white/10 bg-[#31D47B] flex flex-col justify-between h-28 text-black font-bold">
+          <span>--accent</span>
+          <span>#31D47B (High Voltage)</span>
+        </div>
+        <div class="p-4 rounded-xl border border-white/10 bg-[#F4F1E8] flex flex-col justify-between h-28 text-black font-bold">
+          <span>--whites</span>
+          <span>#F4F1E8 (Cricket Chalk)</span>
+        </div>
+        <div class="p-4 rounded-xl border border-white/10 bg-[#C9A96A] flex flex-col justify-between h-28 text-black font-bold">
+          <span>--gold</span>
+          <span>#C9A96A (Pitch Sand)</span>
+        </div>
+        <div class="p-4 rounded-xl border border-white/10 bg-[#B5121B] flex flex-col justify-between h-28 text-white font-bold">
+          <span>--ball</span>
+          <span>#B5121B (Leather Red)</span>
+        </div>
+        <div class="p-4 rounded-xl border border-white/10 bg-[#A7B2AC] flex flex-col justify-between h-28 text-black font-bold">
+          <span>--text-secondary</span>
+          <span>#A7B2AC (Subtle Text)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Typography Grid -->
+    <section class="mb-16">
+      <h2 class="font-display text-2xl font-bold text-[#F4F1E8] mb-6 flex items-center gap-3">
+        <span class="w-3 h-3 bg-[#31D47B] rounded-sm"></span>
+        02 // TYPOGRAPHY HIERARCHY
+      </h2>
+      <div class="space-y-6 glass-panel p-6">
+        <div>
+          <span class="font-mono text-xs text-[#64716A]">Barlow Condensed 900 • Uppercase • Hero Display</span>
+          <div class="font-display text-5xl md:text-7xl font-black text-[#F4F1E8] leading-none mt-1">
+            ONE CAMPUS. ONE TEAM. ONE SHOT.
+          </div>
+        </div>
+        <div>
+          <span class="font-mono text-xs text-[#64716A]">Barlow Condensed 800 Italic • Section Headline</span>
+          <div class="font-display italic text-3xl md:text-4xl font-extrabold text-[#31D47B] mt-1">
+            EARN YOUR PLACE IN THE VJTI WHITES.
+          </div>
+        </div>
+        <div>
+          <span class="font-mono text-xs text-[#64716A]">Inter 400/600 • Body Copy</span>
+          <p class="text-[#A7B2AC] text-base md:text-lg max-w-2xl mt-1">
+            Full whites compulsory. Bring your own kit if possible. Selection trials for the VJTI Inter-Collegiate Cricket Team scheduled for 10 and 11 October 2026.
+          </p>
+        </div>
+        <div>
+          <span class="font-mono text-xs text-[#64716A]">JetBrains Mono • Tabular Scoreboard Digits</span>
+          <div class="font-mono font-bold text-3xl text-[#F4F1E8] mt-1">
+            11D : 04H : 22M : 10S
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- UI Components Grid -->
+    <section class="mb-16">
+      <h2 class="font-display text-2xl font-bold text-[#F4F1E8] mb-6 flex items-center gap-3">
+        <span class="w-3 h-3 bg-[#31D47B] rounded-sm"></span>
+        03 // REUSABLE UI COMPONENTS
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Buttons -->
+        <div class="glass-panel p-6 flex flex-col gap-4">
+          <h3 class="font-display text-lg font-bold text-white tracking-wider">BUTTON VARIANTS</h3>
+          <div class="flex flex-wrap items-center gap-4">
+            <button class="btn-primary">REGISTER FOR TRIALS →</button>
+            <button class="btn-secondary">SEE THE FIXTURE</button>
+            <button class="btn-ghost">FIND MY ID</button>
+          </div>
+        </div>
+
+        <!-- Badges & Status Indicators -->
+        <div class="glass-panel p-6 flex flex-col gap-4">
+          <h3 class="font-display text-lg font-bold text-white tracking-wider">STATUS BADGES & INDICATORS</h3>
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="status-badge open">
+              <span class="pulse-dot green"></span>
+              REGISTRATIONS OPEN
+            </span>
+            <span class="status-badge live">
+              <span class="pulse-dot red"></span>
+              TRIALS ARE LIVE
+            </span>
+            <span class="status-badge upcoming">
+              UPCOMING
+            </span>
+          </div>
+        </div>
+
+        <!-- Custom Element Countdown -->
+        <div class="glass-panel p-6 flex flex-col gap-4">
+          <h3 class="font-display text-lg font-bold text-white tracking-wider">CUSTOM ELEMENT: &lt;vjti-countdown&gt;</h3>
+          <div>
+            <vjti-countdown></vjti-countdown>
+          </div>
+        </div>
+
+        <!-- Interactive Toast Tester -->
+        <div class="glass-panel p-6 flex flex-col gap-4">
+          <h3 class="font-display text-lg font-bold text-white tracking-wider">ACCESSIBLE TOAST NOTIFICATIONS</h3>
+          <div class="flex flex-wrap gap-2">
+            <button id="test-toast-success" class="btn-secondary py-2 px-3 text-xs">Test Success Toast</button>
+            <button id="test-toast-error" class="btn-secondary py-2 px-3 text-xs">Test Error Toast</button>
+            <button id="test-toast-undo" class="btn-secondary py-2 px-3 text-xs">Test Undo Toast</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- include:partials/footer.html -->
+
+  <script type="module" src="/src/js/main.js"></script>
+  <script type="module">
+    import { toast } from "/src/js/components/toast.js";
+
+    document.getElementById("test-toast-success")?.addEventListener("click", () => {
+      toast.show({ message: "Registration draft saved successfully!", type: "success" });
+    });
+
+    document.getElementById("test-toast-error")?.addEventListener("click", () => {
+      toast.show({ message: "This Reg no is already registered.", type: "error" });
+    });
+
+    document.getElementById("test-toast-undo")?.addEventListener("click", () => {
+      toast.show({
+        message: "Attendance marked: Present",
+        type: "info",
+        action: {
+          label: "UNDO",
+          onClick: () => {
+            toast.show({ message: "Attendance reverted to Pending", type: "warning" });
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

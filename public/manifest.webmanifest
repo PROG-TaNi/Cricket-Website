@@ -1,0 +1,17 @@
+{
+  "name": "VJTI Cricket Trials 2026–27",
+  "short_name": "VJTI Cricket",
+  "description": "Official Leather-Ball Cricket Selection Trials for VJTI",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050807",
+  "theme_color": "#050807",
+  "icons": [
+    {
+      "src": "/brand/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
