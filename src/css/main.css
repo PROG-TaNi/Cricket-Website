@@ -239,6 +239,22 @@ body {
   50% { opacity: 0.4; transform: scale(0.85); }
 }
 
+/* Marquee continuous scroll */
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: inline-flex;
+  width: max-content;
+  animation: marqueeScroll 25s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
 /* Responsive container */
 .vjti-container {
   width: 100%;
@@ -266,5 +282,8 @@ body {
   }
   .film-grain {
     display: none !important;
+  }
+  .animate-marquee {
+    animation: none !important;
   }
 }

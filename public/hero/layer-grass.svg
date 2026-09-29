@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 1350" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="foreGrass" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0F6B3D" stop-opacity="0" />
+      <stop offset="30%" stop-color="#093820" stop-opacity="0.75" />
+      <stop offset="70%" stop-color="#071b10" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#050807" stop-opacity="1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Bottom Dark Vignette / Foreground Mound -->
+  <path d="M0,1180 Q600,1140 1200,1170 Q1800,1130 2400,1180 L2400,1350 L0,1350 Z" fill="url(#foreGrass)" />
+
+  <!-- Foreground Grass Blades Silhouette along the edge -->
+  <g fill="#071b10" opacity="0.9">
+    <!-- Left Blades Cluster -->
+    <path d="M60,1190 L75,1130 L85,1190 Z" />
+    <path d="M80,1190 L95,1120 L105,1190 Z" />
+    <path d="M100,1190 L110,1140 L120,1190 Z" />
+    <path d="M180,1190 L195,1125 L210,1190 Z" />
+    <path d="M340,1180 L355,1110 L370,1180 Z" />
+    <path d="M520,1170 L535,1105 L550,1170 Z" />
+    
+    <!-- Right Blades Cluster -->
+    <path d="M1900,1170 L1915,1110 L1930,1170 Z" />
+    <path d="M2080,1180 L2095,1115 L2110,1180 Z" />
+    <path d="M2240,1190 L2255,1125 L2270,1190 Z" />
+    <path d="M2290,1190 L2305,1135 L2320,1190 Z" />
+  </g>
+</svg>

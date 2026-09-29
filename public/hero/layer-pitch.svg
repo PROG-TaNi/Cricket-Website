@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 1350" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- Pitch Clay / Turf Gradient -->
+    <linearGradient id="pitchGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#80683e" stop-opacity="0.9" />
+      <stop offset="40%" stop-color="#C9A96A" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#e5c88c" stop-opacity="1" />
+    </linearGradient>
+
+    <!-- Outfield Oval Turf Gradient -->
+    <radialGradient id="outfieldTurf" cx="50%" cy="80%" r="60%">
+      <stop offset="0%" stop-color="#117A46" stop-opacity="0.85" />
+      <stop offset="50%" stop-color="#0F6B3D" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#07100B" stop-opacity="1" />
+    </radialGradient>
+
+    <!-- Crease Chalk Gradient -->
+    <linearGradient id="creaseChalk" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F4F1E8" stop-opacity="0.5" />
+      <stop offset="50%" stop-color="#FFFFFF" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#F4F1E8" stop-opacity="0.5" />
+    </linearGradient>
+  </defs>
+
+  <!-- Ground Outfield Base -->
+  <path d="M0,740 Q1200,680 2400,740 L2400,1350 L0,1350 Z" fill="url(#outfieldTurf)" />
+
+  <!-- Outfield Mown Stripes (Subtle 30-yard circle / lawn lines) -->
+  <g stroke="#159957" stroke-width="2" opacity="0.25">
+    <path d="M400,820 Q1200,750 2000,820" fill="none" />
+    <path d="M250,910 Q1200,830 2150,910" fill="none" />
+    <path d="M100,1030 Q1200,930 2300,1030" fill="none" />
+  </g>
+
+  <!-- 30-Yard Circle Arc (Dotted Chalk) -->
+  <path d="M280,890 Q1200,800 2120,890" fill="none" stroke="#F4F1E8" stroke-width="2.5" stroke-dasharray="10 12" opacity="0.4" />
+
+  <!-- Central Cricket Pitch (Perspective Trapazoid) -->
+  <!-- Narrower at top (far end: 1140 to 1260, y=750), wider at bottom (near end: 1040 to 1360, y=1200) -->
+  <polygon points="1145,750 1255,750 1375,1230 1025,1230" fill="url(#pitchGrad)" />
+  <!-- Pitch Texture Lines & Scuffs -->
+  <polygon points="1145,750 1255,750 1375,1230 1025,1230" fill="none" stroke="#66502a" stroke-width="1.5" />
+
+  <!-- Bowling Crease & Popping Crease (Far End) -->
+  <line x1="1120" y1="765" x2="1280" y2="765" stroke="url(#creaseChalk)" stroke-width="2" />
+  <line x1="1100" y1="795" x2="1300" y2="795" stroke="url(#creaseChalk)" stroke-width="3" />
+  <!-- Distant Stumps & Bails (Far End) -->
+  <g stroke="#F4F1E8" stroke-width="2">
+    <line x1="1195" y1="745" x2="1195" y2="765" />
+    <line x1="1200" y1="745" x2="1200" y2="765" />
+    <line x1="1205" y1="745" x2="1205" y2="765" />
+    <!-- Bail -->
+    <line x1="1193" y1="745" x2="1207" y2="745" stroke-width="2" />
+  </g>
+
+  <!-- Bowling Crease & Popping Crease (Near End) -->
+  <line x1="970" y1="1190" x2="1430" y2="1190" stroke="url(#creaseChalk)" stroke-width="4" />
+  <line x1="920" y1="1250" x2="1480" y2="1250" stroke="url(#creaseChalk)" stroke-width="5" />
+
+  <!-- Return Creases (Near End) -->
+  <line x1="1025" y1="1190" x2="1010" y2="1260" stroke="url(#creaseChalk)" stroke-width="3" />
+  <line x1="1375" y1="1190" x2="1390" y2="1260" stroke="url(#creaseChalk)" stroke-width="3" />
+
+  <!-- Near End Stumps (Foreground Hero Element) -->
+  <g id="hero-stumps" stroke="#F4F1E8" stroke-width="5" stroke-linecap="round">
+    <!-- Off Stump -->
+    <line x1="1180" y1="1120" x2="1180" y2="1190" stroke="#F4F1E8" />
+    <!-- Middle Stump -->
+    <line x1="1200" y1="1115" x2="1200" y2="1190" stroke="#F4F1E8" />
+    <!-- Leg Stump -->
+    <line x1="1220" y1="1120" x2="1220" y2="1190" stroke="#F4F1E8" />
+    <!-- Bails -->
+    <line id="hero-bail-1" x1="1176" y1="1118" x2="1200" y2="1114" stroke="#F4F1E8" stroke-width="4" />
+    <line id="hero-bail-2" x1="1200" y1="1114" x2="1224" y2="1118" stroke="#F4F1E8" stroke-width="4" />
+  </g>
+</svg>

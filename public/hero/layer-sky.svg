@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 1350" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="skyGlow" cx="50%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#0c2518" stop-opacity="0.9" />
+      <stop offset="50%" stop-color="#07130c" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#050807" stop-opacity="1" />
+    </radialGradient>
+    <linearGradient id="horizonHaze" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#159957" stop-opacity="0" />
+      <stop offset="70%" stop-color="#117a46" stop-opacity="0.15" />
+      <stop offset="100%" stop-color="#050807" stop-opacity="0.8" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Base Night Sky -->
+  <rect width="2400" height="1350" fill="url(#skyGlow)" />
+  <rect y="400" width="2400" height="950" fill="url(#horizonHaze)" />
+  
+  <!-- Subtle Night Stars & Distant Particles -->
+  <g fill="#F4F1E8" opacity="0.35">
+    <circle cx="240" cy="180" r="1.5" />
+    <circle cx="480" cy="90" r="1" />
+    <circle cx="720" cy="220" r="1.8" />
+    <circle cx="950" cy="130" r="1.2" />
+    <circle cx="1200" cy="70" r="2" />
+    <circle cx="1450" cy="160" r="1.2" />
+    <circle cx="1680" cy="110" r="1.5" />
+    <circle cx="1920" cy="210" r="1" />
+    <circle cx="2150" cy="140" r="2" />
+    <circle cx="350" cy="280" r="1" />
+    <circle cx="820" cy="310" r="1.5" />
+    <circle cx="1580" cy="260" r="1.2" />
+    <circle cx="2020" cy="290" r="1" />
+  </g>
+</svg>

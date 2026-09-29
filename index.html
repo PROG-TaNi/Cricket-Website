@@ -12,54 +12,83 @@
 
   <!-- Main Content Shell -->
   <main id="main-content">
-    <!-- HERO SECTION (Camera Dolly Foundation) -->
-    <section id="hero" class="relative min-h-[100svh] flex items-center justify-center pt-24 pb-16 px-4 overflow-hidden">
-      <!-- Background stadium haze & glows -->
-      <div class="absolute inset-0 bg-gradient-to-b from-[#0F6B3D]/10 via-transparent to-[#050807] pointer-events-none"></div>
-      <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-[#31D47B]/10 rounded-full blur-[140px] pointer-events-none"></div>
+    <!-- SIGNATURE HERO SECTION (Camera Dolly & Layered Parallax) -->
+    <section id="hero" class="relative w-full h-[100svh] min-h-[640px] flex items-center justify-center overflow-hidden">
+      <!-- PARALLAX STADIUM LAYERS CONTAINER -->
+      <div class="hero-layers-container absolute inset-0 w-full h-full pointer-events-none transform-gpu origin-center">
+        <!-- Layer 1: Night Sky & Atmospheric Haze -->
+        <div class="layer-sky absolute inset-0 w-full h-full">
+          <img src="/hero/layer-sky.svg" alt="" class="w-full h-full object-cover" width="2400" height="1350" fetchpriority="high" />
+        </div>
 
-      <div class="vjti-container relative z-10 flex flex-col items-center text-center">
+        <!-- Layer 2: Stadium Floodlights & Volumetric Beams -->
+        <div class="layer-lights absolute inset-0 w-full h-full">
+          <img src="/hero/layer-lights.svg" alt="" class="w-full h-full object-cover" width="2400" height="1350" />
+        </div>
+
+        <!-- Central Floodlight Glow Accent -->
+        <div class="hero-light-glow absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[#31D47B]/15 rounded-full blur-[160px] opacity-60"></div>
+
+        <!-- Layer 3: Stadium Stands Silhouette & Grandstands -->
+        <div class="layer-stands absolute inset-0 w-full h-full">
+          <img src="/hero/layer-stands.svg" alt="" class="w-full h-full object-cover" width="2400" height="1350" />
+        </div>
+
+        <!-- Layer 4: 22-Yard Cricket Pitch & Wicket Stumps -->
+        <div class="layer-pitch absolute inset-0 w-full h-full">
+          <img src="/hero/layer-pitch.svg" alt="" class="w-full h-full object-cover" width="2400" height="1350" />
+        </div>
+
+        <!-- Layer 5: Foreground Grass Blades & Vignette -->
+        <div class="layer-grass absolute inset-0 w-full h-full z-10">
+          <img src="/hero/layer-grass.svg" alt="" class="w-full h-full object-cover" width="2400" height="1350" />
+        </div>
+      </div>
+
+      <!-- FOREGROUND CONTENT (Pass-Through Camera Target) -->
+      <div class="hero-content relative z-20 vjti-container flex flex-col items-center text-center pt-16 md:pt-12">
         <!-- Eyebrow -->
-        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-6">
+        <div class="hero-eyebrow inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-4 md:mb-6">
           <span class="w-2 h-2 rounded-full bg-[#31D47B] animate-pulse"></span>
-          <span class="font-mono text-xs uppercase tracking-widest text-[#A7B2AC]">
+          <span class="font-mono text-[10px] md:text-xs uppercase tracking-widest text-[#A7B2AC]">
             VJTI SPORTS • LEATHER-BALL CRICKET • 2026–27
           </span>
         </div>
 
         <!-- Headline Stacked Huge -->
-        <h1 class="font-display font-black text-6xl sm:text-7xl md:text-9xl leading-[0.88] tracking-tighter text-[#F4F1E8] mb-4">
+        <h1 class="hero-headline font-display font-black text-6xl sm:text-7xl md:text-9xl leading-[0.88] tracking-tighter text-[#F4F1E8] mb-4 select-none">
           <span class="block">VJTI</span>
           <span class="block text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/70">CRICKET</span>
           <span class="block text-[#31D47B]">TRIALS</span>
         </h1>
 
         <!-- Date & Venue line -->
-        <div class="font-mono text-sm sm:text-base md:text-lg text-[#F4F1E8] font-bold tracking-wider mb-4 flex items-center gap-2">
+        <div class="hero-date-venue font-mono text-xs sm:text-sm md:text-base text-[#F4F1E8] font-bold tracking-wider mb-3 flex items-center gap-2">
           <span>10–11 OCT</span>
           <span class="text-[#31D47B]">•</span>
           <span>VJTI CRICKET GROUND</span>
         </div>
 
         <!-- Statement -->
-        <p class="font-display font-extrabold text-2xl sm:text-3xl md:text-4xl text-[#31D47B] uppercase tracking-wide mb-3">
+        <p class="hero-statement font-display font-extrabold text-xl sm:text-2xl md:text-3xl text-[#31D47B] uppercase tracking-wide mb-2">
           ONE CAMPUS. ONE TEAM. ONE SHOT.
         </p>
 
         <!-- Support copy -->
-        <p class="text-[#A7B2AC] max-w-xl text-base sm:text-lg mb-8 font-normal">
+        <p class="hero-support text-[#A7B2AC] max-w-xl text-sm sm:text-base mb-6 font-normal px-4">
           The road to wearing the VJTI whites starts here. Register for the official leather-ball selection trials and earn your place.
         </p>
 
-        <!-- Countdown -->
-        <div class="mb-8">
+        <!-- Live Scoreboard Countdown -->
+        <div class="hero-countdown mb-6">
           <vjti-countdown></vjti-countdown>
         </div>
 
         <!-- Hero CTAs -->
-        <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-          <a href="/register.html" class="btn-primary w-full sm:w-auto py-3.5 px-8 text-base">
-            REGISTER FOR TRIALS →
+        <div class="hero-ctas flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto px-4">
+          <a href="/register.html" class="btn-primary btn-magnetic w-full sm:w-auto py-3.5 px-8 text-base">
+            <span>REGISTER FOR TRIALS</span>
+            <svg class="w-5 h-5 ml-1 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
           </a>
           <a href="#fixture" class="btn-secondary w-full sm:w-auto py-3.5 px-8 text-base">
             SEE THE PLAN
@@ -67,33 +96,66 @@
         </div>
 
         <!-- Registration Status Badge -->
-        <div class="mt-8 flex items-center gap-2">
+        <div class="hero-status mt-6 flex items-center gap-2">
           <span class="status-badge open">
             <span class="pulse-dot green"></span>
             REGISTRATIONS OPEN
           </span>
         </div>
       </div>
+
+      <!-- Bottom Scroll Indicator -->
+      <div class="hero-scroll-indicator absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity pointer-events-none">
+        <span class="font-mono text-[9px] uppercase tracking-widest text-[#A7B2AC]">SCROLL</span>
+        <svg class="w-4 h-4 text-[#31D47B] animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
+      </div>
     </section>
 
-    <!-- Placeholder anchor for fixture -->
-    <section id="fixture" class="py-20 border-t border-white/10 vjti-container">
-      <div class="text-center">
-        <span class="font-mono text-xs text-[#31D47B] tracking-widest uppercase">Phase 1 Initial Layout</span>
-        <h2 class="font-display text-4xl font-extrabold text-[#F4F1E8] mt-2">THE FIXTURE</h2>
-        <p class="text-[#A7B2AC] mt-1">Full scroll sections, fixture cards, and animations in Phase 2 & 3.</p>
-        <div class="mt-6 flex justify-center">
-          <a href="/styleguide.html" class="btn-secondary text-sm">
-            VIEW DESIGN SYSTEM STYLE GUIDE →
-          </a>
+    <!-- Marquee Ticker (Velocity-Reactive strip linking Hero to Fixture) -->
+    <div id="marquee-strip" class="relative z-20 py-4 bg-[#07100B] border-y border-white/10 overflow-hidden font-display font-extrabold text-lg tracking-widest text-[#F4F1E8]">
+      <div class="flex whitespace-nowrap animate-marquee">
+        <span class="mx-4">WHITES COMPULSORY</span><span class="text-[#31D47B]">•</span>
+        <span class="mx-4">BE ON TIME</span><span class="text-[#31D47B]">•</span>
+        <span class="mx-4">EARN YOUR PLACE</span><span class="text-[#31D47B]">•</span>
+        <span class="mx-4">10–11 OCT</span><span class="text-[#31D47B]">•</span>
+        <span class="mx-4">ONE CAMPUS ONE TEAM ONE SHOT</span><span class="text-[#31D47B]">•</span>
+        <span class="mx-4">WHITES COMPULSORY</span><span class="text-[#31D47B]">•</span>
+        <span class="mx-4">BE ON TIME</span><span class="text-[#31D47B]">•</span>
+        <span class="mx-4">EARN YOUR PLACE</span><span class="text-[#31D47B]">•</span>
+        <span class="mx-4">10–11 OCT</span><span class="text-[#31D47B]">•</span>
+        <span class="mx-4">ONE CAMPUS ONE TEAM ONE SHOT</span><span class="text-[#31D47B]">•</span>
+      </div>
+    </div>
+
+    <!-- Fixture Section Placeholder -->
+    <section id="fixture" class="py-24 vjti-container relative z-20">
+      <div class="text-center max-w-2xl mx-auto">
+        <span class="font-mono text-xs text-[#31D47B] tracking-widest uppercase font-bold">Upcoming Match Schedule</span>
+        <h2 class="font-display text-4xl sm:text-5xl font-black text-[#F4F1E8] mt-2 mb-4">THE FIXTURE</h2>
+        <p class="text-[#A7B2AC]">Broadcast-style trial match days, reporting times, calendar file export, and venue details arrive in Phase 3.</p>
+        <div class="mt-8 flex justify-center gap-4">
+          <a href="/styleguide.html" class="btn-secondary text-sm">DESIGN STYLE GUIDE →</a>
         </div>
       </div>
     </section>
   </main>
 
+  <!-- Sticky Mobile CTA Bar (Safe-Area Aware) -->
+  <div id="mobile-sticky-cta" class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#07100B]/95 border-t border-white/10 backdrop-blur-xl p-3 px-4 transform translate-y-full opacity-0 transition-all duration-300 flex items-center justify-between gap-3 shadow-2xl pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+    <div class="flex flex-col">
+      <span class="font-display font-extrabold text-sm text-white tracking-wider">TRIALS 10–11 OCT</span>
+      <span class="font-mono text-[10px] text-[#31D47B] font-semibold">WHITES COMPULSORY</span>
+    </div>
+    <a href="/register.html" class="btn-primary py-2.5 px-4 text-xs font-bold tracking-wider">
+      REGISTER NOW →
+    </a>
+  </div>
+
   <!-- include:partials/footer.html -->
 
-  <!-- Client bundle -->
+  <!-- Client Script -->
   <script type="module" src="/src/js/main.js"></script>
 </body>
 </html>

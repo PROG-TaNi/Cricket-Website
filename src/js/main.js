@@ -2,19 +2,23 @@
 import "../css/main.css";
 import { initLenis } from "./core/lenis.js";
 import { initNav } from "./components/nav.js";
+import { initHero } from "./sections/hero.js";
 import "./components/countdown.js";
 import { toast } from "./components/toast.js";
 
-// Make toast available globally if needed
+// Global toast access
 // @ts-ignore
 window.toast = toast;
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Initialize smooth scroll
+  // 1. Initialize Lenis smooth scroll
   initLenis();
 
-  // Initialize navigation
+  // 2. Initialize Navigation controller
   initNav();
 
-  console.log("VJTI Cricket Trials 2026-27 core system initialized.");
+  // 3. Initialize Signature Camera-Dolly Hero
+  initHero();
+
+  console.log("VJTI Cricket Trials 2026–27 Phase 2 Hero & Nav initialized.");
 });

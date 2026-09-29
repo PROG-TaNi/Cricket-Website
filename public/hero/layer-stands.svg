@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 1350" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="standsGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#112519" stop-opacity="0.95" />
+      <stop offset="40%" stop-color="#0a160f" stop-opacity="0.98" />
+      <stop offset="100%" stop-color="#07100B" stop-opacity="1" />
+    </linearGradient>
+    <linearGradient id="rimLight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#31D47B" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#0F6B3D" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Distant Stadium Tier Curve -->
+  <path d="M0,640 Q1200,560 2400,640 L2400,1350 L0,1350 Z" fill="url(#standsGrad)" />
+
+  <!-- Stadium Roof Canopy & Architectural Cantilever -->
+  <path d="M150,560 Q1200,470 2250,560 L2300,580 Q1200,490 100,580 Z" fill="url(#rimLight)" />
+  <path d="M200,580 Q1200,500 2200,580 L2200,630 Q1200,540 200,630 Z" fill="#060c08" opacity="0.9" />
+
+  <!-- Pavilion / Sight-Screen / Scoreboard Structure at Center -->
+  <rect x="1000" y="520" width="400" height="90" rx="4" fill="#0B150F" stroke="#159957" stroke-width="1.5" />
+  <text x="1200" y="555" fill="#31D47B" font-family="'Barlow Condensed', sans-serif" font-weight="900" font-size="24" text-anchor="middle" letter-spacing="4">VJTI CRICKET GROUND</text>
+  <text x="1200" y="585" fill="#F4F1E8" opacity="0.6" font-family="monospace" font-size="14" text-anchor="middle" letter-spacing="2">ESTD 1887 • MATUNGA</text>
+
+  <!-- Grandstand Tier Rows / Subtle horizontal lines -->
+  <g stroke="#1a3324" stroke-width="1" opacity="0.4">
+    <line x1="100" y1="650" x2="2300" y2="650" />
+    <line x1="120" y1="675" x2="2280" y2="675" />
+    <line x1="140" y1="700" x2="2260" y2="700" />
+    <line x1="160" y1="725" x2="2240" y2="725" />
+    <line x1="180" y1="750" x2="2220" y2="750" />
+  </g>
+</svg>
