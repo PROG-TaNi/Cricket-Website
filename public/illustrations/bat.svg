@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- Cricket Bat SVG Illustration -->
+  <g transform="rotate(45 60 60)" stroke="#31D47B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Handle -->
+    <rect x="56" y="10" width="8" height="30" rx="3" fill="#159957" />
+    <line x1="56" y1="18" x2="64" y2="18" stroke="#F4F1E8" stroke-width="1.5" />
+    <line x1="56" y1="26" x2="64" y2="26" stroke="#F4F1E8" stroke-width="1.5" />
+    <!-- Grip Top -->
+    <circle cx="60" cy="10" r="3" fill="#F4F1E8" />
+    <!-- Blade -->
+    <path d="M52 40 L68 40 L66 102 Q60 110 54 102 Z" fill="#0B120E" />
+    <!-- Spine ridge -->
+    <line x1="60" y1="40" x2="60" y2="100" stroke="#31D47B" stroke-width="1.5" />
+  </g>
+</svg>

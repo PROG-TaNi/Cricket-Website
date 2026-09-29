@@ -12,7 +12,7 @@
 
   <!-- Main Content Shell -->
   <main id="main-content">
-    <!-- SIGNATURE HERO SECTION (Camera Dolly & Layered Parallax) -->
+    <!-- 1. SIGNATURE HERO SECTION (Camera Dolly & Layered Parallax) -->
     <section id="hero" class="relative w-full h-[100svh] min-h-[640px] flex items-center justify-center overflow-hidden">
       <!-- PARALLAX STADIUM LAYERS CONTAINER -->
       <div class="hero-layers-container absolute inset-0 w-full h-full pointer-events-none transform-gpu origin-center">
@@ -113,7 +113,7 @@
       </div>
     </section>
 
-    <!-- Marquee Ticker (Velocity-Reactive strip linking Hero to Fixture) -->
+    <!-- 2. MARQUEE TICKER STRIP -->
     <div id="marquee-strip" class="relative z-20 py-4 bg-[#07100B] border-y border-white/10 overflow-hidden font-display font-extrabold text-lg tracking-widest text-[#F4F1E8]">
       <div class="flex whitespace-nowrap animate-marquee">
         <span class="mx-4">WHITES COMPULSORY</span><span class="text-[#31D47B]">•</span>
@@ -129,14 +129,764 @@
       </div>
     </div>
 
-    <!-- Fixture Section Placeholder -->
-    <section id="fixture" class="py-24 vjti-container relative z-20">
-      <div class="text-center max-w-2xl mx-auto">
-        <span class="font-mono text-xs text-[#31D47B] tracking-widest uppercase font-bold">Upcoming Match Schedule</span>
-        <h2 class="font-display text-4xl sm:text-5xl font-black text-[#F4F1E8] mt-2 mb-4">THE FIXTURE</h2>
-        <p class="text-[#A7B2AC]">Broadcast-style trial match days, reporting times, calendar file export, and venue details arrive in Phase 3.</p>
-        <div class="mt-8 flex justify-center gap-4">
-          <a href="/styleguide.html" class="btn-secondary text-sm">DESIGN STYLE GUIDE →</a>
+    <!-- 3. THE FIXTURE STRIP (Broadcast Match Cards) -->
+    <section id="fixture" class="py-20 md:py-28 vjti-container relative z-20">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+        <div>
+          <span class="font-mono text-xs text-[#31D47B] tracking-widest uppercase font-bold">Matchday Schedule</span>
+          <h2 class="font-display text-4xl sm:text-6xl font-black text-[#F4F1E8] mt-1">THE FIXTURE</h2>
+          <p class="text-[#A7B2AC] mt-1 text-sm md:text-base">Official trial match days at the historic VJTI ground.</p>
+        </div>
+        <div>
+          <button id="add-to-calendar-btn" class="btn-secondary text-xs sm:text-sm py-2.5 px-4 tracking-wider flex items-center gap-2">
+            <svg class="w-4 h-4 text-[#31D47B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <span>ADD TO CALENDAR (.ICS)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 4 Fixture Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Day 1 Card -->
+        <div class="fixture-tilt-card glass-panel-elevated p-6 flex flex-col justify-between border-white/10 hover:border-[#31D47B]/40 transition-colors">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="status-badge upcoming">UPCOMING</span>
+              <span class="font-mono text-xs text-[#A7B2AC] font-bold">DAY 01</span>
+            </div>
+            <h3 class="font-display text-2xl font-black text-[#F4F1E8]">SATURDAY</h3>
+            <div class="font-mono text-xl text-[#31D47B] font-bold my-1">10 OCT 2026</div>
+            <div class="space-y-2 mt-4 pt-4 border-t border-white/10 text-xs font-mono">
+              <div class="flex items-center justify-between">
+                <span class="text-[#64716A]">REPORTING:</span>
+                <span class="text-[#F4F1E8] flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#31D47B] animate-ping"></span> TBA</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-[#64716A]">VENUE:</span>
+                <span class="text-[#F4F1E8]">VJTI Grounds</span>
+              </div>
+            </div>
+          </div>
+          <a href="https://maps.google.com/?q=VJTI+Cricket+Ground+Matunga+Mumbai" target="_blank" rel="noopener noreferrer" class="mt-6 text-xs font-mono font-bold text-[#31D47B] hover:underline flex items-center gap-1">
+            <span>OPEN IN MAPS</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+        </div>
+
+        <!-- Day 2 Card -->
+        <div class="fixture-tilt-card glass-panel-elevated p-6 flex flex-col justify-between border-white/10 hover:border-[#31D47B]/40 transition-colors">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="status-badge upcoming">UPCOMING</span>
+              <span class="font-mono text-xs text-[#A7B2AC] font-bold">DAY 02</span>
+            </div>
+            <h3 class="font-display text-2xl font-black text-[#F4F1E8]">SUNDAY</h3>
+            <div class="font-mono text-xl text-[#31D47B] font-bold my-1">11 OCT 2026</div>
+            <div class="space-y-2 mt-4 pt-4 border-t border-white/10 text-xs font-mono">
+              <div class="flex items-center justify-between">
+                <span class="text-[#64716A]">REPORTING:</span>
+                <span class="text-[#F4F1E8] flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-[#31D47B] animate-ping"></span> TBA</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-[#64716A]">VENUE:</span>
+                <span class="text-[#F4F1E8]">VJTI Grounds</span>
+              </div>
+            </div>
+          </div>
+          <a href="https://maps.google.com/?q=VJTI+Cricket+Ground+Matunga+Mumbai" target="_blank" rel="noopener noreferrer" class="mt-6 text-xs font-mono font-bold text-[#31D47B] hover:underline flex items-center gap-1">
+            <span>OPEN IN MAPS</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+        </div>
+
+        <!-- Registration Deadline Card -->
+        <div class="fixture-tilt-card glass-panel p-6 flex flex-col justify-between border-white/10">
+          <div>
+            <span class="font-mono text-[10px] text-[#A7B2AC] uppercase tracking-widest font-bold">TIMELINE</span>
+            <h3 class="font-display text-xl font-bold text-[#F4F1E8] mt-2">REGISTRATION CLOSE</h3>
+            <p class="text-xs text-[#A7B2AC] mt-1">Strict cut-off for allocating trial slot times and net fixtures.</p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
+            <span class="font-mono text-xs text-[#64716A]">DEADLINE:</span>
+            <span class="font-mono text-xs text-[#31D47B] font-bold">TO BE ANNOUNCED</span>
+          </div>
+        </div>
+
+        <!-- Shortlist Announcement Card -->
+        <div class="fixture-tilt-card glass-panel p-6 flex flex-col justify-between border-white/10">
+          <div>
+            <span class="font-mono text-[10px] text-[#A7B2AC] uppercase tracking-widest font-bold">OUTCOME</span>
+            <h3 class="font-display text-xl font-bold text-[#F4F1E8] mt-2">SHORTLIST PUBLISHED</h3>
+            <p class="text-xs text-[#A7B2AC] mt-1">Informed immediately via WhatsApp and the public squad page.</p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
+            <span class="font-mono text-xs text-[#64716A]">STATUS:</span>
+            <span class="font-mono text-xs text-[#C9A96A] font-bold">POST-TRIALS</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. SCOREBOARD STATS & BRANCH BATTLE SECTION -->
+    <section id="stats-section" class="py-20 bg-[#07100B]/60 border-y border-white/10 relative z-20">
+      <div class="vjti-container">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <!-- Left: Stadium Scoreboard (7 Cols) -->
+          <div class="lg:col-span-7 glass-panel-elevated p-6 sm:p-8 border-white/10">
+            <div class="flex items-center justify-between pb-6 border-b border-white/10">
+              <div>
+                <span class="font-mono text-xs text-[#31D47B] tracking-widest uppercase font-bold">Stadium Scoreboard</span>
+                <h3 class="font-display text-3xl font-black text-[#F4F1E8] mt-0.5">REGISTERED PLAYERS</h3>
+              </div>
+              <span class="font-mono text-xs text-[#64716A]">Updated live</span>
+            </div>
+
+            <!-- Total Hero Count -->
+            <div class="py-8 flex flex-col items-center justify-center text-center border-b border-white/10">
+              <span class="font-digits font-black text-7xl sm:text-8xl text-[#31D47B] tracking-tighter" data-stat="total">0</span>
+              <span class="font-display text-base uppercase tracking-widest text-[#A7B2AC] mt-1">Total Athletes Registered</span>
+            </div>
+
+            <!-- Role Breakdown (3 Roles) -->
+            <div class="grid grid-cols-3 gap-4 pt-6 text-center">
+              <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                <span class="font-digits font-bold text-3xl sm:text-4xl text-[#F4F1E8]" data-stat="batters">0</span>
+                <span class="block font-mono text-[10px] sm:text-xs text-[#A7B2AC] uppercase tracking-wider mt-1">BATTERS</span>
+              </div>
+              <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                <span class="font-digits font-bold text-3xl sm:text-4xl text-[#F4F1E8]" data-stat="bowlers">0</span>
+                <span class="block font-mono text-[10px] sm:text-xs text-[#A7B2AC] uppercase tracking-wider mt-1">BOWLERS</span>
+              </div>
+              <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+                <span class="font-digits font-bold text-3xl sm:text-4xl text-[#F4F1E8]" data-stat="keepers">0</span>
+                <span class="block font-mono text-[10px] sm:text-xs text-[#A7B2AC] uppercase tracking-wider mt-1">KEEPERS</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Branch Battle Leaderboard (5 Cols) -->
+          <div class="lg:col-span-5 glass-panel p-6 sm:p-8 border-white/10">
+            <div class="flex items-center justify-between pb-4 border-b border-white/10 mb-6">
+              <div>
+                <span class="font-mono text-xs text-[#31D47B] tracking-widest uppercase font-bold">Campus Pride</span>
+                <h3 class="font-display text-2xl font-black text-[#F4F1E8]">BRANCH BATTLE</h3>
+              </div>
+              <span class="font-mono text-xs text-[#A7B2AC]">Which branch is turning up?</span>
+            </div>
+            
+            <div id="branch-battle-list" class="space-y-4">
+              <!-- Dynamically populated and animated in stats.js -->
+              <div class="text-sm font-mono text-[#64716A]">Loading branch leaderboard...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. ANNOUNCEMENTS SECTION -->
+    <section id="announcements" class="py-24 vjti-container relative z-20">
+      <div class="mb-12">
+        <span class="font-mono text-xs text-[#31D47B] tracking-widest uppercase font-bold">Official Bulletins</span>
+        <h2 class="font-display text-4xl sm:text-6xl font-black text-[#F4F1E8] mt-1">LATEST FROM THE TEAM</h2>
+        <p class="text-[#A7B2AC] mt-1 text-sm md:text-base">Real-time updates regarding net allotments, reporting slots, and ground guidelines.</p>
+      </div>
+
+      <!-- Feed Container -->
+      <div id="announcements-feed" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Rendered by announcements.js -->
+      </div>
+    </section>
+
+    <!-- 6. THE RULES OF THE GAME (Stacking Cards & Carry Checklist) -->
+    <section id="rules" class="py-24 vjti-container relative z-20">
+      <div class="mb-14">
+        <span class="font-mono text-xs text-[#31D47B] tracking-widest uppercase font-bold">Non-Negotiable Protocols</span>
+        <h2 class="font-display text-4xl sm:text-6xl font-black text-[#F4F1E8] mt-1">THE RULES OF THE GAME</h2>
+        <p class="text-[#A7B2AC] mt-1 text-sm md:text-base">No compromises. Read and prepare before stepping onto the turf.</p>
+      </div>
+
+      <!-- Stacking Headline Cards Stack -->
+      <div class="space-y-8 relative">
+        <!-- Rule 1 Card -->
+        <div class="stacking-rule-card glass-panel-elevated p-8 md:p-12 border-[#F4F1E8]/30 bg-[#0B150F] relative overflow-hidden">
+          <div class="flex items-center justify-between gap-4 mb-4">
+            <span class="font-mono text-4xl md:text-6xl font-black text-white/30">01</span>
+            <span class="px-3 py-1 rounded bg-[#F4F1E8] text-[#050807] font-display font-extrabold text-sm uppercase tracking-wider">
+              WHITES COMPULSORY
+            </span>
+          </div>
+          <h3 class="font-display text-3xl md:text-5xl font-black text-[#F4F1E8] mb-3">
+            WHITES COMPULSORY.
+          </h3>
+          <p class="text-lg md:text-xl text-[#A7B2AC] font-medium leading-relaxed max-w-2xl">
+            "Full whites. This is a leather-ball trial, so dress like it."
+          </p>
+        </div>
+
+        <!-- Rule 2 Card -->
+        <div class="stacking-rule-card glass-panel-elevated p-8 md:p-12 border-[#31D47B]/30 bg-[#0B150F] relative overflow-hidden">
+          <div class="flex items-center justify-between gap-4 mb-4">
+            <span class="font-mono text-4xl md:text-6xl font-black text-white/30">02</span>
+            <span class="px-3 py-1 rounded bg-[#31D47B] text-[#050807] font-display font-extrabold text-sm uppercase tracking-wider">
+              PERSONAL KIT
+            </span>
+          </div>
+          <h3 class="font-display text-3xl md:text-5xl font-black text-[#F4F1E8] mb-3">
+            BRING YOUR OWN KIT (IF POSSIBLE).
+          </h3>
+          <p class="text-lg md:text-xl text-[#A7B2AC] font-medium leading-relaxed max-w-2xl">
+            "Bat, pads, gloves, helmet, guards, shoes: carry whatever you have. Can't bring everything? Tell the committee at check-in."
+          </p>
+        </div>
+
+        <!-- Rule 3 Card -->
+        <div class="stacking-rule-card glass-panel-elevated p-8 md:p-12 border-[#C9A96A]/30 bg-[#0B150F] relative overflow-hidden">
+          <div class="flex items-center justify-between gap-4 mb-4">
+            <span class="font-mono text-4xl md:text-6xl font-black text-white/30">03</span>
+            <span class="px-3 py-1 rounded bg-[#C9A96A] text-[#050807] font-display font-extrabold text-sm uppercase tracking-wider">
+              TIMELINESS
+            </span>
+          </div>
+          <h3 class="font-display text-3xl md:text-5xl font-black text-[#F4F1E8] mb-3">
+            BE ON TIME.
+          </h3>
+          <p class="text-lg md:text-xl text-[#A7B2AC] font-medium leading-relaxed max-w-2xl">
+            "Reporting time is fixed and will be announced here and on WhatsApp. Turn up early, warmed up, ready to go."
+          </p>
+        </div>
+      </div>
+
+      <!-- Secondary "Also Carry / Know" Checklist -->
+      <div id="carry-checklist-container" class="mt-16 glass-panel p-8 border-white/10">
+        <h4 class="font-display text-2xl font-bold text-white mb-6 flex items-center gap-3">
+          <svg class="w-6 h-6 text-[#31D47B]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+          CHECKLIST: WHAT TO CARRY & REMEMBER
+        </h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-[#A7B2AC]">
+          <div class="carry-checklist-item flex items-start gap-3 p-3 rounded-lg bg-white/5">
+            <span class="text-[#31D47B] font-bold">✔</span>
+            <span>VJTI ID card, and your Registration ID (screenshot it or save your player card)</span>
+          </div>
+          <div class="carry-checklist-item flex items-start gap-3 p-3 rounded-lg bg-white/5">
+            <span class="text-[#31D47B] font-bold">✔</span>
+            <span>Water bottle, cap, sunscreen (long hours on an open ground)</span>
+          </div>
+          <div class="carry-checklist-item flex items-start gap-3 p-3 rounded-lg bg-white/5">
+            <span class="text-[#31D47B] font-bold">✔</span>
+            <span>Helmet and abdomen guard strongly recommended for batters and keepers (leather ball)</span>
+          </div>
+          <div class="carry-checklist-item flex items-start gap-3 p-3 rounded-lg bg-white/5">
+            <span class="text-[#31D47B] font-bold">✔</span>
+            <span>Sports shoes or spikes suitable for grass</span>
+          </div>
+          <div class="carry-checklist-item flex items-start gap-3 p-3 rounded-lg bg-white/5">
+            <span class="text-[#31D47B] font-bold">✔</span>
+            <span>Injured or unwell? Tell the committee at check-in. Don't play through it</span>
+          </div>
+          <div class="carry-checklist-item flex items-start gap-3 p-3 rounded-lg bg-white/5">
+            <span class="text-[#31D47B] font-bold">✔</span>
+            <span>Keep WhatsApp on. Updates land there first</span>
+          </div>
+          <div class="carry-checklist-item md:col-span-2 flex items-start gap-3 p-3 rounded-lg bg-white/5 border border-white/10">
+            <span class="text-[#31D47B] font-bold">✔</span>
+            <span class="text-white font-semibold">Play hard, play clean. Respect the selectors, umpires and the ground.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. SELECTION PROCESS: "WALK TO THE CREASE" -->
+    <section id="process" class="py-24 vjti-container relative z-20 overflow-hidden">
+      <div class="mb-12">
+        <span class="font-mono text-xs text-[#31D47B] tracking-widest uppercase font-bold">Roadmap to the Team</span>
+        <h2 class="font-display text-4xl sm:text-6xl font-black text-[#F4F1E8] mt-1">WALK TO THE CREASE</h2>
+        <p class="text-[#A7B2AC] mt-1 text-sm md:text-base">Four definitive steps from student to VJTI cricket representative.</p>
+      </div>
+
+      <!-- Horizontal Travel Line & Track (Desktop Pinned) -->
+      <div class="relative pt-6">
+        <div class="hidden md:block w-full h-1 bg-white/10 relative mb-8">
+          <div class="process-progress-line absolute top-0 left-0 h-full w-full bg-[#31D47B] origin-left scale-x-0"></div>
+          <div class="process-cricket-marker absolute -top-2.5 left-0 w-6 h-6 rounded-full bg-[#B5121B] border-2 border-white shadow-lg flex items-center justify-center">
+            <div class="w-1.5 h-1.5 rounded-full bg-white"></div>
+          </div>
+        </div>
+
+        <div class="process-horizontal-track flex flex-col md:flex-row gap-6 md:w-max">
+          <!-- Step 1 -->
+          <div class="process-card glass-panel p-8 w-full md:w-[350px] flex flex-col justify-between border-white/10">
+            <div>
+              <span class="font-mono text-3xl font-black text-[#31D47B]">01</span>
+              <h3 class="font-display text-2xl font-black text-white mt-2 mb-2">REGISTER</h3>
+              <p class="text-sm text-[#A7B2AC] leading-relaxed">Fill the team sheet. Takes under 2 minutes.</p>
+            </div>
+            <span class="font-mono text-xs text-[#64716A] mt-6">Online • Closes Soon</span>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="process-card glass-panel p-8 w-full md:w-[350px] flex flex-col justify-between border-white/10">
+            <div>
+              <span class="font-mono text-3xl font-black text-[#31D47B]">02</span>
+              <h3 class="font-display text-2xl font-black text-white mt-2 mb-2">REPORT</h3>
+              <p class="text-sm text-[#A7B2AC] leading-relaxed">Arrive at the VJTI Cricket Ground at your reporting time, in whites.</p>
+            </div>
+            <span class="font-mono text-xs text-[#64716A] mt-6">10–11 Oct • Matunga</span>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="process-card glass-panel p-8 w-full md:w-[350px] flex flex-col justify-between border-white/10">
+            <div>
+              <span class="font-mono text-3xl font-black text-[#31D47B]">03</span>
+              <h3 class="font-display text-2xl font-black text-white mt-2 mb-2">TRIALS</h3>
+              <p class="text-sm text-[#A7B2AC] leading-relaxed">Batting, bowling, fielding and fitness, as your role demands.</p>
+            </div>
+            <span class="font-mono text-xs text-[#64716A] mt-6">Turf Wickets & Nets</span>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="process-card glass-panel p-8 w-full md:w-[350px] flex flex-col justify-between border-white/10">
+            <div>
+              <span class="font-mono text-3xl font-black text-[#31D47B]">04</span>
+              <h3 class="font-display text-2xl font-black text-white mt-2 mb-2">SHORTLIST</h3>
+              <p class="text-sm text-[#A7B2AC] leading-relaxed">Shortlisted players are informed on WhatsApp and announced here.</p>
+            </div>
+            <span class="font-mono text-xs text-[#64716A] mt-6">Published Squad</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. ROLES SECTION (Three Cards with Custom SVGs) -->
+    <section id="roles" class="py-24 vjti-container relative z-20">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+        <div>
+          <span class="font-mono text-xs text-[#31D47B] tracking-widest uppercase font-bold">Pick Your Discipline</span>
+          <h2 class="font-display text-4xl sm:text-6xl font-black text-[#F4F1E8] mt-1">THREE PRIMARY ROLES</h2>
+          <p class="text-[#A7B2AC] mt-1 text-sm md:text-base">Every player specializes. Selectors evaluate candidates within their primary discipline.</p>
+        </div>
+        <div class="text-xs font-mono text-[#A7B2AC] bg-white/5 border border-white/10 p-3 rounded-lg max-w-xs">
+          <span class="text-[#31D47B] font-bold">All-rounder?</span> Pick your primary role and detail your dual skillset in "Past experience".
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Role 1: Batter -->
+        <div class="role-card glass-panel-elevated p-8 flex flex-col justify-between border-white/10 hover:border-[#31D47B]/40 transition-all">
+          <div>
+            <div class="w-16 h-16 rounded-xl bg-white/5 border border-white/10 p-2 flex items-center justify-center mb-6">
+              <img src="/illustrations/bat.svg" alt="Cricket Bat" class="w-full h-full object-contain" />
+            </div>
+            <span class="font-mono text-xs text-[#31D47B] uppercase tracking-wider font-bold">Discipline 01</span>
+            <h3 class="font-display text-3xl font-black text-white mt-1 mb-2">BATTER</h3>
+            <p class="font-display font-bold text-lg text-[#F4F1E8] mb-3">Build the innings.</p>
+            <p class="text-sm text-[#A7B2AC] leading-relaxed">
+              Patience, temperament, and authority at the crease. Whether opening against the new red ball or finishing under the lights.
+            </p>
+          </div>
+          <div class="mt-8 pt-4 border-t border-white/10 font-mono text-xs text-[#64716A]">
+            Evaluated on: Footwork, shot selection, strike rotation.
+          </div>
+        </div>
+
+        <!-- Role 2: Bowler -->
+        <div class="role-card glass-panel-elevated p-8 flex flex-col justify-between border-white/10 hover:border-[#31D47B]/40 transition-all">
+          <div>
+            <div class="w-16 h-16 rounded-xl bg-white/5 border border-white/10 p-2 flex items-center justify-center mb-6">
+              <img src="/illustrations/ball.svg" alt="Leather Ball" class="w-full h-full object-contain" />
+            </div>
+            <span class="font-mono text-xs text-[#31D47B] uppercase tracking-wider font-bold">Discipline 02</span>
+            <h3 class="font-display text-3xl font-black text-white mt-1 mb-2">BOWLER</h3>
+            <p class="font-display font-bold text-lg text-[#F4F1E8] mb-3">Control the game.</p>
+            <p class="text-sm text-[#A7B2AC] leading-relaxed">
+              Hit your lengths, break partnerships, exploit the seam and extract turn. Dictate terms with every delivery.
+            </p>
+          </div>
+          <div class="mt-8 pt-4 border-t border-white/10 font-mono text-xs text-[#64716A]">
+            Evaluated on: Accuracy, seam/spin control, pace consistency.
+          </div>
+        </div>
+
+        <!-- Role 3: Wicketkeeper -->
+        <div class="role-card glass-panel-elevated p-8 flex flex-col justify-between border-white/10 hover:border-[#31D47B]/40 transition-all">
+          <div>
+            <div class="w-16 h-16 rounded-xl bg-white/5 border border-white/10 p-2 flex items-center justify-center mb-6">
+              <img src="/illustrations/gloves.svg" alt="Wicketkeeping Gloves" class="w-full h-full object-contain" />
+            </div>
+            <span class="font-mono text-xs text-[#31D47B] uppercase tracking-wider font-bold">Discipline 03</span>
+            <h3 class="font-display text-3xl font-black text-white mt-1 mb-2">WICKETKEEPER</h3>
+            <p class="font-display font-bold text-lg text-[#F4F1E8] mb-3">Lead from behind the stumps.</p>
+            <p class="text-sm text-[#A7B2AC] leading-relaxed">
+              Safe hands, lightning reflexes, and the sharpest cricketing brain on the park. The heartbeat of the team in the field.
+            </p>
+          </div>
+          <div class="mt-8 pt-4 border-t border-white/10 font-mono text-xs text-[#64716A]">
+            Evaluated on: Glovework, anticipation, standing up to spin.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. THE TEAM SHEET (Form Preview Scorecard) -->
+    <section id="preview-sheet" class="py-24 bg-[#07100B]/80 border-y border-white/10 relative z-20">
+      <div class="vjti-container">
+        <div class="max-w-4xl mx-auto">
+          <div class="text-center mb-12">
+            <span class="font-mono text-xs text-[#31D47B] tracking-widest uppercase font-bold">Scorecard Preview</span>
+            <h2 class="font-display text-4xl sm:text-5xl font-black text-[#F4F1E8] mt-1">THE TEAM SHEET</h2>
+            <p class="text-[#A7B2AC] mt-2">Here's everything we'll ask in the registration form. Takes under 2 minutes.</p>
+          </div>
+
+          <!-- Stylized Scorecard Preview Card -->
+          <div class="glass-panel-elevated p-6 md:p-10 border-white/10 space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <!-- Group 1: Who You Are -->
+              <div class="space-y-3">
+                <span class="font-mono text-xs text-[#31D47B] uppercase tracking-wider font-bold">01 // WHO YOU ARE</span>
+                <div class="p-4 rounded-xl bg-white/5 border border-white/10 space-y-2 text-sm font-mono">
+                  <div class="flex justify-between"><span class="text-[#64716A]">Full Name:</span> <span class="text-white">Your legal name</span></div>
+                  <div class="flex justify-between"><span class="text-[#64716A]">Reg No:</span> <span class="text-white">VJTI Student ID</span></div>
+                  <div class="flex justify-between"><span class="text-[#64716A]">WhatsApp:</span> <span class="text-white">+91 10-digit number</span></div>
+                </div>
+              </div>
+
+              <!-- Group 2: Your Course -->
+              <div class="space-y-3">
+                <span class="font-mono text-xs text-[#31D47B] uppercase tracking-wider font-bold">02 // YOUR COURSE</span>
+                <div class="p-4 rounded-xl bg-white/5 border border-white/10 space-y-2 text-sm font-mono">
+                  <div class="flex justify-between"><span class="text-[#64716A]">Program:</span> <span class="text-white">Degree / Diploma / M.Tech</span></div>
+                  <div class="flex justify-between"><span class="text-[#64716A]">Year:</span> <span class="text-white">FY, SY, TY, Final</span></div>
+                  <div class="flex justify-between"><span class="text-[#64716A]">Branch:</span> <span class="text-white">Select from 10 depts</span></div>
+                </div>
+              </div>
+
+              <!-- Group 3: Your Game -->
+              <div class="space-y-3">
+                <span class="font-mono text-xs text-[#31D47B] uppercase tracking-wider font-bold">03 // YOUR GAME</span>
+                <div class="p-4 rounded-xl bg-white/5 border border-white/10 space-y-2 text-sm font-mono">
+                  <div class="flex justify-between"><span class="text-[#64716A]">Primary Role:</span> <span class="text-white">Batter / Bowler / Keeper</span></div>
+                  <div class="flex justify-between"><span class="text-[#64716A]">Batting Style:</span> <span class="text-white">Right-hand / Left-hand</span></div>
+                  <div class="flex justify-between"><span class="text-[#64716A]">Bowling Style:</span> <span class="text-white">Pace, Spin or Doesn't bowl</span></div>
+                </div>
+              </div>
+
+              <!-- Group 4: Your Story -->
+              <div class="space-y-3">
+                <span class="font-mono text-xs text-[#31D47B] uppercase tracking-wider font-bold">04 // YOUR STORY</span>
+                <div class="p-4 rounded-xl bg-white/5 border border-white/10 space-y-2 text-sm font-mono">
+                  <div class="flex justify-between"><span class="text-[#64716A]">Experience:</span> <span class="text-white">Clubs, Tournaments, Records</span></div>
+                  <div class="flex justify-between"><span class="text-[#64716A]">Consent:</span> <span class="text-white">Agreed for trial communications</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CTA Callout -->
+            <div class="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <span class="font-mono text-xs text-[#A7B2AC]">Have your Reg no and WhatsApp ready.</span>
+              <a href="/register.html" class="btn-primary py-3 px-8 text-sm">
+                START REGISTRATION NOW →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. BEFORE YOU REGISTER (Eligibility) -->
+    <section id="eligibility" class="py-24 vjti-container relative z-20">
+      <div class="max-w-4xl mx-auto">
+        <div class="mb-10">
+          <span class="font-mono text-xs text-[#31D47B] tracking-widest uppercase font-bold">Important Guidelines</span>
+          <h2 class="font-display text-4xl sm:text-5xl font-black text-[#F4F1E8] mt-1">BEFORE YOU REGISTER</h2>
+          <p class="text-[#A7B2AC] mt-1">Eligibility and expectations for students trying out for the college team.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-[#A7B2AC]">
+          <div class="glass-panel p-6 border-white/10 space-y-2">
+            <h4 class="font-display font-bold text-lg text-white">ELIGIBILITY</h4>
+            <p>Open strictly to bona fide, currently enrolled students of Veermata Jijabai Technological Institute (VJTI) across Degree, Diploma, and M.Tech programs.</p>
+          </div>
+          <div class="glass-panel p-6 border-white/10 space-y-2">
+            <h4 class="font-display font-bold text-lg text-white">COMMITMENT</h4>
+            <p>Selected players represent VJTI across university and prestigious invitational inter-collegiate tournaments. Regular practice and commitment are expected.</p>
+          </div>
+          <div class="glass-panel p-6 border-white/10 space-y-2">
+            <h4 class="font-display font-bold text-lg text-white">TRIAL PROTOCOL</h4>
+            <p>All candidates must be in full whites. Attendance is recorded at check-in with your Registration ID and physical VJTI ID card.</p>
+          </div>
+          <div class="glass-panel p-6 border-white/10 space-y-2">
+            <h4 class="font-display font-bold text-lg text-white">SELECTION INTEGRITY</h4>
+            <p>Selection is based purely on skill, fitness, and game temperament as evaluated by the senior selectors and sports committee.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. FAQ ACCORDION -->
+    <section id="faq" class="py-24 bg-[#07100B]/60 border-y border-white/10 relative z-20">
+      <div class="vjti-container max-w-4xl mx-auto">
+        <div class="text-center mb-12">
+          <span class="font-mono text-xs text-[#31D47B] tracking-widest uppercase font-bold">Got Questions?</span>
+          <h2 class="font-display text-4xl sm:text-5xl font-black text-[#F4F1E8] mt-1">FREQUENTLY ASKED QUESTIONS</h2>
+          <p class="text-[#A7B2AC] mt-2">Clear answers to everything you need to know about the 2026–27 trials.</p>
+        </div>
+
+        <!-- Details-based Exclusive Accordion -->
+        <div class="space-y-4">
+          <!-- Q1 -->
+          <details name="faq" class="glass-panel border-white/10 rounded-xl overflow-hidden group">
+            <summary class="p-6 cursor-pointer flex items-center justify-between font-display font-bold text-lg md:text-xl text-[#F4F1E8] hover:text-[#31D47B] transition-colors select-none">
+              <span>Who can register?</span>
+              <svg class="faq-icon w-5 h-5 text-[#31D47B] transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <div class="faq-content px-6 pb-6 text-sm text-[#A7B2AC] leading-relaxed border-t border-white/5 pt-4">
+              Current VJTI students actively enrolled in Degree, Diploma, or M.Tech programs are eligible to register.
+            </div>
+          </details>
+
+          <!-- Q2 -->
+          <details name="faq" class="glass-panel border-white/10 rounded-xl overflow-hidden group">
+            <summary class="p-6 cursor-pointer flex items-center justify-between font-display font-bold text-lg md:text-xl text-[#F4F1E8] hover:text-[#31D47B] transition-colors select-none">
+              <span>Is leather-ball experience mandatory?</span>
+              <svg class="faq-icon w-5 h-5 text-[#31D47B] transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <div class="faq-content px-6 pb-6 text-sm text-[#A7B2AC] leading-relaxed border-t border-white/5 pt-4">
+              Both seasoned club cricketers and raw talent with solid fundamentals are encouraged to register. Detail your cricket background in the registration form either way.
+            </div>
+          </details>
+
+          <!-- Q3 -->
+          <details name="faq" class="glass-panel border-white/10 rounded-xl overflow-hidden group">
+            <summary class="p-6 cursor-pointer flex items-center justify-between font-display font-bold text-lg md:text-xl text-[#F4F1E8] hover:text-[#31D47B] transition-colors select-none">
+              <span>What should I bring?</span>
+              <svg class="faq-icon w-5 h-5 text-[#31D47B] transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <div class="faq-content px-6 pb-6 text-sm text-[#A7B2AC] leading-relaxed border-t border-white/5 pt-4">
+              Full whites (compulsory), your own cricket gear/kit if you have it (bat, pads, gloves, helmet, abdomen guard), shoes/spikes suitable for turf grass, water bottle, and your VJTI ID card.
+            </div>
+          </details>
+
+          <!-- Q4 -->
+          <details name="faq" class="glass-panel border-white/10 rounded-xl overflow-hidden group">
+            <summary class="p-6 cursor-pointer flex items-center justify-between font-display font-bold text-lg md:text-xl text-[#F4F1E8] hover:text-[#31D47B] transition-colors select-none">
+              <span>Where are the trials held?</span>
+              <svg class="faq-icon w-5 h-5 text-[#31D47B] transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <div class="faq-content px-6 pb-6 text-sm text-[#A7B2AC] leading-relaxed border-t border-white/5 pt-4">
+              At the VJTI Cricket Ground, Matunga, Mumbai on Saturday 10 October and Sunday 11 October 2026.
+            </div>
+          </details>
+
+          <!-- Q5 -->
+          <details name="faq" class="glass-panel border-white/10 rounded-xl overflow-hidden group">
+            <summary class="p-6 cursor-pointer flex items-center justify-between font-display font-bold text-lg md:text-xl text-[#F4F1E8] hover:text-[#31D47B] transition-colors select-none">
+              <span>What time should I report?</span>
+              <svg class="faq-icon w-5 h-5 text-[#31D47B] transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <div class="faq-content px-6 pb-6 text-sm text-[#A7B2AC] leading-relaxed border-t border-white/5 pt-4">
+              Exact slot times will be announced on this website and broadcasted on the official WhatsApp updates channel. Turn up early and warmed up.
+            </div>
+          </details>
+
+          <!-- Q6 -->
+          <details name="faq" class="glass-panel border-white/10 rounded-xl overflow-hidden group">
+            <summary class="p-6 cursor-pointer flex items-center justify-between font-display font-bold text-lg md:text-xl text-[#F4F1E8] hover:text-[#31D47B] transition-colors select-none">
+              <span>Do I have to attend both days?</span>
+              <svg class="faq-icon w-5 h-5 text-[#31D47B] transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <div class="faq-content px-6 pb-6 text-sm text-[#A7B2AC] leading-relaxed border-t border-white/5 pt-4">
+              Groups and trial days are allocated by the selection committee. You will be scheduled for your initial nets slot, and shortlisted players will return for match scenarios.
+            </div>
+          </details>
+
+          <!-- Q7 -->
+          <details name="faq" class="glass-panel border-white/10 rounded-xl overflow-hidden group">
+            <summary class="p-6 cursor-pointer flex items-center justify-between font-display font-bold text-lg md:text-xl text-[#F4F1E8] hover:text-[#31D47B] transition-colors select-none">
+              <span>Can I register after the deadline?</span>
+              <svg class="faq-icon w-5 h-5 text-[#31D47B] transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <div class="faq-content px-6 pb-6 text-sm text-[#A7B2AC] leading-relaxed border-t border-white/5 pt-4">
+              No. Once registrations close, the net schedules and selector sheets are locked. Register right now to guarantee your trial slot.
+            </div>
+          </details>
+
+          <!-- Q8 -->
+          <details name="faq" class="glass-panel border-white/10 rounded-xl overflow-hidden group">
+            <summary class="p-6 cursor-pointer flex items-center justify-between font-display font-bold text-lg md:text-xl text-[#F4F1E8] hover:text-[#31D47B] transition-colors select-none">
+              <span>I registered but lost my ID. How do I get it back?</span>
+              <svg class="faq-icon w-5 h-5 text-[#31D47B] transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <div class="faq-content px-6 pb-6 text-sm text-[#A7B2AC] leading-relaxed border-t border-white/5 pt-4">
+              Head over to <a href="/find-id.html" class="text-[#31D47B] font-bold underline">Find My ID</a>, enter your VJTI Reg No and registered WhatsApp number, and your ID and player card will be recovered instantly.
+            </div>
+          </details>
+
+          <!-- Q9 -->
+          <details name="faq" class="glass-panel border-white/10 rounded-xl overflow-hidden group">
+            <summary class="p-6 cursor-pointer flex items-center justify-between font-display font-bold text-lg md:text-xl text-[#F4F1E8] hover:text-[#31D47B] transition-colors select-none">
+              <span>What if it rains or the schedule changes?</span>
+              <svg class="faq-icon w-5 h-5 text-[#31D47B] transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <div class="faq-content px-6 pb-6 text-sm text-[#A7B2AC] leading-relaxed border-t border-white/5 pt-4">
+              Any weather-related updates or timetable revisions will be published immediately under Announcements and broadcasted to the official WhatsApp group.
+            </div>
+          </details>
+
+          <!-- Q10 -->
+          <details name="faq" class="glass-panel border-white/10 rounded-xl overflow-hidden group">
+            <summary class="p-6 cursor-pointer flex items-center justify-between font-display font-bold text-lg md:text-xl text-[#F4F1E8] hover:text-[#31D47B] transition-colors select-none">
+              <span>How will shortlisted players be informed?</span>
+              <svg class="faq-icon w-5 h-5 text-[#31D47B] transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <div class="faq-content px-6 pb-6 text-sm text-[#A7B2AC] leading-relaxed border-t border-white/5 pt-4">
+              Directly on your registered WhatsApp number, followed by the official squad reveal on the public Squad page.
+            </div>
+          </details>
+
+          <!-- Q11 -->
+          <details name="faq" class="glass-panel border-white/10 rounded-xl overflow-hidden group">
+            <summary class="p-6 cursor-pointer flex items-center justify-between font-display font-bold text-lg md:text-xl text-[#F4F1E8] hover:text-[#31D47B] transition-colors select-none">
+              <span>Who do I contact for help?</span>
+              <svg class="faq-icon w-5 h-5 text-[#31D47B] transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </summary>
+            <div class="faq-content px-6 pb-6 text-sm text-[#A7B2AC] leading-relaxed border-t border-white/5 pt-4">
+              Reach out to the Sports Committee coordinators via the official WhatsApp updates channel.
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12. "THE LEGACY" MEMORIES GALLERY (Polaroid Filmstrip & Lightbox) -->
+    <section id="legacy" class="py-24 vjti-container relative z-20">
+      <div class="text-center mb-12">
+        <span class="font-mono text-xs text-[#31D47B] tracking-widest uppercase font-bold">Heritage & History</span>
+        <h2 class="font-display text-4xl sm:text-6xl font-black text-[#F4F1E8] mt-1">THIS IS WHAT YOU'RE PLAYING FOR.</h2>
+        <p class="text-[#A7B2AC] mt-1 text-sm md:text-base">Every VJTI team started as a trial. Tap any photo to inspect.</p>
+      </div>
+
+      <!-- Draggable / Scrollable Polaroid Filmstrip -->
+      <div id="legacy-gallery" class="flex gap-6 overflow-x-auto pb-8 pt-4 px-2 snap-x snap-mandatory scrollbar-none cursor-grab active:cursor-grabbing">
+        <!-- Polaroid 1 -->
+        <div class="polaroid-frame snap-center flex-shrink-0 w-72 sm:w-80 bg-[#F4F1E8] p-3 pb-6 rounded shadow-2xl transform rotate-[-2deg] hover:rotate-0 hover:scale-105 transition-all duration-300 cursor-pointer">
+          <div class="w-full aspect-[4/3] bg-black overflow-hidden rounded-sm">
+            <img src="/team/polaroid-1.svg" alt="Inter-Collegiate Champions" class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-500" loading="lazy" />
+          </div>
+          <span class="polaroid-caption block font-display font-extrabold text-sm text-[#050807] uppercase tracking-wider mt-3 text-center">
+            VJTI Cricket • Trophy Moment
+          </span>
+        </div>
+
+        <!-- Polaroid 2 -->
+        <div class="polaroid-frame snap-center flex-shrink-0 w-72 sm:w-80 bg-[#F4F1E8] p-3 pb-6 rounded shadow-2xl transform rotate-[2deg] hover:rotate-0 hover:scale-105 transition-all duration-300 cursor-pointer">
+          <div class="w-full aspect-[4/3] bg-black overflow-hidden rounded-sm">
+            <img src="/team/polaroid-2.svg" alt="Matchday Under Lights" class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-500" loading="lazy" />
+          </div>
+          <span class="polaroid-caption block font-display font-extrabold text-sm text-[#050807] uppercase tracking-wider mt-3 text-center">
+            VJTI Cricket • Night Fixture
+          </span>
+        </div>
+
+        <!-- Polaroid 3 -->
+        <div class="polaroid-frame snap-center flex-shrink-0 w-72 sm:w-80 bg-[#F4F1E8] p-3 pb-6 rounded shadow-2xl transform rotate-[-1.5deg] hover:rotate-0 hover:scale-105 transition-all duration-300 cursor-pointer">
+          <div class="w-full aspect-[4/3] bg-black overflow-hidden rounded-sm">
+            <img src="/team/polaroid-3.svg" alt="The Team Huddle" class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-500" loading="lazy" />
+          </div>
+          <span class="polaroid-caption block font-display font-extrabold text-sm text-[#050807] uppercase tracking-wider mt-3 text-center">
+            VJTI Cricket • Brotherhood
+          </span>
+        </div>
+
+        <!-- Polaroid 4 -->
+        <div class="polaroid-frame snap-center flex-shrink-0 w-72 sm:w-80 bg-[#F4F1E8] p-3 pb-6 rounded shadow-2xl transform rotate-[1.5deg] hover:rotate-0 hover:scale-105 transition-all duration-300 cursor-pointer">
+          <div class="w-full aspect-[4/3] bg-black overflow-hidden rounded-sm">
+            <img src="/team/polaroid-4.svg" alt="Nets at Matunga Turf" class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-500" loading="lazy" />
+          </div>
+          <span class="polaroid-caption block font-display font-extrabold text-sm text-[#050807] uppercase tracking-wider mt-3 text-center">
+            VJTI Cricket • Pre-Season Nets
+          </span>
+        </div>
+
+        <!-- Polaroid 5 (Wide) -->
+        <div class="polaroid-frame snap-center flex-shrink-0 w-80 sm:w-96 bg-[#F4F1E8] p-3 pb-6 rounded shadow-2xl transform rotate-[-1deg] hover:rotate-0 hover:scale-105 transition-all duration-300 cursor-pointer">
+          <div class="w-full aspect-[4/3] bg-black overflow-hidden rounded-sm">
+            <img src="/team/polaroid-wide.svg" alt="The VJTI Whites" class="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-500" loading="lazy" />
+          </div>
+          <span class="polaroid-caption block font-display font-extrabold text-sm text-[#050807] uppercase tracking-wider mt-3 text-center">
+            VJTI Cricket • Selection Legacy
+          </span>
+        </div>
+      </div>
+
+      <!-- Accessible Lightbox Modal (Native <dialog>) -->
+      <dialog id="legacy-lightbox" class="p-0 bg-transparent backdrop:bg-black/90 max-w-3xl w-full rounded-2xl outline-none">
+        <div class="bg-[#0B120E] border border-white/20 rounded-2xl overflow-hidden p-6 relative">
+          <button id="lightbox-close-btn" class="absolute top-4 right-4 p-2 text-white/60 hover:text-white rounded-full bg-white/10" aria-label="Close Lightbox">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+          <img id="lightbox-img" src="" alt="" class="w-full aspect-[4/3] object-contain rounded-lg bg-black" />
+          <p id="lightbox-caption" class="font-display font-bold text-xl text-center text-[#F4F1E8] mt-4 uppercase tracking-wider"></p>
+        </div>
+      </dialog>
+    </section>
+
+    <!-- 13. FINAL CTA & SIGNATURE WICKET HIT ANIMATION -->
+    <section id="final-cta" class="relative py-28 md:py-36 overflow-hidden border-t border-white/10 flex items-center justify-center">
+      <!-- Backdrop with reverse camera zoom -->
+      <div class="absolute inset-0 z-0">
+        <img src="/hero/layer-pitch.svg" alt="" class="cta-backdrop-img w-full h-full object-cover opacity-25 filter blur-[2px]" />
+        <div class="absolute inset-0 bg-gradient-to-t from-[#050807] via-[#07100B]/90 to-[#050807]"></div>
+      </div>
+
+      <div class="vjti-container relative z-10 text-center flex flex-col items-center">
+        <!-- Interactive Stumps & Flying Bails SVG Scene -->
+        <div class="relative w-48 h-36 mb-6">
+          <!-- Red Leather Ball arriving -->
+          <div id="cta-cricket-ball" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#B5121B] border-2 border-white shadow-2xl flex items-center justify-center z-20">
+            <div class="w-1 h-full bg-[#F4F1E8]/70"></div>
+          </div>
+
+          <!-- Wicket Stumps & Flying Bails -->
+          <svg id="cta-stumps-svg" viewBox="0 0 200 160" class="w-full h-full" fill="none">
+            <!-- Ground Line -->
+            <line x1="30" y1="140" x2="170" y2="140" stroke="#F4F1E8" stroke-width="3" stroke-linecap="round" />
+            <!-- Stumps -->
+            <line id="cta-stump-off" x1="75" y1="40" x2="75" y2="140" stroke="#F4F1E8" stroke-width="6" stroke-linecap="round" />
+            <line id="cta-stump-mid" x1="100" y1="36" x2="100" y2="140" stroke="#F4F1E8" stroke-width="6" stroke-linecap="round" />
+            <line id="cta-stump-leg" x1="125" y1="40" x2="125" y2="140" stroke="#F4F1E8" stroke-width="6" stroke-linecap="round" />
+            <!-- Bails -->
+            <line id="cta-bail-1" x1="70" y1="38" x2="100" y2="34" stroke="#F4F1E8" stroke-width="5" stroke-linecap="round" />
+            <line id="cta-bail-2" x1="100" y1="34" x2="130" y2="38" stroke="#F4F1E8" stroke-width="5" stroke-linecap="round" />
+          </svg>
+        </div>
+
+        <!-- Final CTA Eyebrow -->
+        <span class="font-mono text-xs uppercase tracking-widest text-[#31D47B] font-bold mb-3">
+          SELECTION TRIALS • 10–11 OCT 2026
+        </span>
+
+        <!-- Headline -->
+        <h2 class="font-display font-black text-5xl sm:text-6xl md:text-8xl text-[#F4F1E8] tracking-tight leading-none mb-4">
+          YOUR SHOT STARTS HERE.
+        </h2>
+
+        <!-- Statement Copy -->
+        <p class="text-lg md:text-2xl text-[#A7B2AC] max-w-xl mb-8 font-medium">
+          Don't just watch VJTI cricket. Earn your place in it.
+        </p>
+
+        <!-- CTA Button -->
+        <div class="flex flex-col sm:flex-row items-center gap-4">
+          <a href="/register.html" class="btn-primary btn-magnetic py-4 px-10 text-lg">
+            <span>REGISTER FOR TRIALS</span>
+            <svg class="w-5 h-5 ml-1 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </a>
+        </div>
+
+        <div class="mt-6 flex items-center gap-2">
+          <span class="status-badge open">
+            <span class="pulse-dot green"></span>
+            REGISTRATIONS OPEN
+          </span>
         </div>
       </div>
     </section>

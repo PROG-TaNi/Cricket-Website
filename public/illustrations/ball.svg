@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- Cricket Leather Ball with Seam -->
+  <circle cx="60" cy="60" r="46" fill="#B5121B" stroke="#800c13" stroke-width="3" />
+  <!-- Shine highlight -->
+  <path d="M30 30 Q60 18 90 30" stroke="#FFFFFF" stroke-width="2" opacity="0.4" stroke-linecap="round" fill="none" />
+  <!-- Prominent Seam -->
+  <line x1="14" y1="60" x2="106" y2="60" stroke="#F4F1E8" stroke-width="3.5" />
+  <!-- Seam Stitching V-marks -->
+  <g stroke="#F4F1E8" stroke-width="2" stroke-linecap="round">
+    <line x1="25" y1="56" x2="31" y2="64" />
+    <line x1="39" y1="56" x2="45" y2="64" />
+    <line x1="53" y1="56" x2="59" y2="64" />
+    <line x1="67" y1="56" x2="73" y2="64" />
+    <line x1="81" y1="56" x2="87" y2="64" />
+    <line x1="95" y1="56" x2="101" y2="64" />
+  </g>
+</svg>

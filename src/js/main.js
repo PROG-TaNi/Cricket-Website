@@ -6,19 +6,40 @@ import { initHero } from "./sections/hero.js";
 import "./components/countdown.js";
 import { toast } from "./components/toast.js";
 
+// Section controllers – Phase 3
+import { initFixture } from "./sections/fixture.js";
+import { initStats } from "./sections/stats.js";
+import { initAnnouncements } from "./sections/announcements.js";
+import { initRules } from "./sections/rules.js";
+import { initProcess } from "./sections/process.js";
+import { initRoles } from "./sections/roles.js";
+import { initFaq } from "./sections/faq.js";
+import { initLegacy } from "./sections/legacy.js";
+import { initFinalCta } from "./sections/final-cta.js";
+
 // Global toast access
 // @ts-ignore
 window.toast = toast;
 
 document.addEventListener("DOMContentLoaded", () => {
-  // 1. Initialize Lenis smooth scroll
+  // Core
   initLenis();
-
-  // 2. Initialize Navigation controller
   initNav();
 
-  // 3. Initialize Signature Camera-Dolly Hero
+  // Hero (Phase 2)
   initHero();
 
-  console.log("VJTI Cricket Trials 2026–27 Phase 2 Hero & Nav initialized.");
+  // Public sections (Phase 3) – guard each with element check so
+  // importing main.js on other pages doesn't throw.
+  if (document.querySelector("#fixture")) initFixture();
+  if (document.querySelector("#stats")) initStats();
+  if (document.querySelector("#announcements")) initAnnouncements();
+  if (document.querySelector("#rules")) initRules();
+  if (document.querySelector("#process")) initProcess();
+  if (document.querySelector("#roles")) initRoles();
+  if (document.querySelector("#faq")) initFaq();
+  if (document.querySelector("#legacy")) initLegacy();
+  if (document.querySelector("#final-cta")) initFinalCta();
+
+  console.log("VJTI Cricket Trials 2026–27 – Phase 3 fully initialized.");
 });

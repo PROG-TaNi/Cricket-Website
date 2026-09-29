@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- Wicket Stumps & Keeping Glove -->
+  <!-- 3 Stumps in background -->
+  <g stroke="#F4F1E8" stroke-width="3" stroke-linecap="round">
+    <line x1="42" y1="25" x2="42" y2="85" />
+    <line x1="60" y1="20" x2="60" y2="85" />
+    <line x1="78" y1="25" x2="78" y2="85" />
+    <line x1="38" y1="22" x2="60" y2="19" stroke-width="2.5" />
+    <line x1="60" y1="19" x2="82" y2="22" stroke-width="2.5" />
+  </g>
+
+  <!-- Wicketkeeping Glove in foreground -->
+  <g stroke="#31D47B" stroke-width="2.5" fill="#0B120E" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Webbing between thumb and index -->
+    <path d="M40 70 Q60 55 75 65 L82 85 Q60 105 38 90 Z" fill="#0F6B3D" opacity="0.6" />
+    <!-- Main Glove Cuff & Palm -->
+    <rect x="36" y="85" width="48" height="24" rx="4" fill="#07100B" />
+    <line x1="36" y1="92" x2="84" y2="92" stroke="#F4F1E8" stroke-width="1.5" />
+    <!-- Webbing mesh lines -->
+    <line x1="50" y1="65" x2="58" y2="80" stroke="#F4F1E8" stroke-width="1.5" />
+    <line x1="62" y1="62" x2="70" y2="78" stroke="#F4F1E8" stroke-width="1.5" />
+  </g>
+</svg>
