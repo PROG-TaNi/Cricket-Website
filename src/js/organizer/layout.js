@@ -40,11 +40,8 @@ export async function initOrganizerLayout(currentPath) {
           <!-- Left: Brand & Title -->
           <div class="flex items-center gap-3">
             <a href="/organizer/index.html" class="flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-full bg-white/10 p-0.5 flex items-center justify-center border border-white/20">
-                <svg viewBox="0 0 100 100" class="w-full h-full" fill="none">
-                  <circle cx="50" cy="50" r="48" fill="#F4F1E8" stroke="#0F6B3D" stroke-width="3"/>
-                  <text x="50" y="58" fill="#0B120E" font-family="'Barlow Condensed', sans-serif" font-weight="900" font-size="28" text-anchor="middle">V</text>
-                </svg>
+              <div class="w-8 h-8 rounded-full bg-white p-0.5 flex items-center justify-center border border-white/20 overflow-hidden">
+                <img src="/brand/vjti-logo.png" alt="VJTI Logo" class="w-full h-full object-contain rounded-full" width="32" height="32" />
               </div>
               <div class="leading-none">
                 <span class="font-display font-black text-lg tracking-wide text-white block">VJTI CRICKET</span>

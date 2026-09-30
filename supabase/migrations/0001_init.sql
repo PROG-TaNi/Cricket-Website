@@ -59,6 +59,7 @@ CREATE TABLE IF NOT EXISTS public.players (
   batting_style text NOT NULL,
   bowling_style text NOT NULL,
   experience text,
+  photo_url text,
   whatsapp_number text NOT NULL,
   consent boolean NOT NULL DEFAULT true,
   group_id text,

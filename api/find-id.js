@@ -77,7 +77,7 @@ export default async function handler(req, res) {
   // Query database - both must match
   const { data, error } = await supabase
     .from("players")
-    .select("registration_id, public_token, full_name, primary_role, program, year, branch, batting_style, bowling_style")
+    .select("registration_id, public_token, full_name, primary_role, program, year, branch, batting_style, bowling_style, photo_url")
     .eq("reg_no", normalizedRegNo)
     .eq("whatsapp_number", finalWhatsApp)
     .maybeSingle();

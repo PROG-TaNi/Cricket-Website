@@ -33,18 +33,25 @@ function escapeHtml(s) {
 }
 
 /**
- * @param {{registration_id: string, full_name: string, primary_role: string, program: string, year: string, branch: string, batting_style: string, bowling_style: string}} data
+ * @param {{registration_id: string, full_name: string, primary_role: string, program: string, year: string, branch: string, batting_style: string, bowling_style: string, photo_url?: string | null}} data
  */
 function renderPlayerCard(data) {
   const container = document.getElementById("find-result");
   if (!container) return;
 
+  const photoHtml = data.photo_url
+    ? `<div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-[#31D47B]/60 overflow-hidden mx-auto mb-3 shadow-lg bg-black">
+         <img src="${data.photo_url}" alt="${escapeHtml(data.full_name)}" class="w-full h-full object-cover" />
+       </div>`
+    : "";
+
   container.innerHTML = `
-    <div class="player-card mb-6" id="found-player-card">
+    <div class="player-card mb-6 text-center" id="found-player-card">
       <div class="player-card-badge">VJTI Cricket Trials 2026–27 · Registered</div>
+      ${photoHtml}
       <div class="player-card-name">${escapeHtml(data.full_name)}</div>
       <div class="player-card-id">${escapeHtml(data.registration_id)}</div>
-      <div class="player-card-meta">
+      <div class="player-card-meta justify-center">
         <span class="player-card-tag">${escapeHtml(data.primary_role)}</span>
         <span class="player-card-tag">${escapeHtml(data.batting_style)}</span>
         <span class="player-card-tag">${escapeHtml(data.bowling_style)}</span>

@@ -96,6 +96,17 @@ function displayCandidate(candidate) {
   if (cardBowling) cardBowling.textContent = candidate.bowling_style || "—";
   if (cardExp) cardExp.textContent = candidate.experience || "No prior records listed";
 
+  const cardPhotoImg = /** @type {HTMLImageElement | null} */ (document.getElementById("card-photo-img"));
+  const cardPhotoPlaceholder = document.getElementById("card-photo-placeholder");
+  if (candidate.photo_url && cardPhotoImg) {
+    cardPhotoImg.src = candidate.photo_url;
+    cardPhotoImg.classList.remove("hidden");
+    cardPhotoPlaceholder?.classList.add("hidden");
+  } else {
+    cardPhotoImg?.classList.add("hidden");
+    cardPhotoPlaceholder?.classList.remove("hidden");
+  }
+
   candidateCard.classList.remove("hidden");
   candidateCard.scrollIntoView({ behavior: "smooth", block: "center" });
 

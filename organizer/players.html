@@ -156,9 +156,15 @@
   >
     <!-- Drawer Header -->
     <div class="flex items-center justify-between pb-4 border-b border-white/10">
-      <div>
-        <span id="drawer-reg-id" class="font-mono text-xs text-[#31D47B] uppercase tracking-widest block">VJTI-CRK-XXXX</span>
-        <h2 id="drawer-name" class="font-display text-2xl font-black text-white mt-0.5">Player Name</h2>
+      <div class="flex items-center gap-3">
+        <div id="drawer-photo-box" class="w-14 h-14 rounded-full border border-white/20 bg-white/5 overflow-hidden flex-shrink-0 flex items-center justify-center">
+          <span id="drawer-photo-placeholder" class="text-xl">🏏</span>
+          <img id="drawer-photo-img" src="" alt="Candidate Photo" class="w-full h-full object-cover hidden" />
+        </div>
+        <div>
+          <span id="drawer-reg-id" class="font-mono text-xs text-[#31D47B] uppercase tracking-widest block">VJTI-CRK-XXXX</span>
+          <h2 id="drawer-name" class="font-display text-2xl font-black text-white mt-0.5">Player Name</h2>
+        </div>
       </div>
       <button id="close-drawer-btn" class="p-2 text-[#A7B2AC] hover:text-white text-xl" aria-label="Close Drawer">✕</button>
     </div>

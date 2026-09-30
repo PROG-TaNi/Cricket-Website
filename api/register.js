@@ -111,6 +111,7 @@ export default async function handler(req, res) {
     bowling_style,
     past_experience,
     whatsapp,
+    photo_url,
     turnstile_token,
   } = body;
 
@@ -165,10 +166,11 @@ export default async function handler(req, res) {
       bowling_style,
       experience: past_experience ? String(past_experience).trim() : null,
       whatsapp_number: String(whatsapp),
+      photo_url: photo_url ? String(photo_url).substring(0, 500000) : null, // cap at ~375KB base64
       consent: true,
       status: "registered",
     })
-    .select("registration_id, public_token, full_name, primary_role, program, year, branch, batting_style, bowling_style")
+    .select("registration_id, public_token, full_name, primary_role, program, year, branch, batting_style, bowling_style, photo_url")
     .single();
 
   if (insertError) {

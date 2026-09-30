@@ -50,6 +50,26 @@
             <p class="step-desc">Your basic VJTI identity. Make sure the name matches your ID card.</p>
           </div>
 
+          <!-- Player Photo -->
+          <div class="form-group">
+            <label class="form-label">Player Headshot / Photo <span class="text-[#D4FF52]">*</span></label>
+            <div class="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl p-4">
+              <!-- Preview Circle -->
+              <div id="photo-preview-box" class="w-16 h-16 sm:w-20 sm:h-20 rounded-full border-2 border-dashed border-[#31D47B]/40 bg-[#050807] flex items-center justify-center overflow-hidden flex-shrink-0 relative">
+                <span id="photo-placeholder-icon" class="text-2xl text-[#A7B2AC]">📷</span>
+                <img id="photo-preview-img" src="" alt="Player Headshot Preview" class="w-full h-full object-cover hidden" />
+              </div>
+              <div class="flex-1">
+                <input type="file" id="player-photo-input" accept="image/jpeg,image/png,image/webp" class="hidden" />
+                <label for="player-photo-input" class="btn-secondary text-xs py-1.5 px-3.5 inline-block cursor-pointer">
+                  CHOOSE PHOTO
+                </label>
+                <p class="form-hint mt-1">Clear headshot for your official player card &amp; ground check-in. (Max 5MB)</p>
+                <div class="form-error" id="err-player-photo"></div>
+              </div>
+            </div>
+          </div>
+
           <!-- Full name -->
           <div class="form-group">
             <label for="full-name" class="form-label">Full Name <span class="text-[#D4FF52]">*</span></label>

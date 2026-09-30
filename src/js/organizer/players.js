@@ -145,8 +145,13 @@ function renderTable() {
           ${p.registration_id}
         </td>
         <td class="p-3.5 whitespace-nowrap">
-          <div class="font-bold text-white text-xs">${p.full_name}</div>
-          <div class="text-[10px] text-[#64716A] font-mono">${p.program} (${p.year})</div>
+          <div class="flex items-center gap-2.5">
+            ${p.photo_url ? `<img src="${p.photo_url}" alt="${p.full_name}" class="w-7 h-7 rounded-full object-cover border border-[#31D47B]/40 flex-shrink-0" />` : `<div class="w-7 h-7 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-xs flex-shrink-0">🏏</div>`}
+            <div>
+              <div class="font-bold text-white text-xs">${p.full_name}</div>
+              <div class="text-[10px] text-[#64716A] font-mono">${p.program} (${p.year})</div>
+            </div>
+          </div>
         </td>
         <td class="p-3.5 font-mono text-[#A7B2AC] whitespace-nowrap">
           ${p.reg_no}
@@ -199,6 +204,17 @@ function openDrawer(player) {
   if (drawerProgramYear) drawerProgramYear.textContent = `${player.program} · ${player.year} Year`;
   if (drawerRegNo) drawerRegNo.textContent = player.reg_no;
   if (drawerBranch) drawerBranch.textContent = player.branch;
+
+  const drawerPhotoImg = /** @type {HTMLImageElement | null} */ (document.getElementById("drawer-photo-img"));
+  const drawerPhotoPlaceholder = document.getElementById("drawer-photo-placeholder");
+  if (player.photo_url && drawerPhotoImg) {
+    drawerPhotoImg.src = player.photo_url;
+    drawerPhotoImg.classList.remove("hidden");
+    drawerPhotoPlaceholder?.classList.add("hidden");
+  } else {
+    drawerPhotoImg?.classList.add("hidden");
+    drawerPhotoPlaceholder?.classList.remove("hidden");
+  }
 
   if (drawerWaLink) {
     const waClean = (player.whatsapp_number || "").replace(/\D/g, "");

@@ -88,6 +88,7 @@ const formData = {
   whatsapp: "",     // normalised +91XXXXXXXXXX
   whatsapp_raw: "",
   consent: "false",
+  photo_data: "",
 };
 
 // ── DOM refs (all nullable — guard before use) ────────────────────
@@ -135,6 +136,14 @@ function goToStep(step) {
 // ── Step 1 validation ─────────────────────────────────────────────
 function validateStep1() {
   let ok = true;
+
+  // Photo validation
+  if (!formData.photo_data) {
+    setError("player-photo", "Please upload your headshot for your player card.");
+    ok = false;
+  } else {
+    clearError("player-photo");
+  }
 
   const nameEl = /** @type {HTMLInputElement} */ (document.getElementById("full-name"));
   const name = nameEl.value.trim();
@@ -285,7 +294,19 @@ function renderReview() {
     { key: "Past Experience", val: formData.past_experience || "—" },
   ];
 
-  container.innerHTML = rows.map(r => `
+  const photoHeader = formData.photo_data
+    ? `
+      <div class="flex items-center gap-4 pb-4 border-b border-white/10">
+        <img src="${formData.photo_data}" class="w-16 h-16 rounded-full object-cover border-2 border-[#31D47B] shadow-md" alt="Player Headshot" />
+        <div>
+          <h3 class="font-display font-black text-xl text-white">${escapeHtml(formData.full_name)}</h3>
+          <span class="font-mono text-xs text-[#31D47B] tracking-wider">${escapeHtml(formData.reg_no)}</span>
+        </div>
+      </div>
+    `
+    : "";
+
+  container.innerHTML = photoHeader + rows.map(r => `
     <div class="review-row">
       <span class="review-key">${r.key}</span>
       <span class="review-val">${escapeHtml(r.val)}</span>
@@ -300,23 +321,37 @@ function escapeHtml(s) {
 
 // ── Player Card ───────────────────────────────────────────────────
 /**
- * @param {{registration_id: string, full_name: string, primary_role: string, program: string, year: string, branch: string, batting_style: string, bowling_style: string}} data
+ * @param {any} data
  */
 function renderPlayerCard(data) {
   const container = document.getElementById("player-card-container");
   if (!container) return;
 
+  const photoSrc = (data && data.photo_url) || formData.photo_data;
+  const photoHtml = photoSrc
+    ? `<div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border-2 border-[#31D47B] flex-shrink-0 shadow-lg bg-black">
+         <img src="${photoSrc}" class="w-full h-full object-cover" alt="${escapeHtml(data.full_name || '')}" />
+       </div>`
+    : `<div class="w-16 h-16 rounded-2xl border border-white/20 bg-white/5 flex items-center justify-center text-2xl flex-shrink-0">
+         🏏
+       </div>`;
+
   container.innerHTML = `
     <div class="player-card" id="player-card-el">
-      <div class="player-card-badge">VJTI Cricket Trials 2026–27 · Official</div>
-      <div class="player-card-name">${escapeHtml(data.full_name)}</div>
-      <div class="player-card-id">${escapeHtml(data.registration_id)}</div>
+      <div class="flex items-start justify-between gap-3 mb-3">
+        <div>
+          <div class="player-card-badge">VJTI Cricket Trials 2026–27 · Official Pass</div>
+          <div class="player-card-name">${escapeHtml(data.full_name || '')}</div>
+          <div class="player-card-id">${escapeHtml(data.registration_id || '')}</div>
+        </div>
+        ${photoHtml}
+      </div>
       <div class="player-card-meta">
-        <span class="player-card-tag">${escapeHtml(data.primary_role)}</span>
-        <span class="player-card-tag">${escapeHtml(data.batting_style)}</span>
-        <span class="player-card-tag">${escapeHtml(data.bowling_style)}</span>
-        <span class="player-card-tag">${escapeHtml(data.program)} · ${escapeHtml(data.year)}</span>
-        <span class="player-card-tag">${escapeHtml(data.branch)}</span>
+        <span class="player-card-tag">${escapeHtml(data.primary_role || '')}</span>
+        <span class="player-card-tag">${escapeHtml(data.batting_style || '')}</span>
+        <span class="player-card-tag">${escapeHtml(data.bowling_style || '')}</span>
+        <span class="player-card-tag">${escapeHtml(data.program || '')} · ${escapeHtml(data.year || '')}</span>
+        <span class="player-card-tag">${escapeHtml(data.branch || '')}</span>
       </div>
       <div class="player-card-event">
         Trial Day 1: Sat 10 Oct 2026 · Day 2: Sun 11 Oct 2026<br>
@@ -348,6 +383,7 @@ async function handleSubmit() {
       bowling_style: formData.bowling_style,
       past_experience: formData.past_experience || null,
       whatsapp: formData.whatsapp,
+      photo_url: formData.photo_data || null,
       turnstile_token: turnstileToken,
     };
 
@@ -381,7 +417,7 @@ async function handleSubmit() {
 }
 
 /**
- * @param {{registrationId: string, publicToken: string, firstName: string, player: {registration_id: string, full_name: string, primary_role: string, program: string, year: string, branch: string, batting_style: string, bowling_style: string}}} data
+ * @param {any} data
  */
 function showSuccessScreen(data) {
   if ($form) $form.classList.add("hidden");
@@ -392,6 +428,22 @@ function showSuccessScreen(data) {
   if (stepperEl) stepperEl.classList.add("hidden");
   if (stepperBar) stepperBar.classList.add("hidden");
 
+  if (!data.player) {
+    data.player = {
+      registration_id: data.registrationId,
+      full_name: formData.full_name,
+      primary_role: formData.primary_role,
+      program: formData.program,
+      year: formData.year,
+      branch: formData.branch,
+      batting_style: formData.batting_style,
+      bowling_style: formData.bowling_style,
+      photo_url: formData.photo_data
+    };
+  } else {
+    data.player.photo_url = data.player.photo_url || formData.photo_data;
+  }
+
   renderPlayerCard(data.player);
   
   const siteUrl = import.meta.env.VITE_SITE_URL || window.location.origin;
@@ -401,8 +453,20 @@ function showSuccessScreen(data) {
     localStorage.setItem("vjti_player", JSON.stringify({
       registrationId: data.registrationId,
       publicToken: data.publicToken,
-      firstName: data.firstName
+      firstName: data.firstName,
+      photoUrl: formData.photo_data
     }));
+
+    const saved = JSON.parse(localStorage.getItem("vjti_registrations") || "[]");
+    saved.push({
+      registration_id: data.registrationId,
+      reg_no: formData.reg_no,
+      whatsapp: formData.whatsapp,
+      photo_url: formData.photo_data,
+      player: data.player,
+      ts: Date.now()
+    });
+    localStorage.setItem("vjti_registrations", JSON.stringify(saved));
   } catch (_) {}
 
   // Copy ID button
@@ -712,8 +776,72 @@ function setupInlineValidation() {
   });
 }
 
+// ── Photo upload & client-side compression ───────────────────────
+function setupPhotoUpload() {
+  const fileInput = /** @type {HTMLInputElement | null} */ (document.getElementById("player-photo-input"));
+  const previewImg = /** @type {HTMLImageElement | null} */ (document.getElementById("photo-preview-img"));
+  const placeholderIcon = document.getElementById("photo-placeholder-icon");
+  if (!fileInput) return;
+
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      setError("player-photo", "Please select an image file (JPG, PNG, WebP).");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setError("player-photo", "Image file exceeds 5MB limit.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        // Offscreen canvas compression to square avatar (max 360x360)
+        const canvas = document.createElement("canvas");
+        const maxDim = 360;
+        let w = img.width;
+        let h = img.height;
+        if (w > h) {
+          if (w > maxDim) {
+            h = Math.round((h * maxDim) / w);
+            w = maxDim;
+          }
+        } else {
+          if (h > maxDim) {
+            w = Math.round((w * maxDim) / h);
+            h = maxDim;
+          }
+        }
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext("2d");
+        ctx?.drawImage(img, 0, 0, w, h);
+
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
+        formData.photo_data = dataUrl;
+
+        if (previewImg) {
+          previewImg.src = dataUrl;
+          previewImg.classList.remove("hidden");
+        }
+        if (placeholderIcon) {
+          placeholderIcon.classList.add("hidden");
+        }
+        clearError("player-photo");
+      };
+      img.src = event.target?.result?.toString() || "";
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
 // ── Boot ──────────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
+  setupPhotoUpload();
   setupProgramYearCascade();
   setupBranchSelect();
   setupBowlingStyleSelect();
