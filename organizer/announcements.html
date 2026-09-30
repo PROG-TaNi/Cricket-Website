@@ -2,13 +2,83 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>VJTI Cricket Ops - announcements</title>
+  <title>Broadcast Announcements | VJTI Cricket Ops</title>
   <link rel="stylesheet" href="/src/css/main.css" />
 </head>
-<body class="bg-[#050807] text-white p-8">
-  <h1 class="font-display text-3xl font-bold uppercase">VJTI CRICKET OPS - announcements</h1>
-  <p class="text-[#A7B2AC] mt-2 font-mono text-sm">Organizer Module (Phase 5/6)</p>
-  <a href="/organizer/login.html" class="text-xs text-[#31D47B] mt-4 block">? Login</a>
+<body class="bg-[#050807] text-white min-h-[100svh]">
+  <!-- Injected Organizer Header -->
+  <div id="org-header"></div>
+
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div>
+        <span class="font-mono text-xs uppercase tracking-widest text-[#31D47B]">Broadcast CMS</span>
+        <h1 class="font-display text-4xl sm:text-5xl font-black text-[#F4F1E8] tracking-tight">ANNOUNCEMENTS</h1>
+        <p class="text-[#A7B2AC] text-sm mt-0.5">Publish ground updates, reporting times, weather alerts, and squad lists.</p>
+      </div>
+    </div>
+
+    <!-- Create Announcement Form Card -->
+    <div class="glass-panel p-6 rounded-2xl border-white/10 space-y-4">
+      <h2 class="font-mono text-xs uppercase tracking-widest text-[#31D47B]">Draft New Broadcast</h2>
+      
+      <form id="create-announcement-form" class="space-y-4 text-xs font-mono">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="sm:col-span-2">
+            <label for="ann-title" class="block text-[#A7B2AC] mb-1">Title *</label>
+            <input 
+              type="text" 
+              id="ann-title" 
+              required 
+              placeholder="e.g. Reporting time confirmed: 07:30 AM sharp at Pavilion" 
+              class="w-full bg-[#07100B] border border-white/15 rounded-xl px-3.5 py-2.5 text-white text-xs focus:border-[#31D47B] outline-none"
+            />
+          </div>
+          <div>
+            <label for="ann-category" class="block text-[#A7B2AC] mb-1">Category *</label>
+            <select id="ann-category" class="w-full bg-[#07100B] border border-white/15 rounded-xl px-3 py-2.5 text-white text-xs focus:border-[#31D47B] outline-none">
+              <option value="Schedule">Schedule &amp; Timings</option>
+              <option value="Urgent">Urgent Ground Notice</option>
+              <option value="General">General Information</option>
+              <option value="Results">Selection Results</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="ann-body" class="block text-[#A7B2AC] mb-1">Detailed Message / Description *</label>
+          <textarea 
+            id="ann-body" 
+            rows="3" 
+            required
+            placeholder="Full broadcast text to be displayed on the public site and WhatsApp channel..."
+            class="w-full bg-[#07100B] border border-white/15 rounded-xl p-3 text-white text-xs focus:border-[#31D47B] outline-none"
+          ></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary text-xs py-2.5 px-6">
+          PUBLISH TO PUBLIC FEED 📢
+        </button>
+      </form>
+    </div>
+
+    <!-- Published Announcements Feed -->
+    <div class="glass-panel p-6 rounded-2xl border-white/10 space-y-4">
+      <div class="flex items-center justify-between border-b border-white/10 pb-3">
+        <h2 class="font-mono text-xs uppercase tracking-widest text-white">Active Broadcasts</h2>
+        <span id="ann-count" class="font-mono text-xs text-[#A7B2AC]">0 published</span>
+      </div>
+
+      <div id="announcements-list" class="divide-y divide-white/5 space-y-3 pt-1">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+  </main>
+
+  <script type="module" src="/src/js/organizer/announcements.js"></script>
 </body>
 </html>

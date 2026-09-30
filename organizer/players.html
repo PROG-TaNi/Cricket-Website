@@ -2,13 +2,310 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>VJTI Cricket Ops - players</title>
+  <title>Players Roster | VJTI Cricket Ops</title>
   <link rel="stylesheet" href="/src/css/main.css" />
 </head>
-<body class="bg-[#050807] text-white p-8">
-  <h1 class="font-display text-3xl font-bold uppercase">VJTI CRICKET OPS - players</h1>
-  <p class="text-[#A7B2AC] mt-2 font-mono text-sm">Organizer Module (Phase 5/6)</p>
-  <a href="/organizer/login.html" class="text-xs text-[#31D47B] mt-4 block">? Login</a>
+<body class="bg-[#050807] text-white min-h-[100svh]">
+  <!-- Injected Organizer Header -->
+  <div id="org-header"></div>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    
+    <!-- Header & Action Bar -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <span class="font-mono text-xs uppercase tracking-widest text-[#31D47B]">Player Management</span>
+        <h1 class="font-display text-4xl sm:text-5xl font-black text-[#F4F1E8] tracking-tight">CANDIDATE ROSTER</h1>
+        <p class="text-[#A7B2AC] text-sm mt-1">Search, filter, evaluate candidates and record matchday attendance.</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <button id="export-csv-btn" class="btn-secondary text-xs flex items-center gap-2">
+          <span>📥</span>
+          <span>EXPORT CSV</span>
+        </button>
+        <a href="/organizer/ground.html" class="btn-primary text-xs flex items-center gap-2">
+          <span>⚡</span>
+          <span>GROUND CHECK-IN</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Live Search & Filter Bar -->
+    <div class="glass-panel p-4 sm:p-5 rounded-2xl border-white/10 space-y-4">
+      
+      <!-- Search Input -->
+      <div class="relative">
+        <input 
+          type="text" 
+          id="player-search-input" 
+          placeholder="Search by candidate name, VJTI registration number, roll no, or phone..." 
+          class="w-full bg-[#07100B] border border-white/10 rounded-xl px-4 py-3 pl-11 text-white text-sm focus:border-[#31D47B] outline-none"
+        />
+        <span class="absolute left-4 top-3.5 text-[#64716A] text-base" aria-hidden="true">🔍</span>
+      </div>
+
+      <!-- Filter Controls Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 pt-1">
+        
+        <!-- Role Filter -->
+        <div>
+          <label class="block font-mono text-[10px] text-[#A7B2AC] uppercase mb-1">Primary Role</label>
+          <select id="filter-role" class="w-full bg-[#07100B] border border-white/10 rounded-lg p-2 text-xs text-white focus:border-[#31D47B] outline-none">
+            <option value="">All Roles</option>
+            <option value="Batter">Batter</option>
+            <option value="Bowler">Bowler</option>
+            <option value="Wicketkeeper">Wicketkeeper</option>
+          </select>
+        </div>
+
+        <!-- Status Filter -->
+        <div>
+          <label class="block font-mono text-[10px] text-[#A7B2AC] uppercase mb-1">Status</label>
+          <select id="filter-status" class="w-full bg-[#07100B] border border-white/10 rounded-lg p-2 text-xs text-white focus:border-[#31D47B] outline-none">
+            <option value="">All Statuses</option>
+            <option value="shortlisted">Shortlisted (Squad)</option>
+            <option value="in_trials">In Trials</option>
+            <option value="registered">Registered</option>
+            <option value="waitlisted">Waitlisted</option>
+            <option value="rejected">Not Selected</option>
+          </select>
+        </div>
+
+        <!-- Day 1 Attendance Filter -->
+        <div>
+          <label class="block font-mono text-[10px] text-[#A7B2AC] uppercase mb-1">Day 1 Attendance</label>
+          <select id="filter-day1" class="w-full bg-[#07100B] border border-white/10 rounded-lg p-2 text-xs text-white focus:border-[#31D47B] outline-none">
+            <option value="">All (Day 1)</option>
+            <option value="present">Present</option>
+            <option value="late">Late</option>
+            <option value="absent">Absent</option>
+            <option value="pending">Pending</option>
+          </select>
+        </div>
+
+        <!-- Program Filter -->
+        <div>
+          <label class="block font-mono text-[10px] text-[#A7B2AC] uppercase mb-1">Program</label>
+          <select id="filter-program" class="w-full bg-[#07100B] border border-white/10 rounded-lg p-2 text-xs text-white focus:border-[#31D47B] outline-none">
+            <option value="">All Programs</option>
+            <option value="Degree">Degree</option>
+            <option value="Diploma">Diploma</option>
+            <option value="M.Tech">M.Tech</option>
+          </select>
+        </div>
+
+        <!-- Batch Filter -->
+        <div>
+          <label class="block font-mono text-[10px] text-[#A7B2AC] uppercase mb-1">Trial Batch</label>
+          <select id="filter-batch" class="w-full bg-[#07100B] border border-white/10 rounded-lg p-2 text-xs text-white focus:border-[#31D47B] outline-none">
+            <option value="">All Batches</option>
+            <option value="Batch A">Batch A</option>
+            <option value="Batch B">Batch B</option>
+            <option value="Batch C">Batch C</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Quick Reset & Summary Bar -->
+      <div class="flex items-center justify-between text-xs font-mono pt-2 border-t border-white/5">
+        <span class="text-[#A7B2AC]">Showing <strong id="players-count-matched" class="text-white">0</strong> of <span id="players-count-total">0</span> candidates</span>
+        <button id="reset-filters-btn" class="text-[#31D47B] hover:underline">Reset Filters</button>
+      </div>
+
+    </div>
+
+    <!-- Main Table Container -->
+    <div class="glass-panel rounded-2xl border-white/10 overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead>
+            <tr class="border-b border-white/10 bg-white/5 font-mono text-[#A7B2AC] uppercase text-[11px]">
+              <th class="p-3.5 pl-5">Reg ID</th>
+              <th class="p-3.5">Candidate</th>
+              <th class="p-3.5">Roll No</th>
+              <th class="p-3.5">Role & Style</th>
+              <th class="p-3.5">Department</th>
+              <th class="p-3.5 text-center">Day 1</th>
+              <th class="p-3.5 text-center">Day 2</th>
+              <th class="p-3.5 text-center">Status</th>
+              <th class="p-3.5 text-right pr-5">Rating</th>
+            </tr>
+          </thead>
+          <tbody id="players-tbody" class="divide-y divide-white/5">
+            <!-- Dynamically populated rows -->
+            <tr>
+              <td colspan="9" class="p-8 text-center text-[#A7B2AC] font-mono">Loading candidates...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Player Detail Slide-Over Drawer -->
+  <div id="player-drawer-overlay" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden transition-opacity"></div>
+  
+  <aside 
+    id="player-drawer" 
+    class="fixed right-0 top-0 bottom-0 w-full max-w-lg bg-[#07100B] border-l border-white/10 z-50 transform translate-x-full transition-transform duration-300 overflow-y-auto p-6 space-y-6 shadow-2xl"
+    aria-label="Candidate Details"
+  >
+    <!-- Drawer Header -->
+    <div class="flex items-center justify-between pb-4 border-b border-white/10">
+      <div>
+        <span id="drawer-reg-id" class="font-mono text-xs text-[#31D47B] uppercase tracking-widest block">VJTI-CRK-XXXX</span>
+        <h2 id="drawer-name" class="font-display text-2xl font-black text-white mt-0.5">Player Name</h2>
+      </div>
+      <button id="close-drawer-btn" class="p-2 text-[#A7B2AC] hover:text-white text-xl" aria-label="Close Drawer">✕</button>
+    </div>
+
+    <!-- Candidate Badges & Info -->
+    <div class="grid grid-cols-2 gap-3 text-xs font-mono">
+      <div class="p-3 bg-white/5 rounded-xl border border-white/5">
+        <span class="text-[#64716A] block text-[10px]">PROGRAM & YEAR</span>
+        <span id="drawer-program-year" class="text-white font-bold block mt-0.5">—</span>
+      </div>
+      <div class="p-3 bg-white/5 rounded-xl border border-white/5">
+        <span class="text-[#64716A] block text-[10px]">ROLL NUMBER</span>
+        <span id="drawer-reg-no" class="text-white font-bold block mt-0.5">—</span>
+      </div>
+      <div class="p-3 bg-white/5 rounded-xl border border-white/5">
+        <span class="text-[#64716A] block text-[10px]">DEPARTMENT</span>
+        <span id="drawer-branch" class="text-white font-bold block mt-0.5">—</span>
+      </div>
+      <div class="p-3 bg-white/5 rounded-xl border border-white/5">
+        <span class="text-[#64716A] block text-[10px]">WHATSAPP</span>
+        <a id="drawer-wa-link" href="#" target="_blank" class="text-[#31D47B] hover:underline font-bold block mt-0.5">Chat on WA ↗</a>
+      </div>
+    </div>
+
+    <!-- Cricket Profile -->
+    <div class="space-y-3">
+      <h3 class="font-mono text-xs uppercase tracking-wider text-[#A7B2AC]">Cricket Profile</h3>
+      <div class="p-4 bg-white/5 rounded-xl border border-white/5 space-y-2 text-xs">
+        <div class="flex justify-between">
+          <span class="text-[#64716A]">Primary Role:</span>
+          <span id="drawer-role" class="font-bold text-white">—</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-[#64716A]">Batting Style:</span>
+          <span id="drawer-batting" class="text-white">—</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-[#64716A]">Bowling Style:</span>
+          <span id="drawer-bowling" class="text-white">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Past Experience / Records -->
+    <div class="space-y-2">
+      <h3 class="font-mono text-xs uppercase tracking-wider text-[#A7B2AC]">Past Experience &amp; Records</h3>
+      <div id="drawer-experience" class="p-3 bg-white/5 rounded-xl border border-white/5 text-xs text-[#F4F1E8] italic whitespace-pre-line min-h-[60px]">
+        No previous records stated.
+      </div>
+    </div>
+
+    <!-- Matchday Attendance Controls -->
+    <div class="space-y-3 pt-2 border-t border-white/10">
+      <h3 class="font-mono text-xs uppercase tracking-wider text-[#31D47B]">Attendance Check-In</h3>
+      <div class="grid grid-cols-2 gap-3 text-xs font-mono">
+        <div>
+          <label class="block text-[10px] text-[#A7B2AC] mb-1">Day 1 (Sat 10 Oct)</label>
+          <select id="drawer-day1-select" class="w-full bg-[#050807] border border-white/20 rounded-lg p-2 text-white">
+            <option value="pending">Pending</option>
+            <option value="present">Present</option>
+            <option value="late">Late</option>
+            <option value="absent">Absent</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[10px] text-[#A7B2AC] mb-1">Day 2 (Sun 11 Oct)</label>
+          <select id="drawer-day2-select" class="w-full bg-[#050807] border border-white/20 rounded-lg p-2 text-white">
+            <option value="pending">Pending</option>
+            <option value="present">Present</option>
+            <option value="late">Late</option>
+            <option value="absent">Absent</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Selectors' Evaluation -->
+    <div class="space-y-3 pt-2 border-t border-white/10">
+      <h3 class="font-mono text-xs uppercase tracking-wider text-[#D4FF52]">Selectors' Evaluation</h3>
+      
+      <!-- Rating Slider -->
+      <div>
+        <div class="flex justify-between text-xs font-mono mb-1">
+          <span class="text-[#A7B2AC]">Score:</span>
+          <span id="drawer-rating-val" class="font-bold text-[#31D47B]">8.0 / 10</span>
+        </div>
+        <input 
+          type="range" 
+          id="drawer-rating-slider" 
+          min="1" 
+          max="10" 
+          step="0.5" 
+          value="7" 
+          class="w-full accent-[#31D47B]" 
+        />
+      </div>
+
+      <!-- Batch & Net Allocation -->
+      <div class="grid grid-cols-2 gap-3 text-xs font-mono">
+        <div>
+          <label class="block text-[10px] text-[#A7B2AC] mb-1">Trial Batch</label>
+          <select id="drawer-batch-select" class="w-full bg-[#050807] border border-white/20 rounded-lg p-2 text-white">
+            <option value="Batch A">Batch A</option>
+            <option value="Batch B">Batch B</option>
+            <option value="Batch C">Batch C</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[10px] text-[#A7B2AC] mb-1">Net Lane</label>
+          <select id="drawer-net-select" class="w-full bg-[#050807] border border-white/20 rounded-lg p-2 text-white">
+            <option value="Net 1">Net 1 (Pace)</option>
+            <option value="Net 2">Net 2 (Spin)</option>
+            <option value="Net 3">Net 3 (Throwdowns)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Selectors Notes -->
+      <div>
+        <label class="block font-mono text-[10px] text-[#A7B2AC] mb-1">Technical Notes &amp; Observations</label>
+        <textarea 
+          id="drawer-notes" 
+          rows="3" 
+          class="w-full bg-[#050807] border border-white/20 rounded-xl p-3 text-xs text-white focus:border-[#31D47B] outline-none" 
+          placeholder="Notes on technique, temperament, footwork, speed..."
+        ></textarea>
+      </div>
+
+      <!-- Status Selection -->
+      <div>
+        <label class="block font-mono text-[10px] text-[#A7B2AC] mb-1">Squad Recommendation</label>
+        <select id="drawer-status-select" class="w-full bg-[#050807] border border-white/20 rounded-lg p-2.5 text-xs text-white font-mono font-bold">
+          <option value="registered">Registered</option>
+          <option value="in_trials">In Trials</option>
+          <option value="shortlisted">★ Shortlisted for VJTI Squad</option>
+          <option value="waitlisted">Waitlisted</option>
+          <option value="rejected">Not Selected</option>
+        </select>
+      </div>
+
+      <button id="save-player-btn" class="btn-primary w-full py-2.5 mt-2">
+        SAVE EVALUATION
+      </button>
+    </div>
+
+  </aside>
+
+  <script type="module" src="/src/js/organizer/players.js"></script>
 </body>
 </html>

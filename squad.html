@@ -3,27 +3,94 @@
 <head>
   <!-- include:partials/head.html -->
   <title>Selected Squad | VJTI Cricket Team 2026–27</title>
+  <meta name="description" content="Official VJTI Leather-Ball Cricket Team Selection Squad 2026–27. Meet the players representing Veermata Jijabai Technological Institute.">
 </head>
-<body class="bg-[#050807] text-white">
+<body class="bg-[#050807] text-white min-h-[100svh]">
   <div class="film-grain"></div>
   <!-- include:partials/nav.html -->
 
-  <main class="pt-32 pb-20 vjti-container min-h-[80svh] flex flex-col items-center justify-center">
-    <div class="text-center max-w-xl">
+  <main class="pt-28 pb-24 vjti-container max-w-6xl">
+    
+    <!-- Page Header -->
+    <div class="text-center mb-12">
       <span class="font-mono text-xs text-[#31D47B] tracking-widest uppercase">Official Announcement</span>
-      <h1 class="font-display text-4xl md:text-5xl font-black text-[#F4F1E8] mt-2">
-        FINAL SQUAD SELECTION
+      <h1 class="font-display text-5xl md:text-7xl font-black text-[#F4F1E8] mt-2 leading-none">
+        THE VJTI SQUAD<br>2026–27
       </h1>
-      <p class="text-[#A7B2AC] mt-3">
-        Squad will be announced here following the trials on 10–11 October 2026.
+      <p id="squad-subtitle" class="text-[#A7B2AC] mt-3 text-sm max-w-lg mx-auto">
+        Representing Veermata Jijabai Technological Institute in Mumbai University and Inter-Collegiate Tournaments.
       </p>
-      <div class="mt-8">
-        <a href="/" class="btn-secondary">← BACK TO HOME</a>
+    </div>
+
+    <!-- State A: Squad Awaiting Selection / Underway -->
+    <div id="squad-pending-view" class="glass-panel p-8 sm:p-12 rounded-3xl border border-white/10 text-center max-w-2xl mx-auto space-y-6">
+      <div class="w-16 h-16 mx-auto rounded-full bg-[#31D47B]/10 border border-[#31D47B]/30 flex items-center justify-center text-3xl">
+        🏏
+      </div>
+      <div>
+        <span class="font-mono text-xs uppercase tracking-widest text-[#D4FF52]">Trials In Progress</span>
+        <h2 class="font-display text-3xl sm:text-4xl font-black text-white mt-1">SELECTION UNDERWAY</h2>
+        <p class="text-[#A7B2AC] text-sm mt-3 leading-relaxed">
+          The official 16-player squad wearing the VJTI whites will be unveiled here following the selection trials on <strong>10 and 11 October 2026</strong>.
+        </p>
+      </div>
+      <div class="pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a href="/register.html" class="btn-primary text-xs w-full sm:w-auto">REGISTER FOR TRIALS →</a>
+        <a href="/find-id.html" class="btn-secondary text-xs w-full sm:w-auto">FIND MY REGISTRATION ID</a>
       </div>
     </div>
+
+    <!-- State B: Official Squad Revealed (Active when results_published is true) -->
+    <div id="squad-revealed-view" class="hidden space-y-12">
+      
+      <!-- Squad Honor Banner -->
+      <div class="glass-panel p-6 sm:p-8 rounded-3xl border-2 border-[#31D47B]/50 text-center bg-gradient-to-b from-[#31D47B]/10 to-transparent">
+        <span class="font-mono text-xs text-[#31D47B] uppercase tracking-widest font-bold">Official Selection Notice</span>
+        <h2 class="font-display text-3xl sm:text-4xl font-black text-white mt-1">CONGRATULATIONS TO THE SELECTED SQUAD</h2>
+        <p class="text-[#A7B2AC] text-sm mt-2 max-w-xl mx-auto">
+          Selected players must report to the VJTI Pavilion on Monday 13 October for kit distribution and team briefing.
+        </p>
+      </div>
+
+      <!-- Squad Group 1: Batters -->
+      <section class="space-y-4">
+        <div class="flex items-center gap-3 border-b border-white/10 pb-2">
+          <span class="text-2xl">🏏</span>
+          <h2 class="font-display font-black text-2xl sm:text-3xl text-white">BATTERS</h2>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="squad-batters-grid">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- Squad Group 2: Bowlers -->
+      <section class="space-y-4">
+        <div class="flex items-center gap-3 border-b border-white/10 pb-2">
+          <span class="text-2xl">🎯</span>
+          <h2 class="font-display font-black text-2xl sm:text-3xl text-white">BOWLERS</h2>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="squad-bowlers-grid">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- Squad Group 3: Wicketkeepers -->
+      <section class="space-y-4">
+        <div class="flex items-center gap-3 border-b border-white/10 pb-2">
+          <span class="text-2xl">🧤</span>
+          <h2 class="font-display font-black text-2xl sm:text-3xl text-white">WICKETKEEPERS</h2>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="squad-keepers-grid">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+    </div>
+
   </main>
 
   <!-- include:partials/footer.html -->
-  <script type="module" src="/src/js/main.js"></script>
+
+  <script type="module" src="/src/js/pages/squad.js"></script>
 </body>
 </html>

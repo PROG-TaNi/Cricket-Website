@@ -2,13 +2,106 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>VJTI Cricket Ops - trials</title>
+  <title>Trials &amp; Nets Allocation | VJTI Cricket Ops</title>
   <link rel="stylesheet" href="/src/css/main.css" />
 </head>
-<body class="bg-[#050807] text-white p-8">
-  <h1 class="font-display text-3xl font-bold uppercase">VJTI CRICKET OPS - trials</h1>
-  <p class="text-[#A7B2AC] mt-2 font-mono text-sm">Organizer Module (Phase 5/6)</p>
-  <a href="/organizer/login.html" class="text-xs text-[#31D47B] mt-4 block">? Login</a>
+<body class="bg-[#050807] text-white min-h-[100svh]">
+  <!-- Injected Organizer Header -->
+  <div id="org-header"></div>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    
+    <!-- Title & Action Bar -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div>
+        <span class="font-mono text-xs uppercase tracking-widest text-[#31D47B]">Net Allocations</span>
+        <h1 class="font-display text-4xl sm:text-5xl font-black text-[#F4F1E8] tracking-tight">TRIALS &amp; NET LANES</h1>
+        <p class="text-[#A7B2AC] text-sm mt-1">Manage practice lanes, trial batches, and match trial candidates with selectors.</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="/organizer/desk.html" class="btn-primary text-xs flex items-center gap-2">
+          <span>📋</span>
+          <span>SELECTORS' DESK</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Active Batch Tabs -->
+    <div class="flex items-center gap-2 border-b border-white/10 pb-3 overflow-x-auto font-mono text-xs" id="batch-tabs">
+      <button class="batch-tab px-4 py-2 rounded-xl bg-[#31D47B] text-black font-bold active" data-batch="Batch A">
+        BATCH A (MORNING 08:00)
+      </button>
+      <button class="batch-tab px-4 py-2 rounded-xl bg-white/5 text-[#A7B2AC] hover:text-white" data-batch="Batch B">
+        BATCH B (MIDDAY 11:30)
+      </button>
+      <button class="batch-tab px-4 py-2 rounded-xl bg-white/5 text-[#A7B2AC] hover:text-white" data-batch="Batch C">
+        BATCH C (AFTERNOON 14:30)
+      </button>
+    </div>
+
+    <!-- 3 Net Lanes Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <!-- NET 1: Pace Lane -->
+      <div class="glass-panel p-5 rounded-2xl border-white/10 space-y-4 flex flex-col">
+        <div class="flex items-center justify-between border-b border-white/10 pb-3">
+          <div class="flex items-center gap-2.5">
+            <span class="w-3 h-3 rounded-full bg-[#31D47B]"></span>
+            <div>
+              <h2 class="font-display font-black text-lg text-white">NET 01 · PACE LANE</h2>
+              <p class="text-[10px] font-mono text-[#A7B2AC]">Fast Bowlers vs Top Order</p>
+            </div>
+          </div>
+          <span id="net1-count" class="font-mono text-xs px-2 py-0.5 rounded bg-white/10 text-white">0</span>
+        </div>
+        
+        <div id="net1-list" class="space-y-2.5 flex-1 min-h-[350px]">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- NET 2: Spin Lane -->
+      <div class="glass-panel p-5 rounded-2xl border-white/10 space-y-4 flex flex-col">
+        <div class="flex items-center justify-between border-b border-white/10 pb-3">
+          <div class="flex items-center gap-2.5">
+            <span class="w-3 h-3 rounded-full bg-[#D4FF52]"></span>
+            <div>
+              <h2 class="font-display font-black text-lg text-white">NET 02 · SPIN LANE</h2>
+              <p class="text-[10px] font-mono text-[#A7B2AC]">Spinners &amp; Wicketkeepers</p>
+            </div>
+          </div>
+          <span id="net2-count" class="font-mono text-xs px-2 py-0.5 rounded bg-white/10 text-white">0</span>
+        </div>
+        
+        <div id="net2-list" class="space-y-2.5 flex-1 min-h-[350px]">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- NET 3: Throwdowns & Skills -->
+      <div class="glass-panel p-5 rounded-2xl border-white/10 space-y-4 flex flex-col">
+        <div class="flex items-center justify-between border-b border-white/10 pb-3">
+          <div class="flex items-center gap-2.5">
+            <span class="w-3 h-3 rounded-full bg-[#F4F1E8]"></span>
+            <div>
+              <h2 class="font-display font-black text-lg text-white">NET 03 · THROWDOWNS</h2>
+              <p class="text-[10px] font-mono text-[#A7B2AC]">Power Hitting &amp; Reflexes</p>
+            </div>
+          </div>
+          <span id="net3-count" class="font-mono text-xs px-2 py-0.5 rounded bg-white/10 text-white">0</span>
+        </div>
+        
+        <div id="net3-list" class="space-y-2.5 flex-1 min-h-[350px]">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script type="module" src="/src/js/organizer/trials.js"></script>
 </body>
 </html>

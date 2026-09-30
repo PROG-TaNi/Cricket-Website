@@ -2,13 +2,121 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>VJTI Cricket Ops - settings</title>
+  <title>System Settings | VJTI Cricket Ops</title>
   <link rel="stylesheet" href="/src/css/main.css" />
 </head>
-<body class="bg-[#050807] text-white p-8">
-  <h1 class="font-display text-3xl font-bold uppercase">VJTI CRICKET OPS - settings</h1>
-  <p class="text-[#A7B2AC] mt-2 font-mono text-sm">Organizer Module (Phase 5/6)</p>
-  <a href="/organizer/login.html" class="text-xs text-[#31D47B] mt-4 block">? Login</a>
+<body class="bg-[#050807] text-white min-h-[100svh]">
+  <!-- Injected Organizer Header -->
+  <div id="org-header"></div>
+
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    
+    <div>
+      <span class="font-mono text-xs uppercase tracking-widest text-[#31D47B]">System Controls</span>
+      <h1 class="font-display text-4xl sm:text-5xl font-black text-[#F4F1E8] tracking-tight">OPERATIONS SETTINGS</h1>
+      <p class="text-[#A7B2AC] text-sm mt-0.5">Control live registration gates, matchday mode, reporting schedules, and final squad reveal.</p>
+    </div>
+
+    <!-- Live Switches Card -->
+    <div class="glass-panel p-6 rounded-2xl border-white/10 space-y-6">
+      <h2 class="font-mono text-xs uppercase tracking-widest text-[#31D47B]">Global System Toggles</h2>
+
+      <div class="space-y-4 divide-y divide-white/5 text-xs font-mono">
+        
+        <!-- Toggle 1: Registration Window -->
+        <div class="pt-4 first:pt-0 flex items-center justify-between gap-4">
+          <div>
+            <h3 class="font-bold text-white text-sm">Public Candidate Registration</h3>
+            <p class="text-[#A7B2AC] text-[11px] mt-0.5">When disabled, candidate form closes and displays "Registrations Closed" notice.</p>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="toggle-reg-open" class="sr-only peer" checked />
+            <div class="w-11 h-6 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#31D47B]"></div>
+          </label>
+        </div>
+
+        <!-- Toggle 2: Matchday Mode -->
+        <div class="pt-4 flex items-center justify-between gap-4">
+          <div>
+            <h3 class="font-bold text-white text-sm">Matchday Mode</h3>
+            <p class="text-[#A7B2AC] text-[11px] mt-0.5">Switches the home page hero and banner to live matchday check-in status.</p>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="toggle-matchday" class="sr-only peer" />
+            <div class="w-11 h-6 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#31D47B]"></div>
+          </label>
+        </div>
+
+        <!-- Toggle 3: Squad Results Published -->
+        <div class="pt-4 flex items-center justify-between gap-4">
+          <div>
+            <h3 class="font-bold text-white text-sm">Publish Final Squad (Squad Reveal)</h3>
+            <p class="text-[#A7B2AC] text-[11px] mt-0.5">Reveals the selected candidates publicly on /squad.html.</p>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="toggle-squad-reveal" class="sr-only peer" />
+            <div class="w-11 h-6 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#31D47B]"></div>
+          </label>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Official Links & Schedule Configuration Card -->
+    <div class="glass-panel p-6 rounded-2xl border-white/10 space-y-4">
+      <h2 class="font-mono text-xs uppercase tracking-widest text-[#D4FF52]">Official Information Config</h2>
+      
+      <form id="settings-form" class="space-y-4 text-xs font-mono">
+        <div>
+          <label for="input-wa-group" class="block text-[#A7B2AC] mb-1">Official WhatsApp Announcement Group Link</label>
+          <input 
+            type="url" 
+            id="input-wa-group" 
+            placeholder="https://chat.whatsapp.com/..." 
+            class="w-full bg-[#07100B] border border-white/15 rounded-xl px-3.5 py-2.5 text-white focus:border-[#31D47B] outline-none"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="input-day1-time" class="block text-[#A7B2AC] mb-1">Day 1 Reporting Time (Sat 10 Oct)</label>
+            <input 
+              type="text" 
+              id="input-day1-time" 
+              placeholder="e.g. 07:30 AM" 
+              class="w-full bg-[#07100B] border border-white/15 rounded-xl px-3.5 py-2.5 text-white focus:border-[#31D47B] outline-none"
+            />
+          </div>
+          <div>
+            <label for="input-day2-time" class="block text-[#A7B2AC] mb-1">Day 2 Reporting Time (Sun 11 Oct)</label>
+            <input 
+              type="text" 
+              id="input-day2-time" 
+              placeholder="e.g. 08:00 AM" 
+              class="w-full bg-[#07100B] border border-white/15 rounded-xl px-3.5 py-2.5 text-white focus:border-[#31D47B] outline-none"
+            />
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary text-xs py-2.5 px-6">
+          SAVE SETTINGS 💾
+        </button>
+      </form>
+    </div>
+
+    <!-- Developer & Testing Reset Card -->
+    <div class="glass-panel p-6 rounded-2xl border border-red-500/20 space-y-3">
+      <h2 class="font-mono text-xs uppercase tracking-widest text-red-400">Ground Testing Controls</h2>
+      <p class="text-xs text-[#A7B2AC] font-mono">Reset local candidate check-ins and mock ratings to the initial seeded state for dry-run rehearsals.</p>
+      <button id="reset-data-btn" class="px-4 py-2 text-xs font-mono text-red-400 hover:bg-red-500/10 border border-red-500/30 rounded-xl transition-colors">
+        ⚠️ Reset Local Candidate Store
+      </button>
+    </div>
+
+  </main>
+
+  <script type="module" src="/src/js/organizer/settings.js"></script>
 </body>
 </html>

@@ -2,13 +2,100 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>VJTI Cricket Ops - analytics</title>
+  <title>Operations Analytics | VJTI Cricket Ops</title>
   <link rel="stylesheet" href="/src/css/main.css" />
 </head>
-<body class="bg-[#050807] text-white p-8">
-  <h1 class="font-display text-3xl font-bold uppercase">VJTI CRICKET OPS - analytics</h1>
-  <p class="text-[#A7B2AC] mt-2 font-mono text-sm">Organizer Module (Phase 5/6)</p>
-  <a href="/organizer/login.html" class="text-xs text-[#31D47B] mt-4 block">? Login</a>
+<body class="bg-[#050807] text-white min-h-[100svh]">
+  <!-- Injected Organizer Header -->
+  <div id="org-header"></div>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div>
+        <span class="font-mono text-xs uppercase tracking-widest text-[#31D47B]">Data Intelligence</span>
+        <h1 class="font-display text-4xl sm:text-5xl font-black text-[#F4F1E8] tracking-tight">TRIALS ANALYTICS</h1>
+        <p class="text-[#A7B2AC] text-sm mt-0.5">Demographics, branch leaderboards, role shares, and attendance conversion rates.</p>
+      </div>
+    </div>
+
+    <!-- 4 High Level Metrics -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="glass-panel p-5 rounded-2xl border-white/10">
+        <span class="font-mono text-xs text-[#A7B2AC] uppercase block">Total Pool</span>
+        <span id="metric-total" class="font-display text-4xl sm:text-5xl font-black text-white mt-1 block">—</span>
+        <p class="text-[11px] text-[#64716A] mt-1">Total registered candidates</p>
+      </div>
+      <div class="glass-panel p-5 rounded-2xl border-white/10">
+        <span class="font-mono text-xs text-[#A7B2AC] uppercase block">Batting Ratio</span>
+        <span id="metric-batters" class="font-display text-4xl sm:text-5xl font-black text-[#31D47B] mt-1 block">—</span>
+        <p class="text-[11px] text-[#64716A] mt-1">Percentage of batters</p>
+      </div>
+      <div class="glass-panel p-5 rounded-2xl border-white/10">
+        <span class="font-mono text-xs text-[#A7B2AC] uppercase block">Bowling Ratio</span>
+        <span id="metric-bowlers" class="font-display text-4xl sm:text-5xl font-black text-[#D4FF52] mt-1 block">—</span>
+        <p class="text-[11px] text-[#64716A] mt-1">Pace &amp; spin bowlers</p>
+      </div>
+      <div class="glass-panel p-5 rounded-2xl border-white/10">
+        <span class="font-mono text-xs text-[#A7B2AC] uppercase block">Attendance Rate</span>
+        <span id="metric-turnout" class="font-display text-4xl sm:text-5xl font-black text-[#F4F1E8] mt-1 block">—</span>
+        <p class="text-[11px] text-[#64716A] mt-1">Ground appearance rate</p>
+      </div>
+    </div>
+
+    <!-- Charts Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      
+      <!-- Chart 1: Role Distribution Doughnut -->
+      <div class="glass-panel p-6 rounded-2xl border-white/10 space-y-4">
+        <div class="flex items-center justify-between border-b border-white/10 pb-3">
+          <h2 class="font-mono text-xs uppercase tracking-widest text-[#31D47B]">Role Breakdown</h2>
+          <span class="text-xs font-mono text-[#A7B2AC]">Candidate Shares</span>
+        </div>
+        <div class="h-64 flex items-center justify-center">
+          <canvas id="chart-roles"></canvas>
+        </div>
+      </div>
+
+      <!-- Chart 2: Branch Battle Leaderboard -->
+      <div class="glass-panel p-6 rounded-2xl border-white/10 space-y-4">
+        <div class="flex items-center justify-between border-b border-white/10 pb-3">
+          <h2 class="font-mono text-xs uppercase tracking-widest text-[#D4FF52]">Branch Battle Leaderboard</h2>
+          <span class="text-xs font-mono text-[#A7B2AC]">Registrations by Dept</span>
+        </div>
+        <div class="h-64 flex items-center justify-center">
+          <canvas id="chart-branches"></canvas>
+        </div>
+      </div>
+
+      <!-- Chart 3: Program & Academic Year -->
+      <div class="glass-panel p-6 rounded-2xl border-white/10 space-y-4">
+        <div class="flex items-center justify-between border-b border-white/10 pb-3">
+          <h2 class="font-mono text-xs uppercase tracking-widest text-white">Academic Year Spread</h2>
+          <span class="text-xs font-mono text-[#A7B2AC]">Degree / Diploma / M.Tech</span>
+        </div>
+        <div class="h-64 flex items-center justify-center">
+          <canvas id="chart-years"></canvas>
+        </div>
+      </div>
+
+      <!-- Chart 4: Selection Funnel -->
+      <div class="glass-panel p-6 rounded-2xl border-white/10 space-y-4">
+        <div class="flex items-center justify-between border-b border-white/10 pb-3">
+          <h2 class="font-mono text-xs uppercase tracking-widest text-[#31D47B]">Selection Funnel</h2>
+          <span class="text-xs font-mono text-[#A7B2AC]">Registered → Squad</span>
+        </div>
+        <div class="h-64 flex items-center justify-center">
+          <canvas id="chart-funnel"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script type="module" src="/src/js/organizer/analytics.js"></script>
 </body>
 </html>

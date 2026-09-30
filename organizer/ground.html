@@ -2,13 +2,189 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>VJTI Cricket Ops - ground</title>
+  <title>Ground Mode | VJTI Cricket Ops</title>
   <link rel="stylesheet" href="/src/css/main.css" />
 </head>
-<body class="bg-[#050807] text-white p-8">
-  <h1 class="font-display text-3xl font-bold uppercase">VJTI CRICKET OPS - ground</h1>
-  <p class="text-[#A7B2AC] mt-2 font-mono text-sm">Organizer Module (Phase 5/6)</p>
-  <a href="/organizer/login.html" class="text-xs text-[#31D47B] mt-4 block">? Login</a>
+<body class="bg-[#050807] text-white min-h-[100svh] flex flex-col">
+  <!-- Injected Organizer Header -->
+  <div id="org-header"></div>
+
+  <!-- High-contrast Ground Operations Shell -->
+  <main class="flex-1 max-w-lg mx-auto w-full px-4 py-4 space-y-4">
+    
+    <!-- Top Status Bar & Sync Indicator -->
+    <div class="flex items-center justify-between bg-[#07100B] border border-white/15 p-3 rounded-xl text-xs font-mono">
+      <div class="flex items-center gap-2">
+        <span id="sync-status-dot" class="w-2.5 h-2.5 rounded-full bg-[#31D47B] animate-pulse"></span>
+        <span id="sync-status-text" class="text-white font-bold">ONLINE &amp; READY</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-[#A7B2AC]">Checked In:</span>
+        <span id="ground-counter" class="text-[#D4FF52] font-black text-sm">0</span>
+      </div>
+    </div>
+
+    <!-- Scanner / Search Mode Tabs -->
+    <div class="grid grid-cols-2 gap-2 bg-[#07100B] p-1.5 rounded-xl border border-white/10 font-mono text-xs">
+      <button id="tab-scanner-btn" class="py-2.5 rounded-lg font-bold bg-[#31D47B] text-black">
+        📷 QR SCANNER
+      </button>
+      <button id="tab-manual-btn" class="py-2.5 rounded-lg text-[#A7B2AC] hover:text-white">
+        ⌨️ MANUAL LOOKUP
+      </button>
+    </div>
+
+    <!-- QR Camera Scanner Section -->
+    <section id="scanner-section" class="space-y-3">
+      <div class="relative bg-black rounded-2xl overflow-hidden border-2 border-[#31D47B]/40 aspect-square flex items-center justify-center">
+        <!-- Live Video Element -->
+        <video id="qr-video" class="w-full h-full object-cover" playsinline></video>
+        
+        <!-- Viewfinder Reticle -->
+        <div class="absolute inset-8 border-2 border-dashed border-[#31D47B]/60 rounded-xl pointer-events-none flex items-center justify-center">
+          <div class="w-full h-0.5 bg-[#31D47B]/80 animate-pulse"></div>
+        </div>
+
+        <!-- Camera Status Overlay -->
+        <div id="camera-placeholder" class="absolute inset-0 bg-[#07100B] flex flex-col items-center justify-center p-6 text-center space-y-3">
+          <span class="text-4xl">📸</span>
+          <p class="font-mono text-xs text-[#A7B2AC]">Position player card QR code in front of camera</p>
+          <button id="start-camera-btn" class="btn-primary text-xs py-2 px-4">
+            START CAMERA
+          </button>
+        </div>
+      </div>
+      <p class="text-[11px] font-mono text-center text-[#64716A]">Scans candidate player card or digital phone pass instantly</p>
+    </section>
+
+    <!-- Manual ID Search Section -->
+    <section id="manual-section" class="hidden space-y-3">
+      <div class="glass-panel p-4 rounded-xl border-white/15 space-y-3">
+        <label for="manual-id-input" class="block font-mono text-xs text-[#31D47B] uppercase font-bold">Registration ID or Roll No</label>
+        <div class="flex gap-2">
+          <input 
+            type="text" 
+            id="manual-id-input" 
+            placeholder="e.g. 0001, VJTI-CRK-0001, 221041001" 
+            class="flex-1 bg-[#050807] border border-white/20 rounded-xl px-3.5 py-3 text-white font-mono text-sm focus:border-[#31D47B] outline-none"
+          />
+          <button id="manual-search-btn" class="btn-secondary px-4 text-xs font-mono font-bold">
+            SEARCH
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Candidate Found & Action Card -->
+    <div id="candidate-card" class="hidden glass-panel p-5 rounded-2xl border-2 border-[#31D47B] space-y-4 bg-[#07100B]">
+      <div class="flex items-start justify-between">
+        <div>
+          <span id="card-reg-id" class="font-mono text-xs font-bold text-[#31D47B] tracking-wider block">VJTI-CRK-0001</span>
+          <h2 id="card-name" class="font-display text-2xl font-black text-white leading-tight">Candidate Name</h2>
+          <p id="card-info" class="text-xs font-mono text-[#A7B2AC] mt-0.5">Degree · Computer Engg</p>
+        </div>
+        <span id="card-role-badge" class="px-2.5 py-1 rounded-full bg-[#31D47B]/20 text-[#31D47B] font-mono text-xs font-bold border border-[#31D47B]/30">
+          Batter
+        </span>
+      </div>
+
+      <!-- Quick Details Grid -->
+      <div class="grid grid-cols-2 gap-2 text-xs font-mono bg-white/5 p-3 rounded-xl">
+        <div>
+          <span class="text-[#64716A] text-[10px] block">BATTING</span>
+          <span id="card-batting" class="text-white font-bold">Right-hand</span>
+        </div>
+        <div>
+          <span class="text-[#64716A] text-[10px] block">BOWLING</span>
+          <span id="card-bowling" class="text-white font-bold">Right-arm pace</span>
+        </div>
+        <div class="col-span-2 pt-1 border-t border-white/5">
+          <span class="text-[#64716A] text-[10px] block">EXPERIENCE</span>
+          <span id="card-exp" class="text-[#F4F1E8] italic truncate block">College team, club matches</span>
+        </div>
+      </div>
+
+      <!-- Large High-Contrast Ground Check-In Buttons -->
+      <div class="space-y-2 pt-1">
+        <button id="checkin-day1-present" class="w-full min-h-[52px] bg-[#31D47B] hover:bg-[#28b868] text-black font-display font-black text-lg rounded-xl tracking-wide shadow-lg active:scale-95 transition-all">
+          ✓ MARK DAY 1 PRESENT
+        </button>
+        <div class="grid grid-cols-2 gap-2 font-mono text-xs">
+          <button id="checkin-day1-late" class="min-h-[44px] bg-[#D4FF52]/15 text-[#D4FF52] border border-[#D4FF52]/30 hover:bg-[#D4FF52]/25 font-bold rounded-xl active:scale-95 transition-all">
+            ⏱ LATE ARRIVAL
+          </button>
+          <button id="checkin-day2-present" class="min-h-[44px] bg-white/10 text-white border border-white/20 hover:bg-white/15 font-bold rounded-xl active:scale-95 transition-all">
+            ✓ DAY 2 PRESENT
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Net Assignment -->
+      <div class="pt-2 border-t border-white/10 flex items-center justify-between text-xs font-mono">
+        <span class="text-[#A7B2AC]">Assign Net:</span>
+        <div class="flex gap-1.5" id="net-quick-tags">
+          <button class="net-tag px-2.5 py-1 rounded bg-white/5 hover:bg-[#31D47B]/20 text-[#A7B2AC] hover:text-white border border-white/10" data-net="Net 1">Net 1 (Pace)</button>
+          <button class="net-tag px-2.5 py-1 rounded bg-white/5 hover:bg-[#31D47B]/20 text-[#A7B2AC] hover:text-white border border-white/10" data-net="Net 2">Net 2 (Spin)</button>
+          <button class="net-tag px-2.5 py-1 rounded bg-white/5 hover:bg-[#31D47B]/20 text-[#A7B2AC] hover:text-white border border-white/10" data-net="Net 3">Net 3 (Bats)</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Walk-In Player Trigger -->
+    <div class="pt-4 text-center">
+      <button id="walkin-trigger-btn" class="text-xs font-mono text-[#A7B2AC] hover:text-[#31D47B] underline">
+        + Register Walk-In Player on Ground
+      </button>
+    </div>
+
+  </main>
+
+  <!-- Walk-In Modal Dialog -->
+  <dialog id="walkin-dialog" class="bg-[#07100B] border border-white/20 text-white rounded-2xl p-6 max-w-md w-full backdrop:bg-black/80">
+    <div class="flex justify-between items-center pb-3 border-b border-white/10">
+      <h3 class="font-display font-black text-xl text-white">WALK-IN CANDIDATE</h3>
+      <button id="close-walkin-btn" class="text-xl text-[#A7B2AC] hover:text-white">✕</button>
+    </div>
+    <form id="walkin-form" class="space-y-3 mt-4 text-xs font-mono">
+      <div>
+        <label class="block text-[#A7B2AC] mb-1">Full Name *</label>
+        <input type="text" id="walkin-name" required class="w-full bg-[#050807] border border-white/20 rounded-lg p-2.5 text-white" placeholder="Candidate full name" />
+      </div>
+      <div>
+        <label class="block text-[#A7B2AC] mb-1">VJTI Roll / Reg No *</label>
+        <input type="text" id="walkin-regno" required class="w-full bg-[#050807] border border-white/20 rounded-lg p-2.5 text-white" placeholder="e.g. 231011099" />
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <label class="block text-[#A7B2AC] mb-1">Program *</label>
+          <select id="walkin-program" class="w-full bg-[#050807] border border-white/20 rounded-lg p-2 text-white">
+            <option value="Degree">Degree</option>
+            <option value="Diploma">Diploma</option>
+            <option value="M.Tech">M.Tech</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[#A7B2AC] mb-1">Primary Role *</label>
+          <select id="walkin-role" class="w-full bg-[#050807] border border-white/20 rounded-lg p-2 text-white">
+            <option value="Batter">Batter</option>
+            <option value="Bowler">Bowler</option>
+            <option value="Wicketkeeper">Wicketkeeper</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="block text-[#A7B2AC] mb-1">WhatsApp Number *</label>
+        <input type="tel" id="walkin-wa" required class="w-full bg-[#050807] border border-white/20 rounded-lg p-2.5 text-white" placeholder="10-digit number" />
+      </div>
+      <button type="submit" class="btn-primary w-full py-3 mt-2 text-xs font-bold">
+        CONFIRM &amp; CHECK-IN NOW
+      </button>
+    </form>
+  </dialog>
+
+  <script type="module" src="/src/js/organizer/ground.js"></script>
 </body>
 </html>
