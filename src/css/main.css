@@ -292,23 +292,23 @@ body {
    NAVIGATION MOBILE HAMBURGER MENU
 ──────────────────────────────────────────────── */
 
-/* Nav bar - highest z-index (above film grain at 999) */
+/* Nav bar - highest z-index (above film grain at 999 and all content) */
 #vjti-main-nav {
-  z-index: 1000;
+  z-index: 9999;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
 
-/* Ensure hamburger button stays visible on scroll (above nav) */
+/* Ensure hamburger button stays visible on scroll (highest element) */
 #nav-mobile-toggle {
   position: relative;
-  z-index: 1050;
+  z-index: 10001;
   flex-shrink: 0;
 }
 
-/* Mobile menu overlay (between nav and hamburger) */
+/* Mobile menu overlay (fullscreen, above all content) */
 #nav-mobile-menu {
-  z-index: 1001 !important;
+  z-index: 10000 !important;
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;

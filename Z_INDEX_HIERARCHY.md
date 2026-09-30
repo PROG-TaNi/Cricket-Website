@@ -4,21 +4,26 @@
 
 ```
 0     - Default page content
+20    - Hero section content (.hero-content, .hero-scroll-indicator)
 999   - Film grain overlay (pointer-events: none, visual only)
-1000  - Main navigation bar (#vjti-main-nav)
-1001  - Mobile menu overlay (#nav-mobile-menu)
-1050  - Mobile hamburger button (#nav-mobile-toggle)
+9999  - Main navigation bar (#vjti-main-nav)
+10000 - Mobile menu overlay (#nav-mobile-menu) - FULLSCREEN
+10001 - Mobile hamburger button (#nav-mobile-toggle) - ALWAYS ON TOP
 ```
 
 ## Why This Order?
 
-1. **Film Grain (999)**: Visual texture overlay, doesn't interfere with clicks due to `pointer-events: none`
+1. **Default Content (0)**: All regular page elements
 
-2. **Nav Bar (1000)**: Above film grain so it remains sharp and visible
+2. **Hero Content (20)**: Hero section with parallax layers and content
 
-3. **Mobile Menu (1001)**: Fullscreen overlay that appears above everything when opened
+3. **Film Grain (999)**: Visual texture overlay, doesn't interfere with clicks due to `pointer-events: none`
 
-4. **Hamburger Button (1050)**: Highest layer so it remains clickable even when menu is open (transforms to X button)
+4. **Nav Bar (9999)**: Above film grain and all content, remains sharp and visible
+
+5. **Mobile Menu (10000)**: Fullscreen overlay that appears above EVERYTHING when opened
+
+6. **Hamburger Button (10001)**: Highest layer so it remains clickable even when menu is open (transforms to X button)
 
 ## Mobile Menu Behavior
 
