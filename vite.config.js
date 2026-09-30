@@ -22,10 +22,62 @@ function htmlPartialsPlugin() {
   };
 }
 
+/**
+ * Local dev server middleware for /api/* endpoints
+ */
+function apiDevPlugin() {
+  return {
+    name: "api-dev-server",
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        if (!req.url || !req.url.startsWith("/api/")) return next();
+
+        const cleanUrl = req.url.split("?")[0];
+        let bodyStr = "";
+        req.on("data", (chunk) => (bodyStr += chunk));
+        req.on("end", async () => {
+          try {
+            const body = bodyStr ? JSON.parse(bodyStr) : {};
+            const vercelReq = Object.assign(req, { body, query: {} });
+
+            const vercelRes = Object.assign(res, {
+              status(code) {
+                res.statusCode = code;
+                return vercelRes;
+              },
+              json(data) {
+                res.setHeader("Content-Type", "application/json");
+                res.end(JSON.stringify(data));
+                return vercelRes;
+              }
+            });
+
+            if (cleanUrl === "/api/register") {
+              const { default: handler } = await import("./api/register.js");
+              return handler(vercelReq, vercelRes);
+            }
+            if (cleanUrl === "/api/find-id") {
+              const { default: handler } = await import("./api/find-id.js");
+              return handler(vercelReq, vercelRes);
+            }
+            next();
+          } catch (err) {
+            console.error("API Dev Error:", err);
+            res.statusCode = 500;
+            res.setHeader("Content-Type", "application/json");
+            res.end(JSON.stringify({ error: /** @type {Error} */ (err).message }));
+          }
+        });
+      });
+    }
+  };
+}
+
 export default defineConfig({
   plugins: [
     tailwindcss(),
-    htmlPartialsPlugin()
+    htmlPartialsPlugin(),
+    apiDevPlugin()
   ],
   resolve: {
     alias: {

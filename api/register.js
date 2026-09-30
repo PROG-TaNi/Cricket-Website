@@ -16,16 +16,18 @@ import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 
 // ── Env ───────────────────────────────────────────────────────────
-const SUPABASE_URL = process.env.SUPABASE_URL || "";
+const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || "";
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
 const TURNSTILE_SECRET = process.env.TURNSTILE_SECRET_KEY || "";
 const UPSTASH_REDIS_URL = process.env.UPSTASH_REDIS_REST_URL || "";
 const UPSTASH_REDIS_TOKEN = process.env.UPSTASH_REDIS_REST_TOKEN || "";
 
 // ── Supabase service-role client (bypasses RLS) ───────────────────
-const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
-  auth: { autoRefreshToken: false, persistSession: false },
-});
+const supabase = (SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY)
+  ? createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
+      auth: { autoRefreshToken: false, persistSession: false },
+    })
+  : null;
 
 // ── Rate limiter: 3 registrations per IP per 24h ──────────────────
 let ratelimit = /** @type {Ratelimit | null} */ (null);
@@ -136,6 +138,39 @@ export default async function handler(req, res) {
   const turnstileOk = await verifyTurnstile(String(turnstile_token || ""), ip);
   if (!turnstileOk) {
     return res.status(403).json({ error: "Security check failed. Please reload and try again." });
+  }
+
+  // ── Development / Offline Fallback if Supabase is unconfigured ────
+  const isMockSupabase = !SUPABASE_URL || SUPABASE_URL.includes("mock-") || !SUPABASE_SERVICE_ROLE_KEY;
+
+  if (isMockSupabase) {
+    const mockId = `VJTI-CRK-${String(Math.floor(1000 + Math.random() * 9000))}`;
+    const mockToken = "tok-" + Math.random().toString(36).substring(2, 10);
+    const mockPlayer = {
+      registration_id: mockId,
+      public_token: mockToken,
+      full_name: String(full_name).trim(),
+      reg_no: String(reg_no).toUpperCase().trim(),
+      program,
+      year,
+      branch: String(branch).trim(),
+      primary_role,
+      batting_style,
+      bowling_style,
+      experience: past_experience ? String(past_experience).trim() : null,
+      whatsapp_number: String(whatsapp),
+      photo_url: photo_url ? String(photo_url).substring(0, 500000) : null,
+      consent: true,
+      status: "registered",
+      created_at: new Date().toISOString()
+    };
+
+    return res.status(201).json({
+      registrationId: mockId,
+      publicToken: mockToken,
+      firstName: mockPlayer.full_name.split(" ")[0],
+      player: mockPlayer
+    });
   }
 
   // ── Check for duplicate reg_no ──────────────────────────────────
