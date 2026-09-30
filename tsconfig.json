@@ -19,5 +19,6 @@
       "@lib/*": ["./lib/*"]
     }
   },
-  "include": ["src/**/*", "config/**/*", "lib/**/*", "api/**/*"]
+  "include": ["src/**/*", "config/**/*", "lib/**/*"],
+  "exclude": ["api/**/*", "node_modules", "dist"]
 }

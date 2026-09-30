@@ -3,27 +3,416 @@
 <head>
   <!-- include:partials/head.html -->
   <title>Register | VJTI Cricket Trials 2026–27</title>
+  <meta name="description" content="Register for VJTI Leather-Ball Cricket Team Selection Trials 2026–27. Fill in your details and earn your shot.">
 </head>
 <body class="bg-[#050807] text-white">
   <div class="film-grain"></div>
   <!-- include:partials/nav.html -->
 
-  <main class="pt-32 pb-20 vjti-container min-h-[80svh] flex flex-col items-center justify-center">
-    <div class="text-center max-w-xl">
-      <span class="font-mono text-xs text-[#31D47B] tracking-widest uppercase">Official Registration</span>
-      <h1 class="font-display text-4xl md:text-5xl font-black text-[#F4F1E8] mt-2">
-        TEAM SHEET REGISTRATION
-      </h1>
-      <p class="text-[#A7B2AC] mt-3">
-        Native 4-step registration flow with live validation and player card generation (Phase 4).
-      </p>
-      <div class="mt-8">
-        <a href="/" class="btn-secondary">← BACK TO HOME</a>
+  <main id="register-page" class="pt-28 pb-24">
+    <div class="vjti-container max-w-2xl">
+
+      <!-- Page Header -->
+      <div class="text-center mb-10">
+        <span class="font-mono text-xs text-[#31D47B] tracking-widest uppercase">Official Registration</span>
+        <h1 class="font-display text-5xl md:text-6xl font-black text-[#F4F1E8] mt-2 leading-none">
+          EARN YOUR<br>PLACE.
+        </h1>
+        <p class="text-[#A7B2AC] mt-3 text-sm">
+          Takes under 2 minutes. Your Registration ID lands instantly.
+        </p>
       </div>
-    </div>
+
+      <!-- Registration Closed Banner (hidden by default, shown by JS if closed) -->
+      <div id="reg-closed-banner" class="hidden glass-panel border border-[#D4FF52]/30 rounded-2xl p-6 text-center mb-8">
+        <p class="font-display text-2xl font-black text-[#D4FF52]">REGISTRATIONS CLOSED</p>
+        <p class="text-[#A7B2AC] mt-1 text-sm">The registration window has ended. Lost your ID? <a href="/find-id.html" class="text-[#31D47B] underline">Find it here.</a></p>
+      </div>
+
+      <!-- Stepper -->
+      <div id="reg-stepper" class="flex items-center justify-between mb-8 px-2" aria-label="Registration steps">
+        <template id="stepper-step-tpl"><!-- rendered by JS --></template>
+      </div>
+      <div id="stepper-bar" class="h-0.5 bg-white/10 rounded-full mb-10 overflow-hidden -mt-6">
+        <div id="stepper-progress" class="h-full bg-[#31D47B] rounded-full transition-all duration-500 ease-out" style="width:0%"></div>
+      </div>
+
+      <!-- Form -->
+      <form id="register-form" novalidate autocomplete="off">
+
+        <!-- ── STEP 1: Identity ── -->
+        <fieldset id="step-1" class="reg-step" data-step="1">
+          <legend class="sr-only">Step 1 of 4: Your Identity</legend>
+
+          <div class="reg-step-header">
+            <span class="step-label">01 / 04</span>
+            <h2 class="step-title">WHO ARE YOU?</h2>
+            <p class="step-desc">Your basic VJTI identity. Make sure the name matches your ID card.</p>
+          </div>
+
+          <!-- Full name -->
+          <div class="form-group">
+            <label for="full-name" class="form-label">Full Name <span class="text-[#D4FF52]">*</span></label>
+            <input
+              type="text"
+              id="full-name"
+              name="full_name"
+              class="form-input"
+              placeholder="As on your VJTI ID card"
+              autocomplete="name"
+              maxlength="80"
+              inputmode="text"
+            >
+            <div class="form-error" id="err-full-name"></div>
+          </div>
+
+          <!-- Reg No -->
+          <div class="form-group">
+            <label for="reg-no" class="form-label">Registration Number <span class="text-[#D4FF52]">*</span></label>
+            <input
+              type="text"
+              id="reg-no"
+              name="reg_no"
+              class="form-input font-mono tracking-widest"
+              placeholder="e.g. 221041XXX"
+              autocomplete="off"
+              maxlength="20"
+              spellcheck="false"
+            >
+            <p class="form-hint">Your VJTI roll/registration number. Will be uppercased automatically.</p>
+            <div class="form-error" id="err-reg-no"></div>
+          </div>
+
+          <!-- Program -->
+          <div class="form-group">
+            <label for="program" class="form-label">Program <span class="text-[#D4FF52]">*</span></label>
+            <div class="relative">
+              <select id="program" name="program" class="form-select">
+                <option value="">Select your program</option>
+                <option value="Degree">Degree (B.Tech / B.E.)</option>
+                <option value="Diploma">Diploma</option>
+                <option value="M.Tech">M.Tech</option>
+              </select>
+              <span class="select-chevron">▾</span>
+            </div>
+            <div class="form-error" id="err-program"></div>
+          </div>
+
+          <!-- Year (cascades from Program) -->
+          <div class="form-group">
+            <label for="year" class="form-label">Year <span class="text-[#D4FF52]">*</span></label>
+            <div class="relative">
+              <select id="year" name="year" class="form-select" disabled>
+                <option value="">Select your program first</option>
+              </select>
+              <span class="select-chevron">▾</span>
+            </div>
+            <div class="form-error" id="err-year"></div>
+          </div>
+
+          <!-- Branch -->
+          <div class="form-group">
+            <label for="branch" class="form-label">Branch / Department <span class="text-[#D4FF52]">*</span></label>
+            <div class="relative">
+              <select id="branch" name="branch" class="form-select">
+                <option value="">Select your branch</option>
+              </select>
+              <span class="select-chevron">▾</span>
+            </div>
+            <!-- "Other" branch text input -->
+            <input
+              type="text"
+              id="branch-other"
+              name="branch_other"
+              class="form-input mt-2 hidden"
+              placeholder="Enter your branch / department"
+              maxlength="80"
+            >
+            <div class="form-error" id="err-branch"></div>
+          </div>
+
+          <div class="step-actions">
+            <button type="button" class="btn-primary w-full" id="step-1-next">NEXT: YOUR GAME →</button>
+          </div>
+        </fieldset>
+
+        <!-- ── STEP 2: Cricket Profile ── -->
+        <fieldset id="step-2" class="reg-step hidden" data-step="2">
+          <legend class="sr-only">Step 2 of 4: Your Cricket Profile</legend>
+
+          <div class="reg-step-header">
+            <span class="step-label">02 / 04</span>
+            <h2 class="step-title">YOUR GAME.</h2>
+            <p class="step-desc">Tell us how you play. This goes directly to the selectors.</p>
+          </div>
+
+          <!-- Primary Role -->
+          <div class="form-group">
+            <fieldset class="border-0 p-0 m-0">
+              <legend class="form-label">Primary Role <span class="text-[#D4FF52]">*</span></legend>
+              <p class="form-hint mb-3">All-rounders: pick your strongest position. Mention the rest in "Past experience" below.</p>
+              <div class="grid grid-cols-3 gap-3" id="role-picker">
+                <label class="role-card" for="role-batter">
+                  <input type="radio" name="primary_role" id="role-batter" value="Batter" class="sr-only" required>
+                  <div class="role-card-inner">
+                    <img src="/illustrations/bat.svg" alt="" class="w-8 h-8 mx-auto mb-2" aria-hidden="true">
+                    <span class="font-display font-black text-sm tracking-wide">BATTER</span>
+                  </div>
+                </label>
+                <label class="role-card" for="role-bowler">
+                  <input type="radio" name="primary_role" id="role-bowler" value="Bowler" class="sr-only">
+                  <div class="role-card-inner">
+                    <img src="/illustrations/ball.svg" alt="" class="w-8 h-8 mx-auto mb-2" aria-hidden="true">
+                    <span class="font-display font-black text-sm tracking-wide">BOWLER</span>
+                  </div>
+                </label>
+                <label class="role-card" for="role-keeper">
+                  <input type="radio" name="primary_role" id="role-keeper" value="Wicketkeeper" class="sr-only">
+                  <div class="role-card-inner">
+                    <img src="/illustrations/gloves.svg" alt="" class="w-8 h-8 mx-auto mb-2" aria-hidden="true">
+                    <span class="font-display font-black text-sm tracking-wide">KEEPER</span>
+                  </div>
+                </label>
+              </div>
+              <div class="form-error mt-2" id="err-primary-role"></div>
+            </fieldset>
+          </div>
+
+          <!-- Batting Style -->
+          <div class="form-group">
+            <fieldset class="border-0 p-0 m-0">
+              <legend class="form-label">Batting Style <span class="text-[#D4FF52]">*</span></legend>
+              <div class="flex gap-3 mt-1" id="batting-style-picker">
+                <label class="style-pill" for="bat-rh">
+                  <input type="radio" name="batting_style" id="bat-rh" value="Right-hand" class="sr-only" required>
+                  <span>Right-hand</span>
+                </label>
+                <label class="style-pill" for="bat-lh">
+                  <input type="radio" name="batting_style" id="bat-lh" value="Left-hand" class="sr-only">
+                  <span>Left-hand</span>
+                </label>
+              </div>
+              <div class="form-error" id="err-batting-style"></div>
+            </fieldset>
+          </div>
+
+          <!-- Bowling Style -->
+          <div class="form-group">
+            <label for="bowling-style" class="form-label">Bowling Style <span class="text-[#D4FF52]">*</span></label>
+            <div class="relative">
+              <select id="bowling-style" name="bowling_style" class="form-select">
+                <option value="">Select bowling style</option>
+              </select>
+              <span class="select-chevron">▾</span>
+            </div>
+            <div class="form-error" id="err-bowling-style"></div>
+          </div>
+
+          <!-- Past Experience -->
+          <div class="form-group">
+            <label for="past-experience" class="form-label">Past Experience &amp; Records <span class="text-[#A7B2AC] font-normal text-xs">(optional)</span></label>
+            <p class="form-hint mb-2">The selectors read every entry. Be specific — clubs, tournaments, best scores or figures. Prompt chips below to get you started.</p>
+            <!-- Prompt Chips -->
+            <div class="flex flex-wrap gap-2 mb-2" id="exp-chips" aria-label="Tap to add to your experience">
+              <button type="button" class="exp-chip" data-chip="Played for: ">Played for</button>
+              <button type="button" class="exp-chip" data-chip="Tournaments: ">Tournaments</button>
+              <button type="button" class="exp-chip" data-chip="Best score / figures: ">Best score / figures</button>
+              <button type="button" class="exp-chip" data-chip="Years of leather-ball cricket: ">Leather-ball exp.</button>
+            </div>
+            <textarea
+              id="past-experience"
+              name="past_experience"
+              class="form-textarea"
+              placeholder="e.g. Played for Matunga CC, 2 inter-college trophies, best: 87* vs IIT Bombay..."
+              maxlength="1000"
+              rows="5"
+            ></textarea>
+            <div class="flex justify-between items-center mt-1">
+              <div class="form-error" id="err-past-experience"></div>
+              <span class="text-xs text-[#A7B2AC] ml-auto" id="exp-char-count">0 / 1000</span>
+            </div>
+          </div>
+
+          <div class="step-actions flex gap-3">
+            <button type="button" class="btn-secondary flex-1" id="step-2-back">← BACK</button>
+            <button type="button" class="btn-primary flex-1" id="step-2-next">NEXT: CONTACT →</button>
+          </div>
+        </fieldset>
+
+        <!-- ── STEP 3: Contact ── -->
+        <fieldset id="step-3" class="reg-step hidden" data-step="3">
+          <legend class="sr-only">Step 3 of 4: Contact Details</legend>
+
+          <div class="reg-step-header">
+            <span class="step-label">03 / 04</span>
+            <h2 class="step-title">CONTACT.</h2>
+            <p class="step-desc">Updates and selection results will come via WhatsApp. Double-check the number.</p>
+          </div>
+
+          <!-- WhatsApp Number -->
+          <div class="form-group">
+            <label for="whatsapp" class="form-label">WhatsApp Number <span class="text-[#D4FF52]">*</span></label>
+            <div class="flex items-center gap-2">
+              <span class="form-prefix">+91</span>
+              <input
+                type="tel"
+                id="whatsapp"
+                name="whatsapp_raw"
+                class="form-input flex-1"
+                placeholder="9876543210"
+                maxlength="13"
+                inputmode="numeric"
+                autocomplete="tel"
+              >
+            </div>
+            <p class="form-hint">Enter your 10-digit mobile number. We accept 9876543210, +91 98765 43210, or 09876543210 — we'll normalise it.</p>
+            <div class="form-error" id="err-whatsapp"></div>
+          </div>
+
+          <!-- Consent -->
+          <div class="form-group">
+            <label class="consent-label" for="consent">
+              <input type="checkbox" id="consent" name="consent" class="consent-checkbox" required>
+              <span class="consent-box" aria-hidden="true"></span>
+              <span class="consent-text">
+                I agree that the VJTI Cricket committee may contact me on this WhatsApp number about the trials and use these details only for team selection. If I'm selected, my name may appear in the published squad.
+              </span>
+            </label>
+            <div class="form-error mt-2" id="err-consent"></div>
+          </div>
+
+          <div class="step-actions flex gap-3">
+            <button type="button" class="btn-secondary flex-1" id="step-3-back">← BACK</button>
+            <button type="button" class="btn-primary flex-1" id="step-3-next">REVIEW →</button>
+          </div>
+        </fieldset>
+
+        <!-- ── STEP 4: Review & Submit ── -->
+        <fieldset id="step-4" class="reg-step hidden" data-step="4">
+          <legend class="sr-only">Step 4 of 4: Review and Submit</legend>
+
+          <div class="reg-step-header">
+            <span class="step-label">04 / 04</span>
+            <h2 class="step-title">CONFIRM &amp; SUBMIT.</h2>
+            <p class="step-desc">Check everything. Once submitted, your Registration ID is generated instantly.</p>
+          </div>
+
+          <!-- Review Summary (rendered by JS) -->
+          <div id="review-summary" class="glass-panel rounded-2xl p-6 mb-6 space-y-4">
+            <!-- populated by JS -->
+          </div>
+
+          <!-- Turnstile Widget -->
+          <div id="turnstile-widget" class="cf-turnstile mb-6 flex justify-center" data-sitekey="REPLACE_WITH_SITE_KEY" data-theme="dark" data-callback="onTurnstileSuccess"></div>
+
+          <!-- Submit Button -->
+          <button type="submit" id="submit-btn" class="btn-primary w-full" disabled>
+            <span id="submit-label">SUBMIT REGISTRATION</span>
+            <span id="submit-spinner" class="hidden ml-2">⟳</span>
+          </button>
+          <p class="text-[#A7B2AC] text-xs text-center mt-3">
+            By submitting you confirm the details above are accurate. Duplicate registrations will be disqualified.
+          </p>
+
+          <div class="step-actions flex gap-3 mt-4">
+            <button type="button" class="btn-secondary flex-1" id="step-4-back">← EDIT</button>
+          </div>
+        </fieldset>
+
+      </form>
+
+      <!-- ── SUCCESS SCREEN ── -->
+      <div id="success-screen" class="hidden text-center py-8">
+        <!-- Success Header -->
+        <div class="mb-8">
+          <div class="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full bg-[#31D47B]/10 border border-[#31D47B]/30">
+            <div class="w-2 h-2 rounded-full bg-[#31D47B] animate-pulse"></div>
+            <span class="font-mono text-xs text-[#31D47B] tracking-widest uppercase">Registration Successful</span>
+          </div>
+          <h2 class="font-display text-4xl md:text-5xl font-black text-[#F4F1E8] mb-3">
+            YOU'RE IN.
+          </h2>
+          <p class="text-[#A7B2AC] text-sm max-w-md mx-auto">
+            Your registration is confirmed. Save your player card and mark the dates — 10 and 11 October 2026.
+          </p>
+        </div>
+
+        <!-- Player Card Preview -->
+        <div id="player-card-container" class="mb-8">
+          <!-- Player card rendered by JS -->
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="space-y-3 max-w-md mx-auto">
+          <button id="download-card-btn" class="btn-primary w-full">
+            ⬇ DOWNLOAD PLAYER CARD
+          </button>
+          <button id="share-card-btn" class="btn-secondary w-full">
+            📱 SHARE TO INSTAGRAM STORY
+          </button>
+          <button id="whatsapp-share-btn" class="btn-secondary w-full">
+            💬 SHARE ON WHATSAPP
+          </button>
+          <button id="copy-id-btn" class="btn-ghost w-full">
+            ⧉ COPY REGISTRATION ID
+          </button>
+        </div>
+
+        <!-- Secondary Actions -->
+        <div class="mt-8 space-y-3">
+          <button id="add-calendar-btn" class="text-[#31D47B] hover:text-white transition-colors text-sm font-medium">
+            📅 ADD TO CALENDAR
+          </button>
+          <a 
+            id="whatsapp-group-btn" 
+            href="#" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="hidden block text-[#31D47B] hover:text-white transition-colors text-sm font-medium"
+          >
+            JOIN OFFICIAL UPDATES GROUP →
+          </a>
+        </div>
+
+        <!-- Important Info -->
+        <div class="glass-panel rounded-2xl p-6 mt-8 text-left max-w-md mx-auto">
+          <h3 class="font-display font-black text-lg text-[#F4F1E8] mb-3">IMPORTANT</h3>
+          <ul class="space-y-2 text-sm text-[#A7B2AC]">
+            <li class="flex gap-2">
+              <span class="text-[#31D47B]">▸</span>
+              <span>Screenshot or save your Registration ID. You'll need it at check-in.</span>
+            </li>
+            <li class="flex gap-2">
+              <span class="text-[#31D47B]">▸</span>
+              <span>Reporting time will be announced via WhatsApp and on the website.</span>
+            </li>
+            <li class="flex gap-2">
+              <span class="text-[#31D47B]">▸</span>
+              <span>Full whites are compulsory. Bring your own kit if possible.</span>
+            </li>
+            <li class="flex gap-2">
+              <span class="text-[#31D47B]">▸</span>
+              <span>Lost your ID later? Use <a href="/find-id.html" class="text-[#31D47B] underline hover:text-white">Find My ID</a>.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Back Home -->
+        <div class="mt-8">
+          <a href="/" class="inline-flex items-center gap-2 text-[#A7B2AC] hover:text-white transition-colors text-sm font-medium">
+            ← Back to home
+          </a>
+        </div>
+      </div>
+
+    </div><!-- /vjti-container -->
   </main>
 
   <!-- include:partials/footer.html -->
-  <script type="module" src="/src/js/main.js"></script>
+
+  <!-- Cloudflare Turnstile -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+  <script type="module" src="/src/js/pages/register.js"></script>
 </body>
 </html>

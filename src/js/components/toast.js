@@ -104,3 +104,14 @@ class ToastManager {
 }
 
 export const toast = new ToastManager();
+
+/**
+ * Convenience shorthand: toastMsg("Hello", "success")
+ * @param {string} message
+ * @param {"info"|"success"|"error"|"warning"} [type]
+ * @param {number} [duration]
+ */
+export function toastMsg(message, type = "info", duration = 4000) {
+  toast.show({ message, type, duration });
+}
+

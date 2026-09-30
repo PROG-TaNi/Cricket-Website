@@ -2,28 +2,90 @@
 <html lang="en">
 <head>
   <!-- include:partials/head.html -->
-  <title>Find My Registration ID | VJTI Cricket Trials</title>
+  <title>Find My ID | VJTI Cricket Trials 2026–27</title>
+  <meta name="description" content="Lost your VJTI Cricket Trials Registration ID? Look it up by your registration number or WhatsApp number.">
 </head>
 <body class="bg-[#050807] text-white">
   <div class="film-grain"></div>
   <!-- include:partials/nav.html -->
 
-  <main class="pt-32 pb-20 vjti-container min-h-[80svh] flex flex-col items-center justify-center">
-    <div class="text-center max-w-xl">
-      <span class="font-mono text-xs text-[#31D47B] tracking-widest uppercase">Player Recovery</span>
-      <h1 class="font-display text-4xl md:text-5xl font-black text-[#F4F1E8] mt-2">
-        FIND MY REGISTRATION ID
-      </h1>
-      <p class="text-[#A7B2AC] mt-3">
-        Retrieve your VJTI-CRK ID using your Reg No and registered WhatsApp number.
-      </p>
-      <div class="mt-8">
-        <a href="/" class="btn-secondary">← BACK TO HOME</a>
+  <main class="pt-28 pb-24">
+    <div class="vjti-container max-w-xl">
+
+      <div class="text-center mb-10">
+        <span class="font-mono text-xs text-[#31D47B] tracking-widest uppercase">Player Lookup</span>
+        <h1 class="font-display text-5xl md:text-6xl font-black text-[#F4F1E8] mt-2 leading-none">
+          FIND<br>MY ID.
+        </h1>
+        <p class="text-[#A7B2AC] mt-3 text-sm">
+          Already registered? Retrieve your Registration ID using your VJTI Reg No or WhatsApp number.
+        </p>
       </div>
+
+      <!-- Lookup form -->
+      <div class="glass-panel rounded-2xl p-6 md:p-8 mb-6">
+        <form id="find-id-form" novalidate>
+
+          <!-- Reg No input -->
+          <div class="form-group" id="input-regno-group">
+            <label for="lookup-regno" class="form-label">VJTI Registration Number <span class="text-[#D4FF52]">*</span></label>
+            <input
+              type="text"
+              id="lookup-regno"
+              name="lookup_regno"
+              class="form-input font-mono tracking-widest"
+              placeholder="e.g. 221041XXX"
+              maxlength="20"
+              autocomplete="off"
+            >
+            <div class="form-error" id="err-lookup-regno"></div>
+          </div>
+
+          <!-- WhatsApp input -->
+          <div class="form-group" id="input-wa-group">
+            <label for="lookup-wa" class="form-label">WhatsApp Number <span class="text-[#D4FF52]">*</span></label>
+            <div class="flex items-center gap-2">
+              <span class="form-prefix">+91</span>
+              <input
+                type="tel"
+                id="lookup-wa"
+                name="lookup_wa"
+                class="form-input flex-1"
+                placeholder="9876543210"
+                maxlength="13"
+                inputmode="numeric"
+              >
+            </div>
+            <div class="form-error" id="err-lookup-wa"></div>
+          </div>
+
+          <button type="submit" id="find-btn" class="btn-primary w-full">
+            <span id="find-label">VERIFY &amp; FIND REGISTRATION ID</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Result (hidden by default) -->
+      <div id="find-result" class="hidden">
+        <!-- Player card rendered by JS -->
+      </div>
+
+      <!-- Not found (hidden by default) -->
+      <div id="find-not-found" class="hidden glass-panel rounded-2xl p-6 text-center">
+        <p class="font-display text-xl font-black text-[#F4F1E8]">NOT FOUND</p>
+        <p class="text-[#A7B2AC] text-sm mt-2">No registration found for those details. <a href="/register.html" class="text-[#31D47B] underline">Register now?</a></p>
+      </div>
+
+      <!-- Privacy note -->
+      <p class="text-[#64716A] text-xs text-center mt-8">
+        We only show you your own registration. No other player details are visible.
+        <a href="/privacy.html" class="text-[#A7B2AC] underline">Privacy policy</a>.
+      </p>
+
     </div>
   </main>
 
   <!-- include:partials/footer.html -->
-  <script type="module" src="/src/js/main.js"></script>
+  <script type="module" src="/src/js/pages/find-id.js"></script>
 </body>
 </html>

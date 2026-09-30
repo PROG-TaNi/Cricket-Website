@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/protect-credit.js",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit"
   },
@@ -17,9 +17,11 @@
     "@tanstack/table-core": "^8.21.2",
     "@upstash/ratelimit": "^2.0.5",
     "@upstash/redis": "^1.34.4",
+    "@vercel/og": "^1.0.3",
     "canvas-confetti": "^1.9.4",
     "chart.js": "^4.4.8",
     "gsap": "^3.12.7",
+    "html-to-image": "^1.11.13",
     "lenis": "^1.1.20",
     "lucide": "^0.477.0",
     "motion": "^12.4.7",
