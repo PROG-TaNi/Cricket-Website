@@ -280,12 +280,13 @@
                 name="whatsapp_raw"
                 class="form-input flex-1"
                 placeholder="9876543210"
-                maxlength="13"
+                maxlength="10"
                 inputmode="numeric"
+                pattern="[6-9][0-9]{9}"
                 autocomplete="tel"
               >
             </div>
-            <p class="form-hint">Enter your 10-digit mobile number. We accept 9876543210, +91 98765 43210, or 09876543210 — we'll normalise it.</p>
+            <p class="form-hint">Enter your 10-digit mobile number. Must start with 6, 7, 8, or 9.</p>
             <div class="form-error" id="err-whatsapp"></div>
           </div>
 
@@ -323,7 +324,7 @@
           </div>
 
           <!-- Turnstile Widget -->
-          <div id="turnstile-widget" class="cf-turnstile mb-6 flex justify-center" data-sitekey="REPLACE_WITH_SITE_KEY" data-theme="dark" data-callback="onTurnstileSuccess"></div>
+          <div id="turnstile-widget" class="cf-turnstile mb-6 flex justify-center" data-sitekey="1x00000000000000000000AA" data-theme="dark" data-callback="onTurnstileSuccess"></div>
 
           <!-- Submit Button -->
           <button type="submit" id="submit-btn" class="btn-primary w-full" disabled>

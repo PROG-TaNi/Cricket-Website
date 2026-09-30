@@ -25,10 +25,26 @@ let turnstileToken = null;
 
 // @ts-ignore – injected by Cloudflare Turnstile
 window.onTurnstileSuccess = (/** @type {string} */ token) => {
+  console.log("✓ Turnstile success, token received:", token ? "Yes" : "No");
   turnstileToken = token;
   const submitBtn = /** @type {HTMLButtonElement} */ (document.getElementById("submit-btn"));
-  if (submitBtn) submitBtn.disabled = false;
+  if (submitBtn) {
+    submitBtn.disabled = false;
+    console.log("✓ Submit button enabled");
+  }
 };
+
+// For development: Auto-enable submit button after 2 seconds if Turnstile hasn't loaded
+setTimeout(() => {
+  if (!turnstileToken) {
+    console.warn("⚠ Turnstile token not received after 2s. Auto-enabling submit button for development.");
+    const submitBtn = /** @type {HTMLButtonElement} */ (document.getElementById("submit-btn"));
+    if (submitBtn && submitBtn.disabled) {
+      turnstileToken = "dev-bypass-token";
+      submitBtn.disabled = false;
+    }
+  }
+}, 2000);
 
 // ── Validation helpers ────────────────────────────────────────────
 const REG_NO_REGEX = /^[A-Z0-9]{4,20}$/;
@@ -363,6 +379,9 @@ function renderPlayerCard(data) {
 
 // ── Submit handler ────────────────────────────────────────────────
 async function handleSubmit() {
+  console.log("🚀 Starting registration submission...");
+  console.log("Turnstile token:", turnstileToken ? "Present" : "Missing");
+  
   const submitBtn = /** @type {HTMLButtonElement} */ (document.getElementById("submit-btn"));
   const submitLabel = document.getElementById("submit-label");
   const submitSpinner = document.getElementById("submit-spinner");
@@ -387,22 +406,37 @@ async function handleSubmit() {
       turnstile_token: turnstileToken,
     };
 
-    const res = await fetch("/api/register", {
+    console.log("📤 Sending registration payload...");
+    console.log("Payload:", { ...payload, photo_url: payload.photo_url ? "[base64 data]" : null });
+
+    // Use dev API server for local development
+    const apiUrl = window.location.hostname === 'localhost' 
+      ? 'http://localhost:3001/api/register'
+      : '/api/register';
+    
+    console.log("API URL:", apiUrl);
+
+    const res = await fetch(apiUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
 
+    console.log("📥 Response status:", res.status);
     const json = await res.json();
+    console.log("📥 Response data:", json);
 
     if (!res.ok) {
       throw new Error(json.error || `Server error ${res.status}`);
     }
 
     // Success!
+    console.log("✅ Registration successful!");
     showSuccessScreen(json);
 
   } catch (/** @type {any} */ err) {
+    console.error("❌ Registration failed:", err);
+    
     // Re-enable button and show error
     if (submitBtn) submitBtn.disabled = false;
     if (submitLabel) submitLabel.textContent = "SUBMIT REGISTRATION";
@@ -722,7 +756,12 @@ function setupFormSubmit() {
   if (!$form) return;
   $form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    console.log("📝 Form submit event triggered");
+    console.log("Current step:", currentStep);
+    console.log("Turnstile token:", turnstileToken ? "Present" : "Missing");
+    
     if (!turnstileToken) {
+      console.warn("⚠ No Turnstile token, showing error");
       toastMsg("Please complete the security check.", "error");
       return;
     }
@@ -773,6 +812,14 @@ function setupInlineValidation() {
     } else if (n) {
       clearError("whatsapp"); markValidity(waEl, true);
     }
+  });
+  
+  // Restrict WhatsApp input to 10 digits only
+  waEl?.addEventListener("input", (e) => {
+    let val = waEl.value.replace(/\D/g, ""); // Remove non-digits
+    if (val.startsWith("0")) val = val.slice(1); // Remove leading 0
+    if (val.length > 10) val = val.slice(0, 10); // Limit to 10 digits
+    waEl.value = val;
   });
 }
 

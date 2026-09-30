@@ -412,9 +412,9 @@
           </div>
         </div>
 
-        <div class="process-horizontal-track flex flex-col md:flex-row gap-6 md:w-max">
+        <div class="process-horizontal-track flex flex-row overflow-x-auto pb-4 gap-4 md:gap-6 snap-x snap-mandatory scrollbar-none md:w-max -mx-4 px-4 md:mx-0 md:px-0">
           <!-- Step 1 -->
-          <div class="process-card glass-panel p-8 w-full md:w-[350px] flex flex-col justify-between border-white/10">
+          <div class="process-card glass-panel p-6 sm:p-8 w-[82vw] max-w-[320px] md:w-[350px] flex-shrink-0 snap-center flex flex-col justify-between border-white/10 hover:border-[#31D47B]/40 active:scale-[0.98] transition-all">
             <div>
               <span class="font-mono text-3xl font-black text-[#31D47B]">01</span>
               <h3 class="font-display text-2xl font-black text-white mt-2 mb-2">REGISTER</h3>
@@ -424,7 +424,7 @@
           </div>
 
           <!-- Step 2 -->
-          <div class="process-card glass-panel p-8 w-full md:w-[350px] flex flex-col justify-between border-white/10">
+          <div class="process-card glass-panel p-6 sm:p-8 w-[82vw] max-w-[320px] md:w-[350px] flex-shrink-0 snap-center flex flex-col justify-between border-white/10 hover:border-[#31D47B]/40 active:scale-[0.98] transition-all">
             <div>
               <span class="font-mono text-3xl font-black text-[#31D47B]">02</span>
               <h3 class="font-display text-2xl font-black text-white mt-2 mb-2">REPORT</h3>
@@ -434,7 +434,7 @@
           </div>
 
           <!-- Step 3 -->
-          <div class="process-card glass-panel p-8 w-full md:w-[350px] flex flex-col justify-between border-white/10">
+          <div class="process-card glass-panel p-6 sm:p-8 w-[82vw] max-w-[320px] md:w-[350px] flex-shrink-0 snap-center flex flex-col justify-between border-white/10 hover:border-[#31D47B]/40 active:scale-[0.98] transition-all">
             <div>
               <span class="font-mono text-3xl font-black text-[#31D47B]">03</span>
               <h3 class="font-display text-2xl font-black text-white mt-2 mb-2">TRIALS</h3>
@@ -444,7 +444,7 @@
           </div>
 
           <!-- Step 4 -->
-          <div class="process-card glass-panel p-8 w-full md:w-[350px] flex flex-col justify-between border-white/10">
+          <div class="process-card glass-panel p-6 sm:p-8 w-[82vw] max-w-[320px] md:w-[350px] flex-shrink-0 snap-center flex flex-col justify-between border-white/10 hover:border-[#31D47B]/40 active:scale-[0.98] transition-all">
             <div>
               <span class="font-mono text-3xl font-black text-[#31D47B]">04</span>
               <h3 class="font-display text-2xl font-black text-white mt-2 mb-2">SHORTLIST</h3>
@@ -452,6 +452,12 @@
             </div>
             <span class="font-mono text-xs text-[#64716A] mt-6">Published Squad</span>
           </div>
+        </div>
+
+        <!-- Mobile Swipe Indicator -->
+        <div class="md:hidden flex items-center justify-center gap-2 mt-4 text-[#64716A] font-mono text-[10px] uppercase tracking-widest">
+          <span>Swipe steps</span>
+          <span class="text-[#31D47B]">↔</span>
         </div>
       </div>
     </section>
@@ -815,6 +821,12 @@
             VJTI Cricket • Blue & Gold Match Squad
           </span>
         </div>
+      </div>
+
+      <!-- Mobile Swipe Indicator for Legacy Gallery -->
+      <div class="md:hidden flex items-center justify-center gap-2 mt-4 text-[#64716A] font-mono text-[10px] uppercase tracking-widest">
+        <span>Tap photo to zoom • Swipe strip</span>
+        <span class="text-[#31D47B]">↔</span>
       </div>
 
       <!-- Accessible Lightbox Modal (Native <dialog>) -->

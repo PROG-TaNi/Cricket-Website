@@ -1,0 +1,188 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                  🏏 VJTI CRICKET DATABASE - QUICK REFERENCE 🏏                ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 📋 SETUP CHECKLIST (15 MINUTES)                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  ☐ 1. Create Supabase project (supabase.com)
+  ☐ 2. Run supabase-setup.sql in SQL Editor
+  ☐ 3. Copy credentials (Settings → API)
+  ☐ 4. Update .env file with real credentials
+  ☐ 5. Run: npm run test:db
+  ☐ 6. See "All tests passed" ✓
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 🚀 QUICK COMMANDS                                                            │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  Test Database:       npm run test:db
+  Start Dev Server:    npm run dev
+  Quick Check:         .\quick-start.ps1 -Test
+  Install Deps:        npm install
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 📁 KEY FILES                                                                 │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  supabase-setup.sql          → Run this in Supabase SQL Editor
+  SUPABASE_SETUP_GUIDE.md     → READ THIS FIRST (detailed instructions)
+  SETUP_CHECKLIST.md          → Step-by-step testing guide
+  DATABASE_REFERENCE.md       → SQL queries & schema reference
+  test-database.mjs           → Automated test suite
+  quick-start.ps1             → Helper script
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 🗄️ WHAT'S IN THE DATABASE                                                   │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  Tables:
+    • players         → All registration data (name, role, stats, photos)
+    • announcements   → System announcements
+    • settings        → Configuration (registration open/close, etc.)
+
+  Functions:
+    • get_registration_stats()     → Get all statistics
+    • find_player(search_term)     → Search by ID or reg_no
+
+  Storage:
+    • player-photos   → Photo storage bucket
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 🔍 USEFUL SQL QUERIES                                                        │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  View all players:
+    SELECT * FROM players ORDER BY created_at DESC;
+
+  Count by role:
+    SELECT primary_role, COUNT(*) FROM players GROUP BY primary_role;
+
+  Today's registrations:
+    SELECT * FROM players WHERE created_at::date = CURRENT_DATE;
+
+  Search player:
+    SELECT * FROM find_player('VJTI-CRK-1234');
+
+  Get statistics:
+    SELECT get_registration_stats();
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 🧪 TESTING WORKFLOW                                                          │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  1. npm run test:db                         → Automated tests (8 tests)
+  2. npm run dev                             → Start server
+  3. http://localhost:5173/register.html     → Test registration
+  4. Supabase → Table Editor → players       → Verify data saved
+  5. http://localhost:5173/organizer/        → Test dashboard
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 🔐 SECURITY - WHAT TO KEEP SECRET                                            │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  ⚠️  NEVER EXPOSE:
+      • SUPABASE_SERVICE_ROLE_KEY
+      • TURNSTILE_SECRET_KEY
+      • UPSTASH_REDIS_REST_TOKEN
+
+  ✅  SAFE FOR FRONTEND:
+      • VITE_SUPABASE_URL
+      • VITE_SUPABASE_ANON_KEY
+      • VITE_TURNSTILE_SITE_KEY
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 📊 WHAT DATA IS STORED (PER REGISTRATION)                                   │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  Identity:
+    • Full name (e.g., "Virat Kohli")
+    • VJTI reg number (e.g., "221041XXX")
+    • Program, Year, Branch
+
+  Cricket Profile:
+    • Primary role (Batter/Bowler/Wicketkeeper)
+    • Batting style (Right/Left-hand)
+    • Bowling style (Pace/Spin types)
+    • Past experience (up to 1000 chars)
+
+  Contact:
+    • WhatsApp number (+91XXXXXXXXXX)
+
+  Photo:
+    • Profile picture (base64, ~375KB)
+
+  Metadata:
+    • Registration ID (VJTI-CRK-XXXX)
+    • Public token (for sharing)
+    • Timestamps (created_at, updated_at)
+    • Status (registered/shortlisted/selected)
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 🐛 TROUBLESHOOTING                                                           │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  Registration fails:
+    → Check .env has correct Supabase credentials
+    → Run: npm run test:db
+    → Check browser console (F12)
+    → Check Supabase logs (Dashboard → Logs)
+
+  Tests fail:
+    → Verify .env file updated
+    → Ensure SQL script ran successfully
+    → Check Supabase project is active (not paused)
+
+  Photo not uploading:
+    → Max size: 5MB
+    → Formats: JPEG, PNG, WebP
+    → Check browser console
+
+  Dashboard shows no data:
+    → Register at least one player first
+    → Verify organizer is logged in
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 🎯 SUCCESS CRITERIA                                                          │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  Your database is ready when:
+    ✓ All 8 automated tests pass
+    ✓ Can register new players via form
+    ✓ Data appears in Supabase Table Editor
+    ✓ Duplicate reg_no is rejected
+    ✓ Player cards generate with photos
+    ✓ Organizer dashboard shows data
+    ✓ No console errors
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 📞 GETTING HELP                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  1. Run diagnostics:        npm run test:db
+  2. Check browser console:  F12 → Console + Network
+  3. Check Supabase logs:    Dashboard → Logs → Database
+  4. Read guides:            SUPABASE_SETUP_GUIDE.md
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 🌐 USEFUL LINKS                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  Supabase Dashboard:   https://app.supabase.com
+  Registration Page:    http://localhost:5173/register.html
+  Organizer Dashboard:  http://localhost:5173/organizer/
+  Find ID:              http://localhost:5173/find-id.html
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ ⚡ FASTEST WAY TO START                                                      │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+  1. Open: SUPABASE_SETUP_GUIDE.md
+  2. Follow steps 1-4 (takes 15 min)
+  3. Run: npm run test:db
+  4. Done! ✓
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                     Your database is ready! Start testing! 🚀                 ║
+╚══════════════════════════════════════════════════════════════════════════════╝

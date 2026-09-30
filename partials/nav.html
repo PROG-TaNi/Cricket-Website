@@ -1,4 +1,4 @@
-<nav id="vjti-main-nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4 px-4 md:px-8 border-b border-transparent">
+<nav id="vjti-main-nav" class="fixed top-0 left-0 right-0 z-[1000] transition-all duration-300 py-4 px-4 md:px-8 border-b border-transparent">
   <div class="max-w-7xl mx-auto flex items-center justify-between">
     <!-- Brand: Logo + Wordmark -->
     <a href="/" class="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#31d47b] rounded-lg">
@@ -35,31 +35,80 @@
       </div>
     </div>
 
-    <!-- Mobile Hamburger Toggle -->
-    <button id="nav-mobile-toggle" type="button" class="md:hidden p-2 text-white/80 hover:text-white rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[#31d47b]" aria-label="Toggle Navigation Menu">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    <!-- Mobile Hamburger Toggle with 3-bar animation -->
+    <button id="nav-mobile-toggle" type="button" class="md:hidden p-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#31d47b] active:scale-95 transition-all z-[1050] relative" aria-label="Toggle Navigation Menu">
+      <div class="w-5 h-4 flex flex-col justify-between items-center relative">
+        <span class="hamburger-line line-top w-5 h-0.5 bg-white rounded-full transition-all duration-300"></span>
+        <span class="hamburger-line line-mid w-5 h-0.5 bg-[#31D47B] rounded-full transition-all duration-300"></span>
+        <span class="hamburger-line line-bot w-5 h-0.5 bg-white rounded-full transition-all duration-300"></span>
+      </div>
     </button>
   </div>
 
-  <!-- Mobile Fullscreen Drawer / Menu -->
-  <div id="nav-mobile-menu" class="hidden md:hidden fixed inset-0 top-[72px] bg-[#050807]/95 backdrop-blur-xl z-40 p-6 flex flex-col justify-between overflow-y-auto">
-    <div class="flex flex-col gap-6 pt-4">
-      <a href="/#hero" class="mobile-nav-link text-2xl font-display font-extrabold text-white tracking-wider hover:text-[#31d47b]">01 // HOME</a>
-      <a href="/#fixture" class="mobile-nav-link text-2xl font-display font-extrabold text-white tracking-wider hover:text-[#31d47b]">02 // SCHEDULE & VENUE</a>
-      <a href="/#rules" class="mobile-nav-link text-2xl font-display font-extrabold text-white tracking-wider hover:text-[#31d47b]">03 // RULES & GEAR</a>
-      <a href="/#process" class="mobile-nav-link text-2xl font-display font-extrabold text-white tracking-wider hover:text-[#31d47b]">04 // SELECTION PROCESS</a>
-      <a href="/#announcements" class="mobile-nav-link text-2xl font-display font-extrabold text-white tracking-wider hover:text-[#31d47b]">05 // ANNOUNCEMENTS</a>
-      <a href="/#faq" class="mobile-nav-link text-2xl font-display font-extrabold text-white tracking-wider hover:text-[#31d47b]">06 // FAQ</a>
-      <a href="/find-id.html" class="mobile-nav-link text-lg font-mono text-[#a7b2ac] tracking-wider hover:text-white mt-2">→ FIND MY REGISTRATION ID</a>
+  <!-- Mobile Fullscreen Drawer / Menu with App-like polish -->
+  <div id="nav-mobile-menu" class="hidden md:hidden fixed inset-0 top-0 bg-[#050807] z-[1001] flex flex-col justify-between overflow-y-auto border-t border-white/10" style="padding-top: 76px;">
+    <div class="flex flex-col gap-2.5 pt-2 px-6">
+      <a href="/#hero" class="mobile-nav-link flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:border-[#31d47b]/40 hover:bg-[#31d47b]/10 active:scale-95 transition-all">
+        <div class="flex items-center gap-3">
+          <span class="font-mono text-xs text-[#31D47B] font-bold">01</span>
+          <span class="font-display font-extrabold text-xl text-white tracking-wider">HOME</span>
+        </div>
+        <span class="text-white/40 text-sm">→</span>
+      </a>
+      <a href="/#fixture" class="mobile-nav-link flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:border-[#31d47b]/40 hover:bg-[#31d47b]/10 active:scale-95 transition-all">
+        <div class="flex items-center gap-3">
+          <span class="font-mono text-xs text-[#31D47B] font-bold">02</span>
+          <span class="font-display font-extrabold text-xl text-white tracking-wider">SCHEDULE & VENUE</span>
+        </div>
+        <span class="text-white/40 text-sm">→</span>
+      </a>
+      <a href="/#rules" class="mobile-nav-link flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:border-[#31d47b]/40 hover:bg-[#31d47b]/10 active:scale-95 transition-all">
+        <div class="flex items-center gap-3">
+          <span class="font-mono text-xs text-[#31D47B] font-bold">03</span>
+          <span class="font-display font-extrabold text-xl text-white tracking-wider">RULES & GEAR</span>
+        </div>
+        <span class="text-white/40 text-sm">→</span>
+      </a>
+      <a href="/#process" class="mobile-nav-link flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:border-[#31d47b]/40 hover:bg-[#31d47b]/10 active:scale-95 transition-all">
+        <div class="flex items-center gap-3">
+          <span class="font-mono text-xs text-[#31D47B] font-bold">04</span>
+          <span class="font-display font-extrabold text-xl text-white tracking-wider">SELECTION PROCESS</span>
+        </div>
+        <span class="text-white/40 text-sm">→</span>
+      </a>
+      <a href="/#announcements" class="mobile-nav-link flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:border-[#31d47b]/40 hover:bg-[#31d47b]/10 active:scale-95 transition-all">
+        <div class="flex items-center gap-3">
+          <span class="font-mono text-xs text-[#31D47B] font-bold">05</span>
+          <span class="font-display font-extrabold text-xl text-white tracking-wider">ANNOUNCEMENTS</span>
+        </div>
+        <span class="text-white/40 text-sm">→</span>
+      </a>
+      <a href="/#faq" class="mobile-nav-link flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:border-[#31d47b]/40 hover:bg-[#31d47b]/10 active:scale-95 transition-all">
+        <div class="flex items-center gap-3">
+          <span class="font-mono text-xs text-[#31D47B] font-bold">06</span>
+          <span class="font-display font-extrabold text-xl text-white tracking-wider">FAQ</span>
+        </div>
+        <span class="text-white/40 text-sm">→</span>
+      </a>
+      <a href="/find-id.html" class="mobile-nav-link flex items-center justify-between p-3 rounded-xl bg-[#31D47B]/10 border border-[#31D47B]/30 hover:bg-[#31D47B]/20 active:scale-95 transition-all mt-1">
+        <div class="flex items-center gap-3">
+          <span class="text-base">🔍</span>
+          <span class="font-mono text-sm text-[#31D47B] font-bold tracking-wider">FIND MY REGISTRATION ID</span>
+        </div>
+        <span class="text-[#31D47B] text-sm">→</span>
+      </a>
     </div>
 
-    <div class="pt-6 border-t border-white/10 flex flex-col gap-3">
+    <div class="pt-5 border-t border-white/10 flex flex-col gap-3 pb-6 px-6">
       <div id="nav-mobile-cta-slot">
-        <a href="/register.html" class="btn-primary w-full text-center py-4 text-lg">
+        <a href="/register.html" class="btn-primary w-full text-center py-3.5 text-base tracking-wider font-display font-black shadow-lg shadow-[#31D47B]/20">
           REGISTER FOR TRIALS →
         </a>
       </div>
-      <p class="text-center font-mono text-xs text-[#64716A]">10–11 OCT 2026 • VJTI CRICKET GROUND</p>
+      <div class="flex items-center justify-between font-mono text-[10px] text-[#64716A] px-1">
+        <span>10–11 OCT 2026</span>
+        <span>VJTI CRICKET GROUND</span>
+      </div>
     </div>
   </div>
 </nav>

@@ -29,11 +29,25 @@ export function initNav() {
     toggle.addEventListener("click", () => {
       const isOpen = !menu.classList.contains("hidden");
       if (isOpen) {
+        // Close menu
         menu.classList.add("hidden");
+        toggle.classList.remove("nav-open");
         document.body.style.overflow = "";
+        // Remove solid black background from nav
+        if (nav) {
+          nav.classList.remove("!bg-[#050807]", "!border-white/20");
+          // Restore scroll-based styling
+          onScroll();
+        }
       } else {
+        // Open menu
         menu.classList.remove("hidden");
+        toggle.classList.add("nav-open");
         document.body.style.overflow = "hidden";
+        // Make nav solid black when menu is open
+        if (nav) {
+          nav.classList.add("!bg-[#050807]", "!border-white/20", "backdrop-blur-md", "shadow-xl");
+        }
       }
     });
 
@@ -41,7 +55,14 @@ export function initNav() {
     menu.querySelectorAll(".mobile-nav-link").forEach((link) => {
       link.addEventListener("click", () => {
         menu.classList.add("hidden");
+        toggle.classList.remove("nav-open");
         document.body.style.overflow = "";
+        // Remove solid black background from nav
+        if (nav) {
+          nav.classList.remove("!bg-[#050807]", "!border-white/20");
+          // Restore scroll-based styling
+          onScroll();
+        }
       });
     });
   }

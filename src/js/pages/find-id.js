@@ -116,7 +116,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const local = saved.find((/** @type {any} */ r) => r.reg_no === regNoVal && r.whatsapp === waNormalised);
 
       // 2. Fetch from /api/find-id
-      const res = await fetch("/api/find-id", {
+      const apiUrl = window.location.hostname === 'localhost' 
+        ? 'http://localhost:3001/api/find-id'
+        : '/api/find-id';
+      
+      console.log('🔍 Looking up player via:', apiUrl);
+      console.log('Search criteria:', { reg_no: regNoVal, whatsapp: waNormalised });
+      
+      const res = await fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ reg_no: regNoVal, whatsapp: waNormalised })

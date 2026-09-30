@@ -289,6 +289,109 @@ body {
 }
 
 /* ────────────────────────────────────────────────
+   NAVIGATION MOBILE HAMBURGER MENU
+──────────────────────────────────────────────── */
+
+/* Nav bar - highest z-index (above film grain at 999) */
+#vjti-main-nav {
+  z-index: 1000;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Ensure hamburger button stays visible on scroll (above nav) */
+#nav-mobile-toggle {
+  position: relative;
+  z-index: 1050;
+  flex-shrink: 0;
+}
+
+/* Mobile menu overlay (between nav and hamburger) */
+#nav-mobile-menu {
+  z-index: 1001 !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background-color: #050807 !important;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Hamburger animation */
+.nav-open .line-top {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-open .line-mid {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.nav-open .line-bot {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Force solid black background when menu is open */
+#vjti-main-nav.nav-menu-open,
+#vjti-main-nav:has(#nav-mobile-menu:not(.hidden)) {
+  background-color: #050807 !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Force hamburger button visibility on all backgrounds */
+#nav-mobile-toggle {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+#nav-mobile-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+#nav-mobile-toggle:active {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Ensure hamburger lines are always visible */
+.hamburger-line {
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Prevent body scroll when menu is open */
+body:has(#nav-mobile-menu:not(.hidden)) {
+  overflow: hidden !important;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+/* Add smooth transitions */
+#nav-mobile-menu {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+#nav-mobile-menu.hidden {
+  display: none !important;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+}
+
+#nav-mobile-menu:not(.hidden) {
+  display: flex !important;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ────────────────────────────────────────────────
    REGISTRATION FORM COMPONENTS
 ──────────────────────────────────────────────── */
 
@@ -355,10 +458,42 @@ body {
   color: #F4F1E8;
   font-size: 1rem;
   font-family: inherit;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
   outline: none;
   -webkit-appearance: none;
   appearance: none;
+}
+
+/* Select-specific styling */
+.form-select {
+  padding-right: 2.5rem;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23A7B2AC' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 12px;
+}
+
+.form-select:hover {
+  background-color: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.16);
+}
+
+/* Dropdown options styling */
+.form-select option {
+  background-color: #0B120E;
+  color: #F4F1E8;
+  padding: 0.75rem;
+  border: none;
+}
+
+.form-select option:hover,
+.form-select option:focus,
+.form-select option:checked {
+  background-color: #159957;
+  background: linear-gradient(90deg, #159957 0%, #117A46 100%);
+  color: #F4F1E8;
+  font-weight: 600;
 }
 .form-input::placeholder,
 .form-textarea::placeholder {
@@ -387,14 +522,47 @@ body {
   cursor: not-allowed;
 }
 
-/* Select chevron */
+/* Select chevron (kept for backwards compatibility if used in HTML) */
 .select-chevron {
   position: absolute;
   right: 1rem;
   top: 50%;
   transform: translateY(-50%);
-  color: #A7B2AC;
+  color: #31D47B;
   pointer-events: none;
+  font-size: 0.875rem;
+  opacity: 0.8;
+}
+
+/* Dropdown native styling improvements */
+.form-select::-ms-expand {
+  display: none; /* Remove default arrow in IE/Edge */
+}
+
+/* Firefox dropdown styling */
+@supports (-moz-appearance: none) {
+  .form-select {
+    scrollbar-width: thin;
+    scrollbar-color: #31D47B #0B120E;
+  }
+}
+
+/* Webkit browsers dropdown styling */
+.form-select::-webkit-scrollbar {
+  width: 8px;
+}
+
+.form-select::-webkit-scrollbar-track {
+  background: #0B120E;
+}
+
+.form-select::-webkit-scrollbar-thumb {
+  background: #31D47B;
+  border-radius: 4px;
+}
+
+.form-select::-webkit-scrollbar-thumb:hover {
+  background: #3ef08d;
 }
 
 /* Textarea */
@@ -676,5 +844,122 @@ body {
   color: #64716A;
   font-family: var(--font-mono);
   letter-spacing: 0.05em;
+}
+
+/* ────────────────────────────────────────────────
+   CLOUDFLARE TURNSTILE WIDGET STYLING
+──────────────────────────────────────────────── */
+
+/* Turnstile container */
+#turnstile-widget {
+  min-height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 0.75rem;
+  transition: border-color 0.3s;
+}
+
+#turnstile-widget:has(iframe) {
+  border-color: rgba(49, 212, 123, 0.2);
+}
+
+/* Hide/style Turnstile iframe elements */
+.cf-turnstile {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.cf-turnstile iframe {
+  border-radius: 0.5rem !important;
+  overflow: hidden;
+}
+
+/* Override Turnstile's default white background for dark theme */
+.cf-turnstile > div {
+  background: transparent !important;
+}
+
+/* Style the troubleshoot link if it appears */
+.cf-turnstile a,
+.cf-turnstile a:link,
+.cf-turnstile a:visited {
+  color: #31D47B !important;
+  text-decoration: none !important;
+  font-size: 0.75rem !important;
+  font-family: var(--font-mono) !important;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.cf-turnstile a:hover {
+  opacity: 1;
+  text-decoration: underline !important;
+}
+
+/* Hide Turnstile branding/shadow if present */
+.cf-turnstile > div > div {
+  box-shadow: none !important;
+}
+
+/* Ensure dark theme is applied */
+[data-theme="dark"] .cf-turnstile {
+  filter: brightness(0.95) contrast(1.1);
+}
+
+/* Hide the "For testing only" message in development */
+.cf-turnstile::after {
+  display: none !important;
+}
+
+/* Target the actual Turnstile widget inner elements */
+.cf-turnstile > div,
+.cf-turnstile iframe {
+  background: transparent !important;
+}
+
+/* Hide any white backgrounds from Turnstile */
+.cf-turnstile * {
+  background-color: transparent !important;
+}
+
+/* Specific targeting for the success message and container */
+.cf-turnstile div[style*="background"] {
+  background: rgba(11, 18, 14, 0.9) !important;
+  border: 1px solid rgba(49, 212, 123, 0.3) !important;
+  border-radius: 0.5rem !important;
+}
+
+/* Style the checkbox/success icon area */
+.cf-turnstile svg,
+.cf-turnstile img {
+  filter: brightness(0.9) !important;
+}
+
+/* Development/test message styling */
+.cf-turnstile small,
+.cf-turnstile span[style*="font-size"] {
+  color: #64716A !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.65rem !important;
+  background: transparent !important;
+}
+
+/* Force dark backgrounds on all Turnstile children */
+#turnstile-widget * {
+  border-color: rgba(49, 212, 123, 0.2) !important;
+}
+
+/* Override inline styles */
+#turnstile-widget [style*="background-color: rgb(255, 255, 255)"],
+#turnstile-widget [style*="background-color: white"],
+#turnstile-widget [style*="background: rgb(255, 255, 255)"],
+#turnstile-widget [style*="background: white"] {
+  background-color: #0B120E !important;
+  background: #0B120E !important;
 }
 
