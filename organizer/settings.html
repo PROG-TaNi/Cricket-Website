@@ -114,7 +114,7 @@
       <h2 class="font-mono text-xs uppercase tracking-widest text-[#31D47B]">Security & Account</h2>
       
       <form id="change-password-form" class="space-y-4 text-xs font-mono">
-        <div>
+        <div class="relative">
           <label for="current-password" class="block text-[#A7B2AC] mb-1">Current Password</label>
           <input 
             type="password" 
@@ -122,12 +122,18 @@
             required
             minlength="8"
             placeholder="Enter current password" 
-            class="w-full bg-[#07100B] border border-white/15 rounded-xl px-3.5 py-2.5 text-white focus:border-[#31D47B] outline-none"
+            class="w-full bg-[#07100B] border border-white/15 rounded-xl px-3.5 py-2.5 pr-10 text-white focus:border-[#31D47B] outline-none"
           />
+          <button type="button" class="password-toggle-btn absolute right-3 top-[34px] text-[#A7B2AC] hover:text-white transition-colors" data-target="current-password">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+          </button>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
+          <div class="relative">
             <label for="new-password-settings" class="block text-[#A7B2AC] mb-1">New Password</label>
             <input 
               type="password" 
@@ -135,10 +141,16 @@
               required
               minlength="8"
               placeholder="Min. 8 characters" 
-              class="w-full bg-[#07100B] border border-white/15 rounded-xl px-3.5 py-2.5 text-white focus:border-[#31D47B] outline-none"
+              class="w-full bg-[#07100B] border border-white/15 rounded-xl px-3.5 py-2.5 pr-10 text-white focus:border-[#31D47B] outline-none"
             />
+            <button type="button" class="password-toggle-btn absolute right-3 top-[34px] text-[#A7B2AC] hover:text-white transition-colors" data-target="new-password-settings">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+            </button>
           </div>
-          <div>
+          <div class="relative">
             <label for="confirm-password" class="block text-[#A7B2AC] mb-1">Confirm New Password</label>
             <input 
               type="password" 
@@ -146,8 +158,14 @@
               required
               minlength="8"
               placeholder="Re-enter password" 
-              class="w-full bg-[#07100B] border border-white/15 rounded-xl px-3.5 py-2.5 text-white focus:border-[#31D47B] outline-none"
+              class="w-full bg-[#07100B] border border-white/15 rounded-xl px-3.5 py-2.5 pr-10 text-white focus:border-[#31D47B] outline-none"
             />
+            <button type="button" class="password-toggle-btn absolute right-3 top-[34px] text-[#A7B2AC] hover:text-white transition-colors" data-target="confirm-password">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+            </button>
           </div>
         </div>
 
