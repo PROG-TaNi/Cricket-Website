@@ -1412,3 +1412,21 @@ dialog#legacy-lightbox[open] {
 .haptic-feedback {
   animation: haptic-pulse 0.2s ease-in-out;
 }
+
+/* Utility: Hide scrollbar while maintaining scroll functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
+}
+
+/* Organizer Dashboard enhancements */
+@media (min-width: 1024px) {
+  .org-nav-container {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}

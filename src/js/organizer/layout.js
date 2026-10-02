@@ -56,33 +56,83 @@ export async function initOrganizerLayout(currentPath) {
 
   headerContainer.innerHTML = `
     <header class="border-b border-white/10 bg-[#07100B]/95 backdrop-blur-md sticky top-0 z-40">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-          
-          <!-- Left: Brand & Title -->
-          <div class="flex items-center gap-3">
-            <a href="/organizer/index.html" class="flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-full bg-white p-0.5 flex items-center justify-center border border-white/20 overflow-hidden">
-                <img src="/brand/vjti-logo.png" alt="VJTI Logo" class="w-full h-full object-contain rounded-full" width="32" height="32" />
+      <!-- Top Bar -->
+      <div class="border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex items-center justify-between h-14">
+            
+            <!-- Left: Brand -->
+            <a href="/organizer/index.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+              <div class="w-9 h-9 rounded-full bg-white p-0.5 flex items-center justify-center border border-white/20 overflow-hidden shadow-lg">
+                <img src="/brand/vjti-logo.png" alt="VJTI Logo" class="w-full h-full object-contain rounded-full" width="36" height="36" />
               </div>
-              <div class="leading-none">
-                <span class="font-display font-black text-lg tracking-wide text-white block">VJTI CRICKET</span>
-                <span class="font-mono text-[9px] uppercase tracking-widest text-[#31D47B]">Ops Dashboard</span>
+              <div class="leading-tight">
+                <span class="font-display font-black text-xl tracking-wide text-white block">VJTI CRICKET</span>
+                <span class="font-mono text-[10px] uppercase tracking-[0.2em] text-[#31D47B]">Ops Dashboard</span>
               </div>
             </a>
-          </div>
 
-          <!-- Center: Desktop Nav Tabs -->
-          <nav class="hidden lg:flex items-center gap-1" aria-label="Organizer tabs">
+            <!-- Right: Session info & Actions -->
+            <div class="flex items-center gap-4">
+              <div class="hidden md:flex items-center gap-3 px-4 py-2 bg-white/5 rounded-lg border border-white/10">
+                <div class="flex flex-col text-right">
+                  <span class="font-mono text-sm font-semibold text-white">${session.email.split("@")[0]}</span>
+                  <span class="font-mono text-[10px] text-[#A7B2AC] tracking-wider uppercase">${session.role || "Organizer"}</span>
+                </div>
+                <div class="w-2 h-2 rounded-full bg-[#31D47B] animate-pulse"></div>
+              </div>
+              
+              <a 
+                href="/" 
+                target="_blank"
+                class="hidden sm:inline-flex items-center gap-2 px-4 py-2 text-sm font-mono font-medium text-[#A7B2AC] hover:text-white border border-white/10 rounded-lg hover:bg-white/5 transition-all hover:border-white/20"
+                title="View Public Site"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+                <span>Public</span>
+              </a>
+
+              <button 
+                id="org-logout-btn" 
+                type="button" 
+                class="px-4 py-2 text-sm font-mono font-medium text-[#ff6b6b] hover:bg-[#ff6b6b]/10 border border-[#ff6b6b]/30 rounded-lg transition-all hover:border-[#ff6b6b]/50"
+                title="Sign Out"
+              >
+                Logout
+              </button>
+
+              <!-- Mobile Hamburger Button -->
+              <button 
+                id="org-mobile-menu-btn" 
+                type="button" 
+                class="lg:hidden p-2 text-[#A7B2AC] hover:text-white transition-colors"
+                aria-label="Toggle Navigation"
+              >
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Bar -->
+      <div class="hidden lg:block">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <nav class="flex items-center gap-2 py-3 overflow-x-auto scrollbar-hide" aria-label="Organizer tabs">
             ${NAV_ITEMS.map((item) => {
               const isActive = currentNormalized.endsWith(item.href) || (item.href.endsWith("index.html") && currentNormalized.endsWith("/organizer"));
               return `
                 <a 
                   href="${item.href}" 
-                  class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-colors flex items-center gap-1.5 ${
+                  class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-mono font-medium whitespace-nowrap transition-all ${
                     isActive 
-                      ? "bg-[#31D47B]/15 text-[#31D47B] border border-[#31D47B]/30" 
-                      : "text-[#A7B2AC] hover:text-white hover:bg-white/5"
+                      ? "bg-[#31D47B]/15 text-[#31D47B] border border-[#31D47B]/30 shadow-sm" 
+                      : "text-[#A7B2AC] hover:text-white hover:bg-white/5 border border-transparent hover:border-white/10"
                   }"
                   ${isActive ? 'aria-current="page"' : ""}
                 >
@@ -92,70 +142,44 @@ export async function initOrganizerLayout(currentPath) {
               `;
             }).join("")}
           </nav>
-
-          <!-- Right: Session info, public link, logout -->
-          <div class="flex items-center gap-3">
-            <div class="hidden sm:flex flex-col text-right">
-              <span class="font-mono text-xs text-white">${session.email.split("@")[0]}</span>
-              <span class="font-mono text-[9px] text-[#A7B2AC]">${session.role || "Organizer"}</span>
-            </div>
-            
-            <a 
-              href="/" 
-              target="_blank"
-              class="hidden sm:inline-flex items-center gap-1 px-2.5 py-1 text-xs font-mono text-[#A7B2AC] hover:text-white border border-white/10 rounded-lg hover:bg-white/5 transition-colors"
-              title="View Public Site"
-            >
-              <span>Public Site</span>
-              <span class="text-[10px]">↗</span>
-            </a>
-
-            <button 
-              id="org-logout-btn" 
-              type="button" 
-              class="px-2.5 py-1 text-xs font-mono text-[#ff6b6b] hover:bg-[#ff6b6b]/10 border border-[#ff6b6b]/30 rounded-lg transition-colors"
-              title="Sign Out"
-            >
-              Logout
-            </button>
-
-            <!-- Mobile Hamburger Button -->
-            <button 
-              id="org-mobile-menu-btn" 
-              type="button" 
-              class="lg:hidden p-2 text-[#A7B2AC] hover:text-white"
-              aria-label="Toggle Navigation"
-            >
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-              </svg>
-            </button>
-          </div>
-
         </div>
       </div>
 
       <!-- Mobile Navigation Drawer -->
-      <div id="org-mobile-drawer" class="hidden lg:hidden border-t border-white/10 bg-[#07100B] px-4 py-3 space-y-1">
-        ${NAV_ITEMS.map((item) => {
-          const isActive = currentNormalized.endsWith(item.href) || (item.href.endsWith("index.html") && currentNormalized.endsWith("/organizer"));
-          return `
-            <a 
-              href="${item.href}" 
-              class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-mono ${
-                isActive 
-                  ? "bg-[#31D47B]/15 text-[#31D47B]" 
-                  : "text-[#A7B2AC] hover:text-white hover:bg-white/5"
-              }"
-            >
-              ${getNavIcon(item.iconName)}
-              <span>${item.label}</span>
-            </a>
-          `;
-        }).join("")}
-        <div class="pt-2 border-t border-white/10 flex justify-between items-center px-1">
-          <a href="/" target="_blank" class="text-xs font-mono text-[#31D47B]">← Public Website</a>
-          <span class="text-xs font-mono text-[#A7B2AC]">${session.email}</span>
+      <div id="org-mobile-drawer" class="hidden lg:hidden border-t border-white/10 bg-[#0B120E] px-4 py-4">
+        <div class="space-y-1.5 mb-4">
+          ${NAV_ITEMS.map((item) => {
+            const isActive = currentNormalized.endsWith(item.href) || (item.href.endsWith("index.html") && currentNormalized.endsWith("/organizer"));
+            return `
+              <a 
+                href="${item.href}" 
+                class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-mono font-medium transition-all ${
+                  isActive 
+                    ? "bg-[#31D47B]/15 text-[#31D47B] border border-[#31D47B]/30" 
+                    : "text-[#A7B2AC] hover:text-white hover:bg-white/5 border border-transparent"
+                }"
+              >
+                ${getNavIcon(item.iconName)}
+                <span>${item.label}</span>
+              </a>
+            `;
+          }).join("")}
+        </div>
+        
+        <div class="pt-4 border-t border-white/10 space-y-3">
+          <div class="flex items-center justify-between px-4 py-3 bg-white/5 rounded-lg">
+            <div>
+              <div class="font-mono text-sm font-semibold text-white">${session.email.split("@")[0]}</div>
+              <div class="font-mono text-[10px] text-[#A7B2AC] uppercase tracking-wider">${session.role || "Organizer"}</div>
+            </div>
+            <div class="w-2 h-2 rounded-full bg-[#31D47B] animate-pulse"></div>
+          </div>
+          <a href="/" target="_blank" class="flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-mono text-[#31D47B] border border-[#31D47B]/30 rounded-lg hover:bg-[#31D47B]/5 transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+            <span>View Public Website</span>
+          </a>
         </div>
       </div>
     </header>
