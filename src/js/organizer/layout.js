@@ -5,6 +5,7 @@
  */
 
 import { getOrganizerSession, logoutOrganizer } from "./auth.js";
+import { initMobileEnhancements } from "./mobile-enhancements.js";
 
 /**
  * Get SVG icon for navigation items
@@ -172,4 +173,7 @@ export async function initOrganizerLayout(currentPath) {
   mobileBtn?.addEventListener("click", () => {
     mobileDrawer?.classList.toggle("hidden");
   });
+
+  // Initialize mobile enhancements
+  initMobileEnhancements();
 }

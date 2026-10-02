@@ -1048,3 +1048,367 @@ dialog#legacy-lightbox[open] {
     transform: scale(1);
   }
 }
+
+
+/* ===================================================================
+   ORGANIZER MOBILE-FIRST OPTIMIZATIONS
+   =================================================================== */
+
+/* Mobile-optimized navigation for organizer */
+@media (max-width: 1023px) {
+  /* Larger tap targets for mobile */
+  #org-header nav a,
+  #org-header button {
+    min-height: 44px;
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+
+  /* Mobile drawer improvements */
+  #org-mobile-drawer {
+    padding-top: 80px !important;
+  }
+
+  #org-mobile-drawer a {
+    min-height: 56px;
+    font-size: 16px;
+    padding: 16px;
+  }
+}
+
+/* Glass panel improvements for mobile */
+@media (max-width: 768px) {
+  .glass-panel {
+    padding: 16px !important;
+  }
+
+  /* Larger buttons on mobile */
+  .btn-primary,
+  .btn-secondary,
+  .btn-ghost {
+    min-height: 48px;
+    font-size: 16px;
+    padding: 14px 20px;
+  }
+
+  /* Make cards more touch-friendly */
+  .glass-panel {
+    border-radius: 16px !important;
+  }
+
+  /* Better spacing for mobile cards */
+  main > .space-y-6 > * + *,
+  main > .space-y-8 > * + * {
+    margin-top: 20px !important;
+  }
+}
+
+/* Mobile table optimizations */
+@media (max-width: 640px) {
+  /* Stack table cells vertically on mobile */
+  table.mobile-stack thead {
+    display: none;
+  }
+
+  table.mobile-stack tbody tr {
+    display: block;
+    margin-bottom: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  table.mobile-stack tbody td {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0 !important;
+    border: none !important;
+    text-align: right;
+  }
+
+  table.mobile-stack tbody td:before {
+    content: attr(data-label);
+    font-weight: bold;
+    text-align: left;
+    color: #A7B2AC;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
+
+/* Sticky action buttons on mobile */
+@media (max-width: 768px) {
+  .mobile-sticky-actions {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #050807;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px 16px;
+    z-index: 100;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Ground Mode mobile optimizations */
+@media (max-width: 768px) {
+  /* Larger scan area for QR codes */
+  #qr-video {
+    min-height: 300px;
+  }
+
+  /* Bigger manual input */
+  #manual-id-input {
+    font-size: 18px;
+    min-height: 56px;
+    padding: 16px;
+  }
+
+  /* Candidate card mobile optimization */
+  #candidate-card {
+    padding: 20px;
+  }
+
+  #candidate-card .text-xs {
+    font-size: 14px;
+  }
+
+  #candidate-card .text-sm {
+    font-size: 16px;
+  }
+
+  /* Check-in buttons bigger on mobile */
+  #candidate-card button {
+    min-height: 52px;
+    font-size: 16px;
+    font-weight: 700;
+  }
+}
+
+/* Desk (Selectors) mobile optimizations */
+@media (max-width: 768px) {
+  /* Larger sliders on mobile */
+  input[type="range"] {
+    height: 12px;
+    -webkit-appearance: none;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 32px;
+    height: 32px;
+    background: #31D47B;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 32px;
+    height: 32px;
+    background: #31D47B;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  /* Larger score displays */
+  .text-4xl {
+    font-size: 3rem !important;
+  }
+
+  /* Better text area on mobile */
+  textarea {
+    font-size: 16px;
+    min-height: 120px;
+  }
+}
+
+/* Players table mobile optimization */
+@media (max-width: 768px) {
+  /* Horizontal scroll with sticky first column */
+  .table-scroll-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table-scroll-container table {
+    min-width: 600px;
+  }
+
+  /* Sticky first column on mobile */
+  .table-scroll-container table tbody td:first-child,
+  .table-scroll-container table thead th:first-child {
+    position: sticky;
+    left: 0;
+    background: #050807;
+    z-index: 10;
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Mobile filter improvements */
+@media (max-width: 768px) {
+  select,
+  input[type="text"],
+  input[type="search"],
+  input[type="number"] {
+    font-size: 16px; /* Prevents iOS zoom */
+    min-height: 48px;
+    padding: 12px 16px;
+  }
+
+  /* Search input with icon */
+  .relative input[type="search"] {
+    padding-left: 48px;
+  }
+}
+
+/* Bottom navigation for critical actions */
+@media (max-width: 768px) {
+  .mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(5, 8, 7, 0.98);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(49, 212, 123, 0.2);
+    padding: 12px 16px calc(env(safe-area-inset-bottom) + 12px);
+    z-index: 1000;
+    display: flex;
+    gap: 8px;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .mobile-bottom-nav button,
+  .mobile-bottom-nav a {
+    flex: 1;
+    min-height: 52px;
+    border-radius: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  /* Add bottom padding to content to prevent overlap */
+  body:has(.mobile-bottom-nav) main {
+    padding-bottom: calc(80px + env(safe-area-inset-bottom));
+  }
+}
+
+/* Landscape orientation tweaks */
+@media (max-width: 896px) and (orientation: landscape) {
+  /* Reduce vertical padding in landscape */
+  .glass-panel {
+    padding: 12px !important;
+  }
+
+  /* Compact headers */
+  h1 {
+    font-size: 2rem !important;
+  }
+
+  h2 {
+    font-size: 1.5rem !important;
+  }
+
+  /* Hide non-essential elements in landscape */
+  .hide-landscape {
+    display: none !important;
+  }
+}
+
+/* iOS safe area support */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  .mobile-bottom-nav {
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+}
+
+/* Improved touch feedback */
+@media (hover: none) and (pointer: coarse) {
+  button:active,
+  a:active,
+  .btn-primary:active,
+  .btn-secondary:active {
+    transform: scale(0.97);
+    opacity: 0.9;
+  }
+
+  /* Larger checkbox and radio buttons */
+  input[type="checkbox"],
+  input[type="radio"] {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* Font size adjustments for mobile readability */
+@media (max-width: 768px) {
+  /* Minimum font sizes for readability */
+  .text-xs {
+    font-size: 13px !important;
+  }
+
+  .text-sm {
+    font-size: 15px !important;
+  }
+
+  .text-base {
+    font-size: 17px !important;
+  }
+
+  /* Headings */
+  .text-lg {
+    font-size: 19px !important;
+  }
+
+  .text-xl {
+    font-size: 21px !important;
+  }
+
+  .text-2xl {
+    font-size: 26px !important;
+  }
+
+  .text-3xl {
+    font-size: 32px !important;
+  }
+
+  /* Mono font needs to be slightly smaller */
+  .font-mono {
+    font-size: 0.95em;
+  }
+}
+
+/* Loading states for mobile */
+.mobile-loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  background: rgba(5, 8, 7, 0.95);
+  padding: 24px 32px;
+  border-radius: 16px;
+  border: 1px solid rgba(49, 212, 123, 0.3);
+}
+
+/* Haptic feedback indicator */
+@keyframes haptic-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.95); }
+}
+
+.haptic-feedback {
+  animation: haptic-pulse 0.2s ease-in-out;
+}
