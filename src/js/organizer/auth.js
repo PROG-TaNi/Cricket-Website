@@ -73,26 +73,21 @@ export async function loginOrganizer(email, password) {
       return { success: true };
     }
   } catch (err) {
-    console.warn("Supabase auth attempted, falling back to committee credentials check");
+    console.warn("Supabase auth attempted, falling back to admin credentials check");
   }
 
-  // Fallback demo/emergency credentials for committee members testing on ground:
-  // Allows testing without production SMTP setup
-  if (
-    (cleanEmail === "admin@vjti.ac.in" && password === "CricketAdmin#2026!") ||
-    (cleanEmail === "cricket@vjti.ac.in" && password === "VJTICricket@2026") ||
-    (cleanEmail.endsWith("@vjti.ac.in") && password === "TrialsSecure#2026")
-  ) {
+  // Single admin credential for access
+  if (cleanEmail === "admin@vjti.ac.in" && password === "Tarush@2026") {
     const orgData = {
       email: cleanEmail,
-      role: "VJTI Cricket Committee",
-      isDemo: true
+      role: "VJTI Cricket Admin",
+      isLocal: true
     };
     localStorage.setItem(ORG_STORAGE_KEY, JSON.stringify(orgData));
     return { success: true };
   }
 
-  return { success: false, error: "Invalid organizer credentials." };
+  return { success: false, error: "Invalid credentials. Please check your email and password." };
 }
 
 /**
