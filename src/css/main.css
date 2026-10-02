@@ -1445,3 +1445,86 @@ dialog#legacy-lightbox[open] {
     overflow-x: auto;
   }
 }
+
+
+/* ===================================================================
+   CONGRATULATIONS ANIMATIONS
+   =================================================================== */
+
+/* Confetti animation for congratulations */
+.confetti-piece {
+  position: absolute;
+  width: 8px;
+  height: 16px;
+  background: linear-gradient(135deg, #31D47B, #D4FF52);
+  top: -20px;
+  opacity: 0;
+  animation: confetti-fall 3s ease-in infinite;
+  border-radius: 2px;
+}
+
+.confetti-piece:nth-child(2n) {
+  width: 10px;
+  height: 10px;
+  background: linear-gradient(135deg, #D4FF52, #31D47B);
+}
+
+.confetti-piece:nth-child(3n) {
+  width: 6px;
+  height: 20px;
+  background: linear-gradient(135deg, #F4F1E8, #A7B2AC);
+}
+
+@keyframes confetti-fall {
+  0% {
+    opacity: 1;
+    transform: translateY(0) rotateZ(0deg);
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100vh) rotateZ(720deg);
+  }
+}
+
+/* Slow bounce animation */
+.animate-bounce-slow {
+  animation: bounce-slow 2s ease-in-out infinite;
+}
+
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Slow pulse animation */
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.05);
+  }
+}
+
+/* Gradient shimmer effect */
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
