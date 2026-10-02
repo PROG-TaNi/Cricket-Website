@@ -121,27 +121,32 @@ export async function initOrganizerLayout(currentPath) {
       </div>
 
       <!-- Navigation Bar -->
-      <div class="hidden lg:block">
+      <div class="hidden lg:block relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <nav class="flex items-center gap-2 py-3 overflow-x-auto scrollbar-hide" aria-label="Organizer tabs">
-            ${NAV_ITEMS.map((item) => {
-              const isActive = currentNormalized.endsWith(item.href) || (item.href.endsWith("index.html") && currentNormalized.endsWith("/organizer"));
-              return `
-                <a 
-                  href="${item.href}" 
-                  class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-mono font-medium whitespace-nowrap transition-all ${
-                    isActive 
-                      ? "bg-[#31D47B]/15 text-[#31D47B] border border-[#31D47B]/30 shadow-sm" 
-                      : "text-[#A7B2AC] hover:text-white hover:bg-white/5 border border-transparent hover:border-white/10"
-                  }"
-                  ${isActive ? 'aria-current="page"' : ""}
-                >
-                  ${getNavIcon(item.iconName)}
-                  <span>${item.label}</span>
-                </a>
-              `;
-            }).join("")}
-          </nav>
+          <div class="relative">
+            <nav class="flex items-center gap-2 py-3 overflow-x-auto scrollbar-hide scroll-smooth" id="org-nav-tabs" aria-label="Organizer tabs">
+              ${NAV_ITEMS.map((item) => {
+                const isActive = currentNormalized.endsWith(item.href) || (item.href.endsWith("index.html") && currentNormalized.endsWith("/organizer"));
+                return `
+                  <a 
+                    href="${item.href}" 
+                    class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-mono font-medium whitespace-nowrap transition-all ${
+                      isActive 
+                        ? "bg-[#31D47B]/15 text-[#31D47B] border border-[#31D47B]/30 shadow-sm" 
+                        : "text-[#A7B2AC] hover:text-white hover:bg-white/5 border border-transparent hover:border-white/10"
+                    }"
+                    ${isActive ? 'aria-current="page"' : ""}
+                  >
+                    ${getNavIcon(item.iconName)}
+                    <span>${item.label}</span>
+                  </a>
+                `;
+              }).join("")}
+            </nav>
+            <!-- Scroll fade indicators -->
+            <div class="absolute top-0 right-0 bottom-0 w-20 bg-gradient-to-l from-[#07100B] to-transparent pointer-events-none" id="scroll-fade-right"></div>
+            <div class="absolute top-0 left-0 bottom-0 w-20 bg-gradient-to-r from-[#07100B] to-transparent pointer-events-none hidden" id="scroll-fade-left"></div>
+          </div>
         </div>
       </div>
 
@@ -240,6 +245,45 @@ export async function initOrganizerLayout(currentPath) {
         mobileDrawer.classList.add("hidden");
       });
     });
+  }
+
+  // Handle horizontal scroll indicators for navigation tabs
+  const navTabs = document.getElementById("org-nav-tabs");
+  const fadeLeft = document.getElementById("scroll-fade-left");
+  const fadeRight = document.getElementById("scroll-fade-right");
+  
+  if (navTabs && fadeLeft && fadeRight) {
+    const updateScrollIndicators = () => {
+      const scrollLeft = navTabs.scrollLeft;
+      const scrollWidth = navTabs.scrollWidth;
+      const clientWidth = navTabs.clientWidth;
+      
+      // Show left fade if scrolled right
+      if (scrollLeft > 10) {
+        fadeLeft.classList.remove("hidden");
+      } else {
+        fadeLeft.classList.add("hidden");
+      }
+      
+      // Show right fade if not scrolled to end
+      if (scrollLeft + clientWidth < scrollWidth - 10) {
+        fadeRight.classList.remove("hidden");
+      } else {
+        fadeRight.classList.add("hidden");
+      }
+    };
+    
+    navTabs.addEventListener("scroll", updateScrollIndicators);
+    window.addEventListener("resize", updateScrollIndicators);
+    updateScrollIndicators(); // Initial check
+    
+    // Add scroll hint animation on first load
+    setTimeout(() => {
+      if (navTabs.scrollWidth > navTabs.clientWidth) {
+        // Pulse animation for right fade to indicate more content
+        fadeRight.style.animation = "pulse 2s ease-in-out 3";
+      }
+    }, 500);
   }
 
   // Initialize mobile enhancements
