@@ -205,6 +205,10 @@ export default defineConfig({
         register: resolve(__dirname, "register.html"),
         findId: resolve(__dirname, "find-id.html"),
         squad: resolve(__dirname, "squad.html"),
+        schedule: resolve(__dirname, "schedule.html"),
+        rules: resolve(__dirname, "rules.html"),
+        selection: resolve(__dirname, "selection.html"),
+        announcements: resolve(__dirname, "announcements.html"),
         privacy: resolve(__dirname, "privacy.html"),
         notFound: resolve(__dirname, "404.html"),
         styleguide: resolve(__dirname, "styleguide.html"),
@@ -214,6 +218,7 @@ export default defineConfig({
         orgTrials: resolve(__dirname, "organizer/trials.html"),
         orgGround: resolve(__dirname, "organizer/ground.html"),
         orgDesk: resolve(__dirname, "organizer/desk.html"),
+        orgShortlist: resolve(__dirname, "organizer/shortlist.html"),
         orgAnnouncements: resolve(__dirname, "organizer/announcements.html"),
         orgAnalytics: resolve(__dirname, "organizer/analytics.html"),
         orgSettings: resolve(__dirname, "organizer/settings.html")
