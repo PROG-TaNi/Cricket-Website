@@ -129,8 +129,12 @@ async function removeFromShortlist(registrationId) {
  * Load shortlisted players
  */
 async function loadShortlistedPlayers() {
+  console.log('📋 Loading shortlisted players...');
   const allPlayers = await getPlayers();
+  console.log('📊 Total players:', allPlayers.length);
+  
   shortlistedPlayers = allPlayers.filter((p) => p.status === "shortlisted" || p.status === "selected");
+  console.log('⭐ Shortlisted players:', shortlistedPlayers.length, shortlistedPlayers.map(p => p.full_name));
   
   updateKPIs();
   renderTable();
@@ -251,4 +255,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   await loadShortlistedPlayers();
 
   releaseSquadBtn?.addEventListener("click", releaseSquad);
+  
+  // Refresh button
+  document.getElementById("refresh-shortlist-btn")?.addEventListener("click", async () => {
+    toastMsg("Refreshing shortlist...", "info");
+    await loadShortlistedPlayers();
+  });
 });

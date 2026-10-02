@@ -53,8 +53,8 @@ function loadCandidate(p) {
 
   updateStatusPill(p.status);
 
-  // Set sliders based on rating
-  const baseRating = p.rating || 7.5;
+  // Set sliders based on trial_score
+  const baseRating = p.trial_score || 7.5;
   if (slider1) slider1.value = String(baseRating);
   if (slider2) slider2.value = String(baseRating);
   if (slider3) slider3.value = String(baseRating);
@@ -65,7 +65,7 @@ function loadCandidate(p) {
 
   computeScore();
 
-  if (notesInput) notesInput.value = p.notes || "";
+  if (notesInput) notesInput.value = p.organizer_notes || "";
 }
 
 /**
@@ -110,8 +110,8 @@ async function saveEvaluation(newStatus) {
 
   const score = computeScore();
   const updates = {
-    rating: score,
-    notes: notesInput?.value || "",
+    trial_score: score,  // Changed from 'rating' to 'trial_score'
+    organizer_notes: notesInput?.value || "",  // Changed from 'notes' to 'organizer_notes'
     status: newStatus || currentCandidate.status
   };
 
