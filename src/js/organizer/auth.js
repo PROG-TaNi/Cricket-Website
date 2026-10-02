@@ -57,15 +57,35 @@ export async function getOrganizerSession(requireAuth = true) {
 export async function loginOrganizer(email, password) {
   const cleanEmail = email.trim().toLowerCase();
   
-  // Check admin credential first (immediate access)
-  if (cleanEmail === "admin@vjti.ac.in" && password === "Tarush@2026") {
-    const orgData = {
-      email: cleanEmail,
-      role: "VJTI Cricket Admin",
-      isLocal: true
-    };
-    localStorage.setItem(ORG_STORAGE_KEY, JSON.stringify(orgData));
-    return { success: true };
+  // Check for password override (if admin changed password)
+  if (cleanEmail === "admin@vjti.ac.in") {
+    try {
+      const overrideRaw = localStorage.getItem("vjti_admin_password_override");
+      if (overrideRaw) {
+        const override = JSON.parse(overrideRaw);
+        // Check if new password matches
+        if (password === override.newPassword) {
+          const orgData = {
+            email: cleanEmail,
+            role: "VJTI Cricket Admin",
+            isLocal: true
+          };
+          localStorage.setItem(ORG_STORAGE_KEY, JSON.stringify(orgData));
+          return { success: true };
+        }
+      }
+    } catch (_) {}
+    
+    // Check default admin credential
+    if (password === "Tarush@2026") {
+      const orgData = {
+        email: cleanEmail,
+        role: "VJTI Cricket Admin",
+        isLocal: true
+      };
+      localStorage.setItem(ORG_STORAGE_KEY, JSON.stringify(orgData));
+      return { success: true };
+    }
   }
   
   // Try Supabase Auth for other users
@@ -173,11 +193,43 @@ export async function verifyOTPAndResetPassword(email, otp, newPassword) {
  */
 export async function changePassword(currentPassword, newPassword) {
   try {
-    // Get current session
+    // Check if user is logged in with local/hardcoded credentials
+    const localSession = localStorage.getItem(ORG_STORAGE_KEY);
+    let sessionData = null;
+    
+    try {
+      sessionData = localSession ? JSON.parse(localSession) : null;
+    } catch (_) {}
+    
+    // If using hardcoded credentials (isLocal flag)
+    if (sessionData && sessionData.isLocal && sessionData.email === "admin@vjti.ac.in") {
+      // Verify current password against hardcoded password
+      if (currentPassword !== "Tarush@2026") {
+        return { success: false, error: "Current password is incorrect" };
+      }
+      
+      // For hardcoded credentials, we can't actually change the password
+      // But we can update a local override in localStorage
+      const passwordOverride = {
+        email: "admin@vjti.ac.in",
+        oldPassword: "Tarush@2026",
+        newPassword: newPassword,
+        changedAt: new Date().toISOString()
+      };
+      
+      localStorage.setItem("vjti_admin_password_override", JSON.stringify(passwordOverride));
+      
+      return { 
+        success: true, 
+        message: "Password updated locally. Use the new password on next login." 
+      };
+    }
+    
+    // Try Supabase for other users
     const { data: { session } } = await supabase.auth.getSession();
     
     if (!session?.user?.email) {
-      return { success: false, error: "Not authenticated" };
+      return { success: false, error: "Not authenticated with Supabase" };
     }
 
     // Verify current password by attempting sign in
