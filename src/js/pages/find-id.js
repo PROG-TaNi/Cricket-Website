@@ -51,10 +51,13 @@ async function checkSquadReleased() {
   try {
     // Check localStorage first
     const localStatus = localStorage.getItem("vjti_squad_released");
+    console.log('📦 localStorage squad status:', localStatus);
+    
     if (localStatus) {
       try {
         const parsed = JSON.parse(localStatus);
         if (parsed.released !== undefined) {
+          console.log('✅ Using localStorage squad status:', parsed.released);
           return parsed.released;
         }
       } catch (e) {
@@ -63,6 +66,7 @@ async function checkSquadReleased() {
     }
 
     // Then check Supabase
+    console.log('🔍 Checking Supabase for squad status...');
     const { data, error } = await supabase
       .from("settings")
       .select("value")
@@ -74,7 +78,10 @@ async function checkSquadReleased() {
       return false;
     }
 
-    return data?.value?.released || false;
+    const isReleased = data?.value?.released || false;
+    console.log('✅ Supabase squad status:', isReleased);
+    
+    return isReleased;
   } catch (err) {
     console.error("Exception checking squad status:", err);
     return false;
@@ -400,16 +407,26 @@ document.addEventListener("DOMContentLoaded", () => {
         const json = await res.json();
         const playerData = json.player || json;
         
+        console.log('🎯 Player data received:', playerData);
+        console.log('📊 Player status:', playerData.status);
+        
         // Check if squad is released and player is selected
         const isSquadReleased = await checkSquadReleased();
+        console.log('🏆 Squad released:', isSquadReleased);
+        
         const isSelected = playerData.status === "shortlisted" || playerData.status === "selected";
+        console.log('✅ Player is selected:', isSelected);
         
         if (isSquadReleased && isSelected) {
           // Show congratulations card for selected players
+          console.log('🎉 Showing congratulations card!');
           renderCongratulationsCard(playerData);
           toastMsg("🎉 Congratulations! You're in the squad!", "success");
         } else {
           // Show regular player card
+          console.log('📋 Showing regular player card');
+          if (!isSquadReleased) console.log('⚠️ Squad not released yet');
+          if (!isSelected) console.log('⚠️ Player not selected (status: ' + playerData.status + ')');
           renderPlayerCard(playerData);
           toastMsg("Registration found!", "success");
         }
