@@ -55,7 +55,7 @@ export async function initOrganizerLayout(currentPath) {
   const currentNormalized = currentPath.replace(/\/$/, "");
 
   headerContainer.innerHTML = `
-    <header class="border-b border-white/10 bg-[#07100B]/95 backdrop-blur-md sticky top-0 z-40">
+    <header class="border-b border-white/10 bg-[#07100B]/95 backdrop-blur-md sticky top-0 z-40 relative">
       <!-- Top Bar -->
       <div class="border-b border-white/5">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -146,7 +146,7 @@ export async function initOrganizerLayout(currentPath) {
       </div>
 
       <!-- Mobile Navigation Drawer -->
-      <div id="org-mobile-drawer" class="hidden lg:hidden border-t border-white/10 bg-[#0B120E] px-4 py-4">
+      <div id="org-mobile-drawer" class="hidden lg:hidden border-t border-white/10 bg-[#0B120E] px-4 py-4 absolute left-0 right-0 top-full shadow-2xl z-50">
         <div class="space-y-1.5 mb-4">
           ${NAV_ITEMS.map((item) => {
             const isActive = currentNormalized.endsWith(item.href) || (item.href.endsWith("index.html") && currentNormalized.endsWith("/organizer"));
@@ -194,9 +194,53 @@ export async function initOrganizerLayout(currentPath) {
 
   const mobileBtn = document.getElementById("org-mobile-menu-btn");
   const mobileDrawer = document.getElementById("org-mobile-drawer");
-  mobileBtn?.addEventListener("click", () => {
-    mobileDrawer?.classList.toggle("hidden");
-  });
+  
+  if (mobileBtn && mobileDrawer) {
+    mobileBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const isHidden = mobileDrawer.classList.contains("hidden");
+      
+      if (isHidden) {
+        mobileDrawer.classList.remove("hidden");
+        // Change hamburger to X icon
+        mobileBtn.innerHTML = `
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        `;
+      } else {
+        mobileDrawer.classList.add("hidden");
+        // Change X back to hamburger icon
+        mobileBtn.innerHTML = `
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        `;
+      }
+    });
+
+    // Close drawer when clicking outside
+    document.addEventListener("click", (e) => {
+      if (!mobileDrawer.classList.contains("hidden") && 
+          !mobileDrawer.contains(e.target) && 
+          !mobileBtn.contains(e.target)) {
+        mobileDrawer.classList.add("hidden");
+        mobileBtn.innerHTML = `
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        `;
+      }
+    });
+
+    // Close drawer when navigating to a new page
+    mobileDrawer.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        mobileDrawer.classList.add("hidden");
+      });
+    });
+  }
 
   // Initialize mobile enhancements
   initMobileEnhancements();
