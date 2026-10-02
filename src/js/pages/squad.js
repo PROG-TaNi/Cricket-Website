@@ -22,6 +22,20 @@ const keepersList = document.getElementById("squad-keepers-grid");
  */
 async function checkSquadReleaseStatus() {
   try {
+    // First check localStorage for immediate feedback
+    const localStatus = localStorage.getItem("vjti_squad_released");
+    if (localStatus) {
+      try {
+        const parsed = JSON.parse(localStatus);
+        if (parsed.released !== undefined) {
+          return parsed.released;
+        }
+      } catch (e) {
+        console.warn("Failed to parse local squad status:", e);
+      }
+    }
+
+    // Then check Supabase
     const { data, error } = await supabase
       .from("settings")
       .select("value")
@@ -30,12 +44,33 @@ async function checkSquadReleaseStatus() {
 
     if (error && error.code !== 'PGRST116') {
       console.error("Error checking squad status:", error);
-      return false;
+      // Fall back to localStorage
+      return localStatus ? JSON.parse(localStatus).released : false;
     }
 
-    return data?.value?.released || false;
+    const isReleased = data?.value?.released || false;
+    
+    // Sync with localStorage
+    localStorage.setItem("vjti_squad_released", JSON.stringify({
+      released: isReleased,
+      timestamp: data?.value?.timestamp || new Date().toISOString()
+    }));
+
+    return isReleased;
   } catch (err) {
     console.error("Exception checking squad status:", err);
+    
+    // Fallback to localStorage
+    const localStatus = localStorage.getItem("vjti_squad_released");
+    if (localStatus) {
+      try {
+        const parsed = JSON.parse(localStatus);
+        return parsed.released || false;
+      } catch (e) {
+        return false;
+      }
+    }
+    
     return false;
   }
 }

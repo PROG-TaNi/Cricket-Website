@@ -155,7 +155,8 @@ INSERT INTO settings (key, value) VALUES
     ('registration_open', 'true'::jsonb),
     ('trial_dates', '{"start": "2026-10-10", "end": "2026-10-11"}'::jsonb),
     ('whatsapp_group_url', '""'::jsonb),
-    ('organizer_email', '""'::jsonb)
+    ('organizer_email', '""'::jsonb),
+    ('squad_released', '{"released": false}'::jsonb)
 ON CONFLICT (key) DO NOTHING;
 
 DROP TRIGGER IF EXISTS update_settings_updated_at ON settings;
@@ -198,14 +199,20 @@ CREATE POLICY "Authenticated users manage announcements"
     ON announcements FOR ALL
     USING (auth.role() = 'authenticated');
 
--- Settings - public read, authenticated write
+-- Settings - public read, service role or authenticated write
 CREATE POLICY "Public read settings"
     ON settings FOR SELECT
     USING (true);
 
-CREATE POLICY "Authenticated users manage settings"
+CREATE POLICY "Service role can manage settings"
     ON settings FOR ALL
-    USING (auth.role() = 'authenticated');
+    USING (true)
+    WITH CHECK (true);
+
+CREATE POLICY "Authenticated users can manage settings"
+    ON settings FOR ALL
+    USING (auth.role() = 'authenticated')
+    WITH CHECK (auth.role() = 'authenticated');
 
 
 -- =====================================================================

@@ -17,6 +17,7 @@ let shortlistedPlayers = [];
 const shortlistBody = document.getElementById("shortlist-table-body");
 const shortlistCount = document.getElementById("shortlist-count");
 const releaseSquadBtn = document.getElementById("release-squad-btn");
+const rollbackSquadBtn = document.getElementById("rollback-squad-btn");
 const squadStatusBanner = document.getElementById("squad-status-banner");
 const squadReleasedBanner = document.getElementById("squad-released-banner");
 
@@ -31,6 +32,14 @@ const kpiKeepers = document.getElementById("kpi-keepers");
  */
 async function loadSquadStatus() {
   try {
+    // First check localStorage for immediate feedback
+    const localStatus = localStorage.getItem("vjti_squad_released");
+    if (localStatus) {
+      const parsed = JSON.parse(localStatus);
+      updateSquadStatusUI(parsed.released || false);
+    }
+
+    // Then check Supabase
     const { data, error } = await supabase
       .from("settings")
       .select("value")
@@ -39,14 +48,30 @@ async function loadSquadStatus() {
 
     if (error && error.code !== 'PGRST116') { // PGRST116 = not found
       console.error("Error loading squad status:", error);
-      return false;
+      // Rely on localStorage
+      return localStatus ? JSON.parse(localStatus).released : false;
     }
 
     const isReleased = data?.value?.released || false;
+    
+    // Sync localStorage with Supabase
+    localStorage.setItem("vjti_squad_released", JSON.stringify({
+      released: isReleased,
+      timestamp: data?.value?.timestamp || new Date().toISOString()
+    }));
+    
     updateSquadStatusUI(isReleased);
     return isReleased;
   } catch (err) {
     console.error("Exception loading squad status:", err);
+    
+    // Fallback to localStorage
+    const localStatus = localStorage.getItem("vjti_squad_released");
+    if (localStatus) {
+      const parsed = JSON.parse(localStatus);
+      return parsed.released || false;
+    }
+    
     return false;
   }
 }
@@ -59,19 +84,25 @@ function updateSquadStatusUI(isReleased) {
   if (isReleased) {
     squadStatusBanner?.classList.add("hidden");
     squadReleasedBanner?.classList.remove("hidden");
+    
     if (releaseSquadBtn) {
-      releaseSquadBtn.disabled = true;
-      releaseSquadBtn.classList.add("opacity-50", "cursor-not-allowed");
-      releaseSquadBtn.innerHTML = `
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        <span>SQUAD ALREADY RELEASED</span>
-      `;
+      releaseSquadBtn.classList.add("hidden");
+    }
+    
+    if (rollbackSquadBtn) {
+      rollbackSquadBtn.classList.remove("hidden");
     }
   } else {
     squadStatusBanner?.classList.remove("hidden");
     squadReleasedBanner?.classList.add("hidden");
+    
+    if (releaseSquadBtn) {
+      releaseSquadBtn.classList.remove("hidden");
+    }
+    
+    if (rollbackSquadBtn) {
+      rollbackSquadBtn.classList.add("hidden");
+    }
   }
 }
 
@@ -85,12 +116,27 @@ async function releaseSquad() {
   }
 
   const confirmed = confirm(
-    `Release squad with ${shortlistedPlayers.length} players to the public website?\n\nThis action cannot be undone and the squad will be visible at /squad.html immediately.`
+    `Release squad with ${shortlistedPlayers.length} players to the public website?\n\nThe squad will be visible at /squad.html immediately.`
   );
 
   if (!confirmed) return;
 
   try {
+    // Check if user is authenticated
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    // If not authenticated, use localStorage fallback
+    if (!session) {
+      console.log("⚠️ No Supabase session, using localStorage fallback");
+      localStorage.setItem("vjti_squad_released", JSON.stringify({
+        released: true,
+        timestamp: new Date().toISOString()
+      }));
+      toastMsg("✓ Squad released to public (local mode)", "success");
+      updateSquadStatusUI(true);
+      return;
+    }
+
     // Upsert squad_released setting
     const { error } = await supabase
       .from("settings")
@@ -98,15 +144,92 @@ async function releaseSquad() {
         key: "squad_released",
         value: { released: true, timestamp: new Date().toISOString() },
         updated_at: new Date().toISOString()
+      }, {
+        onConflict: 'key'
       });
 
     if (error) throw error;
+
+    // Also update localStorage for immediate local effect
+    localStorage.setItem("vjti_squad_released", JSON.stringify({
+      released: true,
+      timestamp: new Date().toISOString()
+    }));
 
     toastMsg("✓ Squad released to public successfully!", "success");
     updateSquadStatusUI(true);
   } catch (err) {
     console.error("Error releasing squad:", err);
-    toastMsg("Failed to release squad. Check console.", "error");
+    
+    // Fallback to localStorage if Supabase fails
+    localStorage.setItem("vjti_squad_released", JSON.stringify({
+      released: true,
+      timestamp: new Date().toISOString()
+    }));
+    
+    toastMsg("⚠️ Squad released locally (Supabase sync failed)", "warning");
+    updateSquadStatusUI(true);
+  }
+}
+
+/**
+ * Rollback/unpublish squad from public
+ */
+async function rollbackSquad() {
+  const confirmed = confirm(
+    `Unpublish the squad from the public website?\n\nThe squad will no longer be visible at /squad.html. You can edit and re-release it later.`
+  );
+
+  if (!confirmed) return;
+
+  try {
+    // Check if user is authenticated
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    // If not authenticated, use localStorage fallback
+    if (!session) {
+      console.log("⚠️ No Supabase session, using localStorage fallback");
+      localStorage.setItem("vjti_squad_released", JSON.stringify({
+        released: false,
+        timestamp: new Date().toISOString()
+      }));
+      toastMsg("✓ Squad unpublished (local mode)", "success");
+      updateSquadStatusUI(false);
+      return;
+    }
+
+    // Update squad_released setting
+    const { error } = await supabase
+      .from("settings")
+      .upsert({
+        key: "squad_released",
+        value: { released: false, timestamp: new Date().toISOString() },
+        updated_at: new Date().toISOString()
+      }, {
+        onConflict: 'key'
+      });
+
+    if (error) throw error;
+
+    // Also update localStorage for immediate local effect
+    localStorage.setItem("vjti_squad_released", JSON.stringify({
+      released: false,
+      timestamp: new Date().toISOString()
+    }));
+
+    toastMsg("✓ Squad unpublished successfully. Edit and re-release when ready.", "success");
+    updateSquadStatusUI(false);
+  } catch (err) {
+    console.error("Error rolling back squad:", err);
+    
+    // Fallback to localStorage if Supabase fails
+    localStorage.setItem("vjti_squad_released", JSON.stringify({
+      released: false,
+      timestamp: new Date().toISOString()
+    }));
+    
+    toastMsg("⚠️ Squad unpublished locally (Supabase sync failed)", "warning");
+    updateSquadStatusUI(false);
   }
 }
 
@@ -255,6 +378,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   await loadShortlistedPlayers();
 
   releaseSquadBtn?.addEventListener("click", releaseSquad);
+  rollbackSquadBtn?.addEventListener("click", rollbackSquad);
   
   // Refresh button
   document.getElementById("refresh-shortlist-btn")?.addEventListener("click", async () => {
