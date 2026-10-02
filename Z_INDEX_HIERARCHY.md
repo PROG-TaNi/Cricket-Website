@@ -32,8 +32,26 @@ When hamburger is clicked:
 - Body scroll is disabled (`overflow: hidden`)
 - Nav bar becomes solid black (`!bg-[#050807]`)
 - Hamburger animates to X (close button)
-- Menu shows above all page content
+- Menu shows above **ALL** page content (including hero at z-20)
 - Click X or any nav link to close
+
+## Visual Z-Index Stack
+
+```
+                        ┌─────────────────────────────┐
+                        │  Hamburger (X) - 10001      │  ← Always clickable
+                        ├─────────────────────────────┤
+                        │  Mobile Menu - 10000        │  ← Fullscreen overlay
+                        ├─────────────────────────────┤
+                        │  Nav Bar - 9999             │  ← Top navigation
+                        ├─────────────────────────────┤
+                        │  Film Grain - 999           │  ← Visual texture
+                        ├─────────────────────────────┤
+                        │  Hero Content - 20          │  ← Hero section
+                        ├─────────────────────────────┤
+                        │  Page Content - 0           │  ← Default
+                        └─────────────────────────────┘
+```
 
 ## Testing Checklist
 

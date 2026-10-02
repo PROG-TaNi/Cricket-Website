@@ -18,8 +18,8 @@ export const siteConfig = {
       dayNumber: 1,
       title: "TRIAL DAY 01",
       dayOfWeek: "Saturday",
-      dateFormatted: "10 October 2026",
-      shortDate: "Sat 10 Oct",
+      dateFormatted: "31 October 2026",
+      shortDate: "Sat 31 Oct",
       reportingTime: null, // null -> "TO BE ANNOUNCED"
       status: "upcoming" // upcoming | live | completed
     },
@@ -28,8 +28,8 @@ export const siteConfig = {
       dayNumber: 2,
       title: "TRIAL DAY 02",
       dayOfWeek: "Sunday",
-      dateFormatted: "11 October 2026",
-      shortDate: "Sun 11 Oct",
+      dateFormatted: "1 November 2026",
+      shortDate: "Sun 1 Nov",
       reportingTime: null, // null -> "TO BE ANNOUNCED"
       status: "upcoming"
     }
@@ -44,7 +44,7 @@ export const siteConfig = {
 
   // Dates & Timezone
   timezone: "Asia/Kolkata",
-  countdownTarget: "2026-10-10T00:00:00+05:30",
+  countdownTarget: "2026-10-31T00:00:00+05:30",
   registrationDeadline: null, // null -> "TO BE ANNOUNCED"
 
   // Registration Mode: "native" | "google_form"
@@ -167,8 +167,8 @@ export const siteConfig = {
   carryList: [
     "VJTI ID card, and your Registration ID (screenshot it or save your player card)",
     "Water bottle, cap, sunscreen (long hours on an open ground)",
-    "Helmet and abdomen guard strongly recommended for batters and keepers (leather ball)",
-    "Sports shoes or spikes suitable for grass",
+    "Supporter and abdomen guard strongly recommended for batters and keepers (leather ball)",
+    "Rubber Spike only",
     "Injured or unwell? Tell the committee at check-in. Don't play through it",
     "Keep WhatsApp on. Updates land there first",
     "Play hard, play clean. Respect the selectors, umpires and the ground"

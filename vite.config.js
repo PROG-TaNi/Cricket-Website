@@ -60,6 +60,10 @@ function apiDevPlugin() {
               const { default: handler } = await import("./api/find-id.js");
               return handler(vercelReq, vercelRes);
             }
+            if (cleanUrl === "/api/stats") {
+              const { default: handler } = await import("./api/stats.js");
+              return handler(vercelReq, vercelRes);
+            }
             next();
           } catch (err) {
             console.error("API Dev Error:", err);

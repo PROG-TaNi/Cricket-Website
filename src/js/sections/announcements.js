@@ -25,9 +25,9 @@ const MOCK_ANNOUNCEMENTS = [
     id: "ann-3",
     category: "VENUE",
     priority: "normal",
-    title: "Matunga Ground Pitch Preparation",
+    title: "VJTI Cricket Ground",
     relativeTime: "4 days ago",
-    message: "Both turf wickets on the main square are prepared for trials. Spikes or grass-grip studs are recommended.",
+    message: "One centre wicket.",
     isNew: false
   }
 ];

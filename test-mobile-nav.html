@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mobile Nav Test</title>
+  <style>
+    body { margin: 0; background: #050807; color: white; font-family: sans-serif; }
+    #test-button {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 10001;
+      padding: 15px 20px;
+      background: #31D47B;
+      border: 2px solid white;
+      color: #050807;
+      font-weight: bold;
+      border-radius: 12px;
+      font-size: 18px;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: rgba(255,255,255,0.3);
+    }
+    #test-button:active {
+      transform: scale(0.95);
+    }
+    #output {
+      margin: 100px 20px;
+      padding: 20px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+    }
+    .log-entry {
+      margin: 5px 0;
+      padding: 5px;
+      background: rgba(49,212,123,0.1);
+      border-left: 3px solid #31D47B;
+    }
+  </style>
+</head>
+<body>
+  <button id="test-button">TAP ME!</button>
+  
+  <div id="output">
+    <h2>Click Test Log</h2>
+    <div id="log"></div>
+  </div>
+
+  <script>
+    const button = document.getElementById('test-button');
+    const log = document.getElementById('log');
+    let clickCount = 0;
+
+    function addLog(message) {
+      clickCount++;
+      const entry = document.createElement('div');
+      entry.className = 'log-entry';
+      entry.textContent = `${clickCount}. ${message} at ${new Date().toLocaleTimeString()}`;
+      log.insertBefore(entry, log.firstChild);
+    }
+
+    addLog('Page loaded');
+
+    button.addEventListener('click', (e) => {
+      addLog(`CLICK event fired`);
+      console.log('CLICK', e);
+    });
+
+    button.addEventListener('touchstart', (e) => {
+      addLog(`TOUCHSTART event fired`);
+      console.log('TOUCHSTART', e);
+    }, { passive: false });
+
+    button.addEventListener('touchend', (e) => {
+      addLog(`TOUCHEND event fired`);
+      console.log('TOUCHEND', e);
+    });
+
+    // Log button details
+    setTimeout(() => {
+      const rect = button.getBoundingClientRect();
+      const styles = window.getComputedStyle(button);
+      addLog(`Button position: top=${rect.top}, right=${rect.right}`);
+      addLog(`Button z-index: ${styles.zIndex}`);
+      addLog(`Pointer events: ${styles.pointerEvents}`);
+    }, 100);
+  </script>
+</body>
+</html>

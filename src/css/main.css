@@ -184,6 +184,49 @@ body {
   color: var(--whites);
 }
 
+/* ─── Hamburger → X animation ─────────────────────────────────────── */
+.hamburger-line {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.2s ease,
+              width 0.2s ease;
+  transform-origin: center;
+}
+.nav-open .line-top {
+  transform: translateY(8px) rotate(45deg);
+}
+.nav-open .line-mid {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.nav-open .line-bot {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* ─── Snap carousel / scrollbar-none utility ──────────────────────── */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─── Touch-friendly snap ─────────────────────────────────────────── */
+.snap-carousel {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+}
+.snap-carousel > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
 /* Status badge */
 .status-badge {
   display: inline-flex;
@@ -297,6 +340,12 @@ body {
   z-index: 9999;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  pointer-events: auto;
+}
+
+/* Ensure nav content doesn't block interactions */
+#vjti-main-nav > * {
+  pointer-events: auto;
 }
 
 /* Ensure hamburger button stays visible on scroll (highest element) */
@@ -304,6 +353,9 @@ body {
   position: relative;
   z-index: 10001;
   flex-shrink: 0;
+  pointer-events: auto !important;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(49, 212, 123, 0.3);
 }
 
 /* Mobile menu overlay (fullscreen, above all content) */

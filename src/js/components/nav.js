@@ -2,11 +2,20 @@
 import { getRegisteredPlayer } from "../core/storage.js";
 
 export function initNav() {
+  console.log("🔧 initNav called");
   const nav = document.getElementById("vjti-main-nav");
   const toggle = document.getElementById("nav-mobile-toggle");
   const menu = document.getElementById("nav-mobile-menu");
   const ctaSlot = document.getElementById("nav-cta-slot");
   const mobileCtaSlot = document.getElementById("nav-mobile-cta-slot");
+
+  console.log("📱 Nav elements found:", {
+    nav: !!nav,
+    toggle: !!toggle,
+    menu: !!menu,
+    ctaSlot: !!ctaSlot,
+    mobileCtaSlot: !!mobileCtaSlot
+  });
 
   // Scroll blur & background
   const onScroll = () => {
@@ -26,10 +35,28 @@ export function initNav() {
 
   // Mobile menu toggle
   if (toggle && menu) {
-    toggle.addEventListener("click", () => {
+    console.log("✅ Setting up mobile menu toggle");
+    
+    // Test if the button is visible
+    const rect = toggle.getBoundingClientRect();
+    console.log("📐 Toggle button position:", rect);
+    console.log("👆 Toggle button styles:", {
+      display: window.getComputedStyle(toggle).display,
+      visibility: window.getComputedStyle(toggle).visibility,
+      pointerEvents: window.getComputedStyle(toggle).pointerEvents,
+      zIndex: window.getComputedStyle(toggle).zIndex
+    });
+    
+    const handleToggle = (e) => {
+      console.log("🖱️ HAMBURGER CLICKED!", e.type);
+      e.preventDefault();
+      e.stopPropagation();
+      
       const isOpen = !menu.classList.contains("hidden");
+      console.log("Menu currently open?", isOpen);
       if (isOpen) {
         // Close menu
+        console.log("🔴 Closing menu");
         menu.classList.add("hidden");
         toggle.classList.remove("nav-open");
         document.body.style.overflow = "";
@@ -41,6 +68,7 @@ export function initNav() {
         }
       } else {
         // Open menu
+        console.log("🟢 Opening menu");
         menu.classList.remove("hidden");
         toggle.classList.add("nav-open");
         document.body.style.overflow = "hidden";
@@ -49,11 +77,17 @@ export function initNav() {
           nav.classList.add("!bg-[#050807]", "!border-white/20", "backdrop-blur-md", "shadow-xl");
         }
       }
-    });
+    };
+    
+    // Add both click and touchstart for mobile compatibility
+    toggle.addEventListener("click", handleToggle);
+    toggle.addEventListener("touchstart", handleToggle, { passive: false });
+    console.log("📱 Added click and touchstart listeners");
 
     // Close on mobile link click
     menu.querySelectorAll(".mobile-nav-link").forEach((link) => {
       link.addEventListener("click", () => {
+        console.log("🔗 Mobile nav link clicked");
         menu.classList.add("hidden");
         toggle.classList.remove("nav-open");
         document.body.style.overflow = "";
@@ -65,6 +99,8 @@ export function initNav() {
         }
       });
     });
+  } else {
+    console.error("❌ Toggle or menu not found!", { toggle, menu });
   }
 
   // Check if player is already registered

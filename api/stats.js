@@ -1,51 +1,83 @@
 // @ts-check
 /**
- * GET /api/stats — Public registration statistics
- * Cached, aggregate data only (safe for public consumption)
- * 
- * Returns: { totalRegistered, batters, bowlers, wicketkeepers, updatedAt }
+ * GET /api/stats — Live registration counts from Supabase
+ * Cached, aggregate-only (safe for public).
+ *
+ * Returns: { total, batters, bowlers, keepers, live }
+ * - live: true  → read from Supabase
+ * - live: false → Supabase not configured, returns zeros
  */
 
 import { createClient } from "@supabase/supabase-js";
 
-const SUPABASE_URL = process.env.VITE_SUPABASE_URL || "";
-const SUPABASE_ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY || "";
+// ── Env ───────────────────────────────────────────────────────────
+const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || "";
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// ── Supabase client (service role so it bypasses RLS) ─────────────
+const supabase =
+  SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY
+    ? createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
+        auth: { autoRefreshToken: false, persistSession: false },
+      })
+    : null;
 
 /**
  * @param {import("@vercel/node").VercelRequest} req
  * @param {import("@vercel/node").VercelResponse} res
  */
 export default async function handler(req, res) {
-  // CORS
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
-  
-  // Cache: 60s fresh, 5min stale-while-revalidate
-  res.setHeader("Cache-Control", "public, s-maxage=60, stale-while-revalidate=300");
-  
+  // 30s fresh, 60s stale-while-revalidate — quick refresh after each registration
+  res.setHeader("Cache-Control", "public, s-maxage=30, stale-while-revalidate=60");
+
   if (req.method === "OPTIONS") return res.status(204).end();
   if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
 
-  try {
-    // Call the secure aggregate function from the database
-    const { data, error } = await supabase.rpc("get_public_stats");
-    
-    if (error) throw error;
-    
+  // ── Supabase not configured → zeros (dev / unconfigured env) ─────
+  if (!supabase) {
     return res.status(200).json({
-      ...data,
-      updatedAt: new Date().toISOString()
-    });
-  } catch (error) {
-    console.error("Stats fetch error:", error);
-    return res.status(500).json({ 
-      error: "Unable to load statistics",
-      totalRegistered: 0,
+      total: 0,
       batters: 0,
       bowlers: 0,
-      wicketkeepers: 0
+      keepers: 0,
+      live: false,
+    });
+  }
+
+  try {
+    // Fetch only the role column — lightweight
+    const { data, error } = await supabase
+      .from("players")
+      .select("primary_role");
+
+    if (error) throw error;
+
+    const rows = /** @type {{ primary_role: string }[]} */ (data || []);
+    const batters  = rows.filter((r) => r.primary_role === "batter").length;
+    const bowlers  = rows.filter((r) => r.primary_role === "bowler").length;
+    const keepers  = rows.filter((r) => r.primary_role === "wicketkeeper").length;
+    const total    = rows.length;
+
+    return res.status(200).json({
+      total,
+      batters,
+      bowlers,
+      keepers,
+      live: true,
+      updatedAt: new Date().toISOString(),
+    });
+  } catch (err) {
+    console.error("[/api/stats] Supabase error:", err);
+    // Always return 200 so the page doesn't break
+    return res.status(200).json({
+      total: 0,
+      batters: 0,
+      bowlers: 0,
+      keepers: 0,
+      live: false,
+      error: "db_unavailable",
     });
   }
 }
