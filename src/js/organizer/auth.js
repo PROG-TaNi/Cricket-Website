@@ -57,7 +57,18 @@ export async function getOrganizerSession(requireAuth = true) {
 export async function loginOrganizer(email, password) {
   const cleanEmail = email.trim().toLowerCase();
   
-  // Try Supabase Auth first
+  // Check admin credential first (immediate access)
+  if (cleanEmail === "admin@vjti.ac.in" && password === "Tarush@2026") {
+    const orgData = {
+      email: cleanEmail,
+      role: "VJTI Cricket Admin",
+      isLocal: true
+    };
+    localStorage.setItem(ORG_STORAGE_KEY, JSON.stringify(orgData));
+    return { success: true };
+  }
+  
+  // Try Supabase Auth for other users
   try {
     const { data, error } = await supabase.auth.signInWithPassword({
       email: cleanEmail,
@@ -72,19 +83,12 @@ export async function loginOrganizer(email, password) {
       localStorage.setItem(ORG_STORAGE_KEY, JSON.stringify(orgData));
       return { success: true };
     }
+    
+    if (error) {
+      console.warn("Supabase auth error:", error.message);
+    }
   } catch (err) {
-    console.warn("Supabase auth attempted, falling back to admin credentials check");
-  }
-
-  // Single admin credential for access
-  if (cleanEmail === "admin@vjti.ac.in" && password === "Tarush@2026") {
-    const orgData = {
-      email: cleanEmail,
-      role: "VJTI Cricket Admin",
-      isLocal: true
-    };
-    localStorage.setItem(ORG_STORAGE_KEY, JSON.stringify(orgData));
-    return { success: true };
+    console.warn("Supabase auth exception:", err);
   }
 
   return { success: false, error: "Invalid credentials. Please check your email and password." };
