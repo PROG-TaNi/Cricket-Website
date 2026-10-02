@@ -4,7 +4,7 @@
  * Displays shortlisted players when squad is released
  */
 
-import "../css/main.css";
+import "../../css/main.css";
 import { initLenis } from "../core/lenis.js";
 import { supabase } from "../core/supabase.js";
 
