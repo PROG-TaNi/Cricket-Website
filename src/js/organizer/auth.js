@@ -77,7 +77,7 @@ export async function loginOrganizer(email, password) {
     } catch (_) {}
     
     // Check default admin credential
-    if (password === "Tarush@2026") {
+    if (password === "CricketAdmin#2026!") {
       const orgData = {
         email: cleanEmail,
         role: "VJTI Cricket Admin",
@@ -204,7 +204,7 @@ export async function changePassword(currentPassword, newPassword) {
     // If using hardcoded credentials (isLocal flag)
     if (sessionData && sessionData.isLocal && sessionData.email === "admin@vjti.ac.in") {
       // Verify current password against hardcoded password
-      if (currentPassword !== "Tarush@2026") {
+      if (currentPassword !== "CricketAdmin#2026!") {
         return { success: false, error: "Current password is incorrect" };
       }
       
@@ -212,7 +212,7 @@ export async function changePassword(currentPassword, newPassword) {
       // But we can update a local override in localStorage
       const passwordOverride = {
         email: "admin@vjti.ac.in",
-        oldPassword: "Tarush@2026",
+        oldPassword: "CricketAdmin#2026!",
         newPassword: newPassword,
         changedAt: new Date().toISOString()
       };
