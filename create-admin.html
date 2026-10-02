@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Admin User - VJTI Cricket</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0F6B3D 0%, #050807 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: #fff;
+    }
+    
+    .container {
+      background: rgba(11, 18, 14, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+    
+    h1 {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+      color: #31D47B;
+    }
+    
+    p {
+      color: #A7B2AC;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #A7B2AC;
+      margin-bottom: 8px;
+    }
+    
+    input {
+      width: 100%;
+      padding: 14px;
+      background: rgba(7, 16, 11, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: #31D47B;
+      box-shadow: 0 0 0 3px rgba(49, 212, 123, 0.1);
+    }
+    
+    button {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #31D47B 0%, #0F6B3D 100%);
+      border: none;
+      border-radius: 10px;
+      color: #050807;
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+    
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(49, 212, 123, 0.3);
+    }
+    
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .status {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    
+    .status.success {
+      background: rgba(49, 212, 123, 0.1);
+      border: 1px solid rgba(49, 212, 123, 0.3);
+      color: #31D47B;
+    }
+    
+    .status.error {
+      background: rgba(255, 107, 107, 0.1);
+      border: 1px solid rgba(255, 107, 107, 0.3);
+      color: #ff6b6b;
+    }
+    
+    .status.info {
+      background: rgba(100, 181, 246, 0.1);
+      border: 1px solid rgba(100, 181, 246, 0.3);
+      color: #64B5F6;
+    }
+    
+    .instructions {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 3px solid #31D47B;
+      padding: 20px;
+      margin-top: 30px;
+      border-radius: 8px;
+    }
+    
+    .instructions h3 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #31D47B;
+      margin-bottom: 12px;
+    }
+    
+    .instructions ol {
+      margin-left: 20px;
+      color: #A7B2AC;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    
+    .instructions code {
+      background: rgba(49, 212, 123, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #31D47B;
+      font-family: 'Courier New', monospace;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Create Admin User</h1>
+    <p>Set up your Supabase admin account for the VJTI Cricket Ops Dashboard</p>
+    
+    <form id="create-admin-form">
+      <div class="form-group">
+        <label for="email">Admin Email</label>
+        <input type="email" id="email" value="admin@vjti.ac.in" required />
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="text" id="password" value="Tarush@2026" required />
+      </div>
+      
+      <button type="submit" id="submit-btn">
+        Create Admin Account
+      </button>
+    </form>
+    
+    <div id="status"></div>
+    
+    <div class="instructions">
+      <h3>📋 Instructions</h3>
+      <ol>
+        <li>Make sure your <code>.env</code> file has Supabase credentials</li>
+        <li>Click "Create Admin Account" above</li>
+        <li>Wait for success message</li>
+        <li>Login at <code>/organizer/login.html</code></li>
+      </ol>
+    </div>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+    
+    const form = document.getElementById('create-admin-form');
+    const statusDiv = document.getElementById('status');
+    const submitBtn = document.getElementById('submit-btn');
+    
+    // Load from .env or prompt user
+    const SUPABASE_URL = import.meta.env?.VITE_SUPABASE_URL || prompt('Enter your Supabase URL:');
+    const SUPABASE_ANON_KEY = import.meta.env?.VITE_SUPABASE_ANON_KEY || prompt('Enter your Supabase Anon Key:');
+    
+    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+      statusDiv.innerHTML = `
+        <div class="status error">
+          <strong>❌ Error:</strong> Supabase credentials not found. 
+          Please add them to your .env file or enter them when prompted.
+        </div>
+      `;
+    }
+    
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Creating...';
+      
+      statusDiv.innerHTML = `
+        <div class="status info">
+          <strong>⏳ Creating admin user...</strong><br>
+          This may take a few seconds.
+        </div>
+      `;
+      
+      try {
+        // Create user via Supabase Auth
+        const { data, error } = await supabase.auth.signUp({
+          email: email,
+          password: password,
+          options: {
+            data: {
+              role: 'admin',
+              full_name: 'Admin User'
+            },
+            emailRedirectTo: `${window.location.origin}/organizer/login.html`
+          }
+        });
+        
+        if (error) {
+          throw error;
+        }
+        
+        statusDiv.innerHTML = `
+          <div class="status success">
+            <strong>✅ Admin user created successfully!</strong><br><br>
+            <strong>Email:</strong> ${email}<br>
+            <strong>Password:</strong> ${password}<br><br>
+            ${data.user?.email_confirmed_at ? 
+              '✓ Email confirmed automatically' : 
+              '⚠️ Check your email to confirm the account (or auto-confirm in Supabase dashboard)'
+            }<br><br>
+            You can now login at <code>/organizer/login.html</code>
+          </div>
+        `;
+        
+        submitBtn.textContent = 'Admin Created!';
+        
+      } catch (error) {
+        console.error('Error:', error);
+        
+        let errorMessage = error.message;
+        
+        // Handle common errors
+        if (error.message.includes('already registered')) {
+          errorMessage = 'This email is already registered. Try logging in instead, or use "Forgot Password" to reset.';
+        } else if (error.message.includes('Password')) {
+          errorMessage = 'Password must be at least 6 characters long.';
+        }
+        
+        statusDiv.innerHTML = `
+          <div class="status error">
+            <strong>❌ Error:</strong> ${errorMessage}<br><br>
+            <strong>Alternative:</strong> Go to your Supabase Dashboard → Authentication → Users → "Add User" and create it manually.
+          </div>
+        `;
+        
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Try Again';
+      }
+    });
+  </script>
+</body>
+</html>
