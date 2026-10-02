@@ -27,13 +27,57 @@
       <button type="submit" class="btn-primary w-full py-3 mt-4">AUTHENTICATE →</button>
     </form>
 
-    <div class="mt-4 p-3 bg-white/5 border border-white/10 rounded-lg text-left">
-      <p class="font-mono text-[10px] uppercase text-[#31D47B] tracking-wider font-bold">Committee Demo Access:</p>
-      <p class="font-mono text-xs text-[#A7B2AC] mt-0.5">Email: <span class="text-white">admin@vjti.ac.in</span></p>
-      <p class="font-mono text-xs text-[#A7B2AC]">Password: <span class="text-white">vjti2026</span></p>
-    </div>
+    <button id="forgot-password-link" type="button" class="mt-4 font-mono text-xs text-[#31D47B] hover:text-[#31D47B]/80 transition-colors">
+      Forgot Password?
+    </button>
 
     <a href="/" class="block mt-6 font-mono text-xs text-[#64716A] hover:text-white">← Return to public site</a>
+  </div>
+
+  <!-- Forgot Password Modal -->
+  <div id="forgot-password-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="glass-panel p-8 max-w-md w-full border-white/10">
+      <h2 class="font-display text-2xl font-black text-[#F4F1E8] mb-2">Reset Password</h2>
+      <p class="text-sm text-[#A7B2AC] mb-6">Enter your admin email to receive a verification code.</p>
+      
+      <form id="forgot-password-form" class="space-y-4">
+        <div>
+          <label class="block font-mono text-xs text-[#A7B2AC] uppercase mb-1">Email</label>
+          <input type="email" id="reset-email" required class="w-full bg-[#07100B] border border-white/10 rounded-lg p-3 text-white focus:border-[#31D47B] outline-none" placeholder="admin@vjti.ac.in" />
+        </div>
+        <div class="flex gap-3">
+          <button type="button" id="close-forgot-modal" class="flex-1 px-4 py-3 text-sm font-mono text-[#A7B2AC] hover:text-white border border-white/10 rounded-lg hover:bg-white/5 transition-all">
+            Cancel
+          </button>
+          <button type="submit" class="flex-1 btn-primary py-3">Send Code</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- OTP Verification Modal -->
+  <div id="otp-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="glass-panel p-8 max-w-md w-full border-white/10">
+      <h2 class="font-display text-2xl font-black text-[#F4F1E8] mb-2">Verify Code</h2>
+      <p class="text-sm text-[#A7B2AC] mb-6">Enter the 6-digit code sent to <span id="otp-email" class="text-[#31D47B]"></span></p>
+      
+      <form id="otp-form" class="space-y-4">
+        <div>
+          <label class="block font-mono text-xs text-[#A7B2AC] uppercase mb-1">Verification Code</label>
+          <input type="text" id="otp-code" required maxlength="6" pattern="[0-9]{6}" class="w-full bg-[#07100B] border border-white/10 rounded-lg p-3 text-white text-center text-2xl tracking-widest font-mono focus:border-[#31D47B] outline-none" placeholder="000000" />
+        </div>
+        <div>
+          <label class="block font-mono text-xs text-[#A7B2AC] uppercase mb-1">New Password</label>
+          <input type="password" id="new-password" required minlength="8" class="w-full bg-[#07100B] border border-white/10 rounded-lg p-3 text-white focus:border-[#31D47B] outline-none" placeholder="Min. 8 characters" />
+        </div>
+        <div class="flex gap-3">
+          <button type="button" id="close-otp-modal" class="flex-1 px-4 py-3 text-sm font-mono text-[#A7B2AC] hover:text-white border border-white/10 rounded-lg hover:bg-white/5 transition-all">
+            Cancel
+          </button>
+          <button type="submit" class="flex-1 btn-primary py-3">Reset Password</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <script type="module" src="/src/js/organizer/login.js"></script>

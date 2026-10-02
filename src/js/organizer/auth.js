@@ -79,9 +79,9 @@ export async function loginOrganizer(email, password) {
   // Fallback demo/emergency credentials for committee members testing on ground:
   // Allows testing without production SMTP setup
   if (
-    (cleanEmail === "admin@vjti.ac.in" && password === "vjti2026") ||
-    (cleanEmail === "cricket@vjti.ac.in" && password === "vjti2026") ||
-    (cleanEmail.endsWith("@vjti.ac.in") && password === "trials2026")
+    (cleanEmail === "admin@vjti.ac.in" && password === "CricketAdmin#2026!") ||
+    (cleanEmail === "cricket@vjti.ac.in" && password === "VJTICricket@2026") ||
+    (cleanEmail.endsWith("@vjti.ac.in") && password === "TrialsSecure#2026")
   ) {
     const orgData = {
       email: cleanEmail,
@@ -92,7 +92,7 @@ export async function loginOrganizer(email, password) {
     return { success: true };
   }
 
-  return { success: false, error: "Invalid organizer credentials. (Demo: admin@vjti.ac.in / vjti2026)" };
+  return { success: false, error: "Invalid organizer credentials." };
 }
 
 /**
@@ -104,4 +104,104 @@ export async function logoutOrganizer() {
   } catch (_) {}
   localStorage.removeItem(ORG_STORAGE_KEY);
   window.location.href = "/organizer/login.html";
+}
+
+/**
+ * Send password reset OTP to email
+ * @param {string} email
+ * @returns {Promise<{ success: boolean, error?: string }>}
+ */
+export async function sendPasswordResetOTP(email) {
+  try {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/organizer/login.html`
+    });
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: "Failed to send reset email. Please try again." };
+  }
+}
+
+/**
+ * Verify OTP and reset password
+ * @param {string} email
+ * @param {string} otp
+ * @param {string} newPassword
+ * @returns {Promise<{ success: boolean, error?: string }>}
+ */
+export async function verifyOTPAndResetPassword(email, otp, newPassword) {
+  try {
+    // Supabase uses the OTP as a token to verify email
+    const { error: verifyError } = await supabase.auth.verifyOtp({
+      email,
+      token: otp,
+      type: 'email'
+    });
+
+    if (verifyError) {
+      return { success: false, error: "Invalid or expired code" };
+    }
+
+    // Update password
+    const { error: updateError } = await supabase.auth.updateUser({
+      password: newPassword
+    });
+
+    if (updateError) {
+      return { success: false, error: updateError.message };
+    }
+
+    // Sign out after password reset
+    await supabase.auth.signOut();
+    localStorage.removeItem(ORG_STORAGE_KEY);
+
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: "Failed to reset password. Please try again." };
+  }
+}
+
+/**
+ * Change password for logged-in admin user
+ * @param {string} currentPassword
+ * @param {string} newPassword
+ * @returns {Promise<{ success: boolean, error?: string }>}
+ */
+export async function changePassword(currentPassword, newPassword) {
+  try {
+    // Get current session
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    if (!session?.user?.email) {
+      return { success: false, error: "Not authenticated" };
+    }
+
+    // Verify current password by attempting sign in
+    const { error: signInError } = await supabase.auth.signInWithPassword({
+      email: session.user.email,
+      password: currentPassword
+    });
+
+    if (signInError) {
+      return { success: false, error: "Current password is incorrect" };
+    }
+
+    // Update to new password
+    const { error: updateError } = await supabase.auth.updateUser({
+      password: newPassword
+    });
+
+    if (updateError) {
+      return { success: false, error: updateError.message };
+    }
+
+    return { success: true };
+  } catch (err) {
+    return { success: false, error: "Failed to change password. Please try again." };
+  }
 }

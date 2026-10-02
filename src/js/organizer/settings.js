@@ -6,6 +6,7 @@
 import "../../css/main.css";
 import { initOrganizerLayout } from "./layout.js";
 import { getSiteSettings, updateSiteSettings } from "./data.js";
+import { changePassword } from "./auth.js";
 import { toastMsg } from "../components/toast.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -60,6 +61,79 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     await updateSiteSettings(updates);
     toastMsg("Settings updated successfully!", "success");
+  });
+
+  // Password change form
+  const changePasswordForm = /** @type {HTMLFormElement | null} */ (document.getElementById("change-password-form"));
+  
+  changePasswordForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    const currentPasswordInput = /** @type {HTMLInputElement | null} */ (document.getElementById("current-password"));
+    const newPasswordInput = /** @type {HTMLInputElement | null} */ (document.getElementById("new-password-settings"));
+    const confirmPasswordInput = /** @type {HTMLInputElement | null} */ (document.getElementById("confirm-password"));
+    
+    const currentPassword = currentPasswordInput?.value || "";
+    const newPassword = newPasswordInput?.value || "";
+    const confirmPassword = confirmPasswordInput?.value || "";
+
+    // Validation
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      toastMsg("Please fill in all password fields.", "error");
+      return;
+    }
+
+    if (newPassword.length < 8) {
+      toastMsg("New password must be at least 8 characters.", "error");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      toastMsg("New passwords do not match.", "error");
+      return;
+    }
+
+    if (currentPassword === newPassword) {
+      toastMsg("New password must be different from current password.", "error");
+      return;
+    }
+
+    const submitButton = /** @type {HTMLButtonElement | null} */ (changePasswordForm.querySelector('button[type="submit"]'));
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.innerHTML = `
+        <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
+        <span>CHANGING...</span>
+      `;
+    }
+
+    try {
+      const result = await changePassword(currentPassword, newPassword);
+      
+      if (result.success) {
+        toastMsg("Password changed successfully!", "success");
+        // Clear form
+        if (currentPasswordInput) currentPasswordInput.value = "";
+        if (newPasswordInput) newPasswordInput.value = "";
+        if (confirmPasswordInput) confirmPasswordInput.value = "";
+      } else {
+        toastMsg(result.error || "Failed to change password", "error");
+      }
+    } catch (err) {
+      toastMsg("Failed to change password. Please try again.", "error");
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.innerHTML = `
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+          <span>CHANGE PASSWORD</span>
+        `;
+      }
+    }
   });
 
   // Reset demo candidate store
