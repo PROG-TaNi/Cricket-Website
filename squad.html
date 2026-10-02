@@ -24,14 +24,16 @@
 
     <!-- State A: Squad Awaiting Selection / Underway -->
     <div id="squad-pending-view" class="glass-panel p-8 sm:p-12 rounded-3xl border border-white/10 text-center max-w-2xl mx-auto space-y-6">
-      <div class="w-16 h-16 mx-auto rounded-full bg-[#31D47B]/10 border border-[#31D47B]/30 flex items-center justify-center text-3xl">
-        🏏
+      <div class="w-16 h-16 mx-auto rounded-full bg-[#31D47B]/10 border border-[#31D47B]/30 flex items-center justify-center">
+        <svg class="w-8 h-8 text-[#31D47B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
       </div>
       <div>
         <span class="font-mono text-xs uppercase tracking-widest text-[#D4FF52]">Trials In Progress</span>
-        <h2 class="font-display text-3xl sm:text-4xl font-black text-white mt-1">SELECTION UNDERWAY</h2>
+        <h2 class="font-display text-3xl sm:text-4xl font-black text-white mt-1">SQUAD WILL BE ANNOUNCED SOON</h2>
         <p class="text-[#A7B2AC] text-sm mt-3 leading-relaxed">
-          The official 16-player squad wearing the VJTI whites will be unveiled here following the selection trials on <strong>10 and 11 October 2026</strong>.
+          The official 16-player squad wearing the VJTI whites will be unveiled here following the selection trials on <strong>31 October & 1 November 2026</strong>.
         </p>
       </div>
       <div class="pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -55,7 +57,9 @@
       <!-- Squad Group 1: Batters -->
       <section class="space-y-4">
         <div class="flex items-center gap-3 border-b border-white/10 pb-2">
-          <span class="text-2xl">🏏</span>
+          <svg class="w-7 h-7 text-[#31D47B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+          </svg>
           <h2 class="font-display font-black text-2xl sm:text-3xl text-white">BATTERS</h2>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="squad-batters-grid">
@@ -66,7 +70,9 @@
       <!-- Squad Group 2: Bowlers -->
       <section class="space-y-4">
         <div class="flex items-center gap-3 border-b border-white/10 pb-2">
-          <span class="text-2xl">🎯</span>
+          <svg class="w-7 h-7 text-[#D4FF52]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
           <h2 class="font-display font-black text-2xl sm:text-3xl text-white">BOWLERS</h2>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="squad-bowlers-grid">
@@ -77,7 +83,9 @@
       <!-- Squad Group 3: Wicketkeepers -->
       <section class="space-y-4">
         <div class="flex items-center gap-3 border-b border-white/10 pb-2">
-          <span class="text-2xl">🧤</span>
+          <svg class="w-7 h-7 text-[#F4F1E8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4z" />
+          </svg>
           <h2 class="font-display font-black text-2xl sm:text-3xl text-white">WICKETKEEPERS</h2>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="squad-keepers-grid">

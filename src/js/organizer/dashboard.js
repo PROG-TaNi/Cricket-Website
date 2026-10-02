@@ -139,7 +139,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         <div class="py-3 flex items-center justify-between gap-3 text-xs">
           <div class="flex items-center gap-3">
             <span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center font-mono font-bold text-white text-[11px]">
-              ${p.primary_role === "Batter" ? "🏏" : p.primary_role === "Bowler" ? "🎯" : "🧤"}
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                ${p.primary_role === "Batter" 
+                  ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />'
+                  : p.primary_role === "Bowler"
+                  ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />'
+                  : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4z" />'}
+              </svg>
             </span>
             <div>
               <p class="font-bold text-white">${p.full_name} <span class="font-mono text-[#A7B2AC] font-normal text-[11px]">(${p.registration_id})</span></p>
@@ -163,7 +169,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const bannerDesc = document.getElementById("matchday-banner-desc");
 
   const updateMatchdayUI = (/** @type {boolean} */ isMatchday) => {
-    if (bannerTitle) bannerTitle.textContent = isMatchday ? "🔥 MATCHDAY MODE ACTIVE — GROUND CHECK-IN LIVE" : "TRIALS COUNTDOWN ACTIVE";
+    if (bannerTitle) bannerTitle.textContent = isMatchday ? "MATCHDAY MODE ACTIVE — GROUND CHECK-IN LIVE" : "TRIALS COUNTDOWN ACTIVE";
     if (bannerDesc) bannerDesc.textContent = isMatchday ? "Selectors & coordinators: use Ground Mode for real-time QR scanning and net tracking." : "Scheduled for Sat 10 Oct & Sun 11 Oct 2026 at VJTI Cricket Ground.";
     if (toggleBtn) toggleBtn.textContent = isMatchday ? "DISABLE MATCHDAY MODE" : "ACTIVATE MATCHDAY MODE";
   };

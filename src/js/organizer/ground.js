@@ -61,6 +61,159 @@ function updateCounter() {
 }
 
 /**
+ * Format timestamp to readable time
+ * @param {string} timestamp
+ * @returns {string}
+ */
+function formatTime(timestamp) {
+  if (!timestamp) return "—";
+  const date = new Date(timestamp);
+  return date.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
+}
+
+/**
+ * Download attendance as CSV
+ * @param {number} day - 1 or 2
+ */
+function downloadAttendanceCSV(day) {
+  const dayPlayers = day === 1
+    ? players.filter((p) => p.day1_attendance === "present" || p.day1_attendance === "late")
+    : players.filter((p) => p.day2_attendance === "present");
+
+  if (dayPlayers.length === 0) {
+    toastMsg(`No attendance records for Day ${day} to download`, "warning");
+    return;
+  }
+
+  // Prepare CSV content
+  const headers = ["Registration ID", "Full Name", "Roll No", "Program", "Year", "Branch", "Role", "Status", "Check-in Time"];
+  const rows = dayPlayers.map((p) => {
+    const status = day === 1 ? p.day1_attendance : p.day2_attendance;
+    const time = formatTime(p.updated_at);
+    
+    return [
+      p.registration_id,
+      p.full_name,
+      p.reg_no,
+      p.program,
+      p.year,
+      p.branch,
+      p.primary_role,
+      status.toUpperCase(),
+      time
+    ];
+  });
+
+  // Build CSV
+  const csvContent = [
+    headers.join(","),
+    ...rows.map(row => row.map(cell => `"${cell}"`).join(","))
+  ].join("\n");
+
+  // Create blob and download
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const link = document.createElement("a");
+  const url = URL.createObjectURL(blob);
+  
+  const date = day === 1 ? "31-Oct-2026" : "1-Nov-2026";
+  link.setAttribute("href", url);
+  link.setAttribute("download", `VJTI-Cricket-Day${day}-Attendance-${date}.csv`);
+  link.style.visibility = "hidden";
+  
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  toastMsg(`✓ Day ${day} attendance downloaded (${dayPlayers.length} records)`, "success");
+}
+
+/**
+ * Update attendance tables for both days
+ */
+function updateAttendanceTables() {
+  // Day 1 Attendance (Saturday 31 Oct)
+  const day1Players = players.filter(
+    (p) => p.day1_attendance === "present" || p.day1_attendance === "late"
+  );
+  
+  const day1Body = document.getElementById("day1-attendance-body");
+  const day1Count = document.getElementById("day1-count");
+  
+  if (day1Body) {
+    if (day1Players.length === 0) {
+      day1Body.innerHTML = `
+        <tr>
+          <td colspan="5" class="px-4 py-8 text-center text-[#A7B2AC] text-sm">
+            No check-ins yet for Day 1
+          </td>
+        </tr>
+      `;
+    } else {
+      day1Body.innerHTML = day1Players
+        .sort((a, b) => a.registration_id.localeCompare(b.registration_id))
+        .map((p) => {
+          const statusClass = p.day1_attendance === "late" ? "text-amber-400" : "text-[#31D47B]";
+          const statusText = p.day1_attendance === "late" ? "LATE" : "PRESENT";
+          
+          return `
+            <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+              <td class="px-4 py-3 font-mono text-xs text-[#D4FF52]">${p.registration_id}</td>
+              <td class="px-4 py-3 text-sm font-medium">${p.full_name}</td>
+              <td class="px-4 py-3 font-mono text-xs text-[#A7B2AC]">${p.reg_no}</td>
+              <td class="px-4 py-3">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold ${statusClass} bg-white/5">
+                  ${statusText}
+                </span>
+              </td>
+              <td class="px-4 py-3 font-mono text-xs text-[#A7B2AC]">${formatTime(p.updated_at)}</td>
+            </tr>
+          `;
+        })
+        .join("");
+    }
+  }
+  
+  if (day1Count) day1Count.textContent = String(day1Players.length);
+
+  // Day 2 Attendance (Sunday 1 Nov)
+  const day2Players = players.filter((p) => p.day2_attendance === "present");
+  
+  const day2Body = document.getElementById("day2-attendance-body");
+  const day2Count = document.getElementById("day2-count");
+  
+  if (day2Body) {
+    if (day2Players.length === 0) {
+      day2Body.innerHTML = `
+        <tr>
+          <td colspan="5" class="px-4 py-8 text-center text-[#A7B2AC] text-sm">
+            No check-ins yet for Day 2
+          </td>
+        </tr>
+      `;
+    } else {
+      day2Body.innerHTML = day2Players
+        .sort((a, b) => a.registration_id.localeCompare(b.registration_id))
+        .map((p) => `
+          <tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+            <td class="px-4 py-3 font-mono text-xs text-[#D4FF52]">${p.registration_id}</td>
+            <td class="px-4 py-3 text-sm font-medium">${p.full_name}</td>
+            <td class="px-4 py-3 font-mono text-xs text-[#A7B2AC]">${p.reg_no}</td>
+            <td class="px-4 py-3">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold text-[#31D47B] bg-white/5">
+                PRESENT
+              </span>
+            </td>
+            <td class="px-4 py-3 font-mono text-xs text-[#A7B2AC]">${formatTime(p.updated_at)}</td>
+          </tr>
+        `)
+        .join("");
+    }
+  }
+  
+  if (day2Count) day2Count.textContent = String(day2Players.length);
+}
+
+/**
  * Find candidate by query (Reg ID, Roll No, or Public Token)
  * @param {string} rawQuery
  */
@@ -138,6 +291,7 @@ async function performCheckIn(status, dayNumber) {
   }
 
   updateCounter();
+  updateAttendanceTables();
   toastMsg(`✓ Checked in ${currentCandidate.full_name} (${status.toUpperCase()})`, "success");
 
   // Animate candidate card confirmation
@@ -198,6 +352,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   players = await getPlayers();
   updateCounter();
+  updateAttendanceTables();
 
   // Mode Tabs Switching
   tabScannerBtn?.addEventListener("click", () => {
@@ -287,6 +442,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     players.unshift(newPlayer);
     updateCounter();
+    updateAttendanceTables();
     walkinDialog?.close();
     walkinForm.reset();
 
@@ -304,4 +460,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (syncDot) syncDot.className = "w-2.5 h-2.5 rounded-full bg-amber-400";
     if (syncText) syncText.textContent = "OFFLINE MODE (QUEUED)";
   });
+
+  // Download attendance CSV buttons
+  const downloadDay1Btn = document.getElementById("download-day1-btn");
+  const downloadDay2Btn = document.getElementById("download-day2-btn");
+
+  downloadDay1Btn?.addEventListener("click", () => downloadAttendanceCSV(1));
+  downloadDay2Btn?.addEventListener("click", () => downloadAttendanceCSV(2));
 });

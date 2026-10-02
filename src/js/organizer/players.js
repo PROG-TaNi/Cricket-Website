@@ -146,7 +146,7 @@ function renderTable() {
         </td>
         <td class="p-3.5 whitespace-nowrap">
           <div class="flex items-center gap-2.5">
-            ${p.photo_url ? `<img src="${p.photo_url}" alt="${p.full_name}" class="w-7 h-7 rounded-full object-cover border border-[#31D47B]/40 flex-shrink-0" />` : `<div class="w-7 h-7 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-xs flex-shrink-0">🏏</div>`}
+            ${p.photo_url ? `<img src="${p.photo_url}" alt="${p.full_name}" class="w-7 h-7 rounded-full object-cover border border-[#31D47B]/40 flex-shrink-0" />` : `<div class="w-7 h-7 rounded-full bg-white/5 border border-white/10 flex items-center justify-center flex-shrink-0"><svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg></div>`}
             <div>
               <div class="font-bold text-white text-xs">${p.full_name}</div>
               <div class="text-[10px] text-[#64716A] font-mono">${p.program} (${p.year})</div>
@@ -157,8 +157,14 @@ function renderTable() {
           ${p.reg_no}
         </td>
         <td class="p-3.5 whitespace-nowrap">
-          <span class="inline-flex items-center gap-1 font-medium text-white">
-            <span>${p.primary_role === "Batter" ? "🏏" : p.primary_role === "Bowler" ? "🎯" : "🧤"}</span>
+          <span class="inline-flex items-center gap-1.5 font-medium text-white">
+            <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              ${p.primary_role === "Batter" 
+                ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />'
+                : p.primary_role === "Bowler"
+                ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />'
+                : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4z" />'}
+            </svg>
             <span>${p.primary_role}</span>
           </span>
           <span class="block text-[10px] text-[#64716A]">${p.batting_style} · ${p.bowling_style}</span>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Shortlisted Players | VJTI Cricket Ops</title>
+  <link rel="stylesheet" href="/src/css/main.css" />
+</head>
+<body class="bg-[#050807] text-white min-h-[100svh]">
+  <!-- Injected Organizer Header -->
+  <div id="org-header"></div>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    
+    <!-- Title & Release Squad Button -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-white/10">
+      <div>
+        <span class="font-mono text-xs uppercase tracking-widest text-[#31D47B]">Squad Management</span>
+        <h1 class="font-display text-4xl sm:text-5xl font-black text-[#F4F1E8] tracking-tight">SHORTLISTED PLAYERS</h1>
+        <p class="text-[#A7B2AC] text-sm mt-1">Final squad candidates recommended by selectors.</p>
+      </div>
+      
+      <div class="flex items-center gap-3">
+        <button id="release-squad-btn" class="btn-primary text-xs py-3 px-6 flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>RELEASE SQUAD PUBLICLY</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Squad Release Status Banner -->
+    <div id="squad-status-banner" class="glass-panel p-4 rounded-xl border-l-4 border-l-amber-500 hidden">
+      <div class="flex items-center gap-3">
+        <svg class="w-5 h-5 text-amber-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+        <div>
+          <h2 class="font-mono text-sm font-bold text-white" id="status-banner-title">Squad Not Yet Released</h2>
+          <p class="text-xs text-[#A7B2AC]" id="status-banner-desc">Squad is visible only to organizers. Click "Release Squad Publicly" to publish.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Released Banner (Green) -->
+    <div id="squad-released-banner" class="glass-panel p-4 rounded-xl border-l-4 border-l-[#31D47B] hidden">
+      <div class="flex items-center gap-3">
+        <svg class="w-5 h-5 text-[#31D47B] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <div>
+          <h2 class="font-mono text-sm font-bold text-white">Squad Released to Public</h2>
+          <p class="text-xs text-[#A7B2AC]">The final squad is now visible at <a href="/squad.html" target="_blank" class="text-[#31D47B] hover:underline">/squad.html</a></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="glass-panel p-5 rounded-2xl border-white/10">
+        <span class="font-mono text-xs text-[#A7B2AC] uppercase block">Shortlisted</span>
+        <div class="flex items-baseline gap-2 mt-2">
+          <span id="kpi-shortlisted" class="font-display text-4xl sm:text-5xl font-black text-[#31D47B]">—</span>
+        </div>
+        <p class="text-[11px] text-[#64716A] mt-2">Players recommended</p>
+      </div>
+
+      <div class="glass-panel p-5 rounded-2xl border-white/10">
+        <span class="font-mono text-xs text-[#A7B2AC] uppercase block">Batters</span>
+        <div class="flex items-baseline gap-2 mt-2">
+          <span id="kpi-batters" class="font-display text-4xl sm:text-5xl font-black text-white">—</span>
+        </div>
+        <p class="text-[11px] text-[#64716A] mt-2">Primary role</p>
+      </div>
+
+      <div class="glass-panel p-5 rounded-2xl border-white/10">
+        <span class="font-mono text-xs text-[#A7B2AC] uppercase block">Bowlers</span>
+        <div class="flex items-baseline gap-2 mt-2">
+          <span id="kpi-bowlers" class="font-display text-4xl sm:text-5xl font-black text-white">—</span>
+        </div>
+        <p class="text-[11px] text-[#64716A] mt-2">Primary role</p>
+      </div>
+
+      <div class="glass-panel p-5 rounded-2xl border-white/10">
+        <span class="font-mono text-xs text-[#A7B2AC] uppercase block">Wicketkeepers</span>
+        <div class="flex items-baseline gap-2 mt-2">
+          <span id="kpi-keepers" class="font-display text-4xl sm:text-5xl font-black text-white">—</span>
+        </div>
+        <p class="text-[11px] text-[#64716A] mt-2">Primary role</p>
+      </div>
+    </div>
+
+    <!-- Shortlisted Players Table -->
+    <div class="glass-panel rounded-2xl border-white/10 overflow-hidden">
+      <div class="p-6 border-b border-white/10 flex justify-between items-center">
+        <h2 class="font-mono text-xs uppercase tracking-widest text-[#31D47B]">Shortlisted Squad Members</h2>
+        <span id="shortlist-count" class="font-mono text-xs text-[#A7B2AC]">0 players</span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead class="bg-white/5 border-b border-white/10">
+            <tr>
+              <th class="text-left p-3.5 text-xs font-mono font-bold text-[#A7B2AC] uppercase tracking-wide">Player</th>
+              <th class="text-left p-3.5 text-xs font-mono font-bold text-[#A7B2AC] uppercase tracking-wide">Roll No</th>
+              <th class="text-left p-3.5 text-xs font-mono font-bold text-[#A7B2AC] uppercase tracking-wide">Role</th>
+              <th class="text-left p-3.5 text-xs font-mono font-bold text-[#A7B2AC] uppercase tracking-wide">Score</th>
+              <th class="text-center p-3.5 text-xs font-mono font-bold text-[#A7B2AC] uppercase tracking-wide">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="shortlist-table-body" class="divide-y divide-white/5">
+            <!-- Populated by JS -->
+            <tr>
+              <td colspan="5" class="p-8 text-center text-[#A7B2AC] text-sm">
+                No shortlisted players yet. Use Selectors' Desk to shortlist candidates.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <script type="module" src="/src/js/organizer/shortlist.js"></script>
+</body>
+</html>

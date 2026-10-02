@@ -1015,3 +1015,36 @@ body:has(#nav-mobile-menu:not(.hidden)) {
   background: #0B120E !important;
 }
 
+
+/* ===================================================================
+   LEGACY PHOTO LIGHTBOX - CENTER ALIGNMENT FIX
+   =================================================================== */
+
+dialog#legacy-lightbox {
+  margin: auto;
+  padding: 0;
+  border: none;
+  max-width: min(90vw, 1200px);
+  max-height: 90vh;
+}
+
+dialog#legacy-lightbox::backdrop {
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(4px);
+}
+
+/* Smooth fade-in animation for lightbox */
+dialog#legacy-lightbox[open] {
+  animation: lightbox-fade-in 0.2s ease-out;
+}
+
+@keyframes lightbox-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
