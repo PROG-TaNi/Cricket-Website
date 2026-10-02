@@ -42,8 +42,8 @@ END $$;
 CREATE TABLE IF NOT EXISTS players (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     
-    -- Identity
-    registration_id TEXT UNIQUE NOT NULL DEFAULT ('VJTI-CRK-' || LPAD(FLOOR(RANDOM() * 9000 + 1000)::TEXT, 4, '0')),
+    -- Identity (registration_id will be set by trigger)
+    registration_id TEXT UNIQUE NOT NULL,
     public_token TEXT UNIQUE NOT NULL DEFAULT ('tok-' || encode(gen_random_bytes(6), 'hex')),
     full_name TEXT NOT NULL,
     reg_no TEXT UNIQUE NOT NULL,
@@ -298,6 +298,56 @@ BEGIN
         p.registration_id = UPPER(search_term)
         OR p.reg_no = UPPER(search_term)
     LIMIT 1;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+
+-- Function to generate a unique registration ID
+-- Uses a larger 6-digit number space (100000-999999) to reduce collision risk
+-- Retries up to 10 times if collision occurs
+CREATE OR REPLACE FUNCTION generate_unique_registration_id()
+RETURNS TEXT AS $$
+DECLARE
+    new_id TEXT;
+    attempt INT := 0;
+    max_attempts INT := 10;
+BEGIN
+    LOOP
+        -- Generate ID with format: VJTI-CRK-XXXXXX (6 digits: 100000-999999)
+        new_id := 'VJTI-CRK-' || LPAD(FLOOR(RANDOM() * 900000 + 100000)::TEXT, 6, '0');
+        
+        -- Check if this ID already exists
+        IF NOT EXISTS (SELECT 1 FROM players WHERE registration_id = new_id) THEN
+            RETURN new_id;
+        END IF;
+        
+        attempt := attempt + 1;
+        IF attempt >= max_attempts THEN
+            -- Fallback to UUID-based ID to guarantee uniqueness
+            new_id := 'VJTI-CRK-' || UPPER(SUBSTRING(REPLACE(uuid_generate_v4()::TEXT, '-', ''), 1, 8));
+            RETURN new_id;
+        END IF;
+    END LOOP;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+
+-- Trigger to auto-generate registration_id before insert
+CREATE OR REPLACE FUNCTION set_registration_id()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.registration_id IS NULL OR NEW.registration_id = '' THEN
+        NEW.registration_id := generate_unique_registration_id();
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS players_set_registration_id ON players;
+CREATE TRIGGER players_set_registration_id
+    BEFORE INSERT ON players
+    FOR EACH ROW
+    EXECUTE FUNCTION set_registration_id();
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 

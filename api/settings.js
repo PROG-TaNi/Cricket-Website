@@ -32,20 +32,23 @@ export default async function handler(req, res) {
   if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
 
   try {
-    const { data, error } = await supabase
-      .from("site_settings")
-      .select("registration_open, registration_deadline, matchday_mode, results_published, whatsapp_group_url")
-      .eq("id", "current")
-      .single();
+    const { data: rows, error } = await supabase
+      .from("settings")
+      .select("key, value");
     
     if (error) throw error;
     
+    const settingsMap = (rows || []).reduce((acc, row) => {
+      acc[row.key] = row.value;
+      return acc;
+    }, {});
+
     return res.status(200).json({
-      registrationOpen: data.registration_open,
-      registrationDeadline: data.registration_deadline,
-      matchdayMode: data.matchday_mode,
-      resultsPublished: data.results_published,
-      whatsappGroupUrl: data.whatsapp_group_url
+      registrationOpen: settingsMap.registration_open ?? true,
+      registrationDeadline: settingsMap.registration_deadline ?? null,
+      matchdayMode: settingsMap.matchday_mode ?? false,
+      resultsPublished: settingsMap.results_published ?? false,
+      whatsappGroupUrl: settingsMap.whatsapp_group_url ?? ""
     });
   } catch (error) {
     console.error("Settings fetch error:", error);

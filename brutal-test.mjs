@@ -19,7 +19,7 @@ function assert(condition, message) {
 function postRequest(endpoint, payload) {
   return new Promise((resolve, reject) => {
     const data = JSON.stringify(payload);
-    const req = http.request(`http://127.0.0.1:5173${endpoint}`, {
+    const req = http.request(`http://localhost:5173${endpoint}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ function postRequest(endpoint, payload) {
 
 function getRequest(endpoint) {
   return new Promise((resolve, reject) => {
-    http.get(`http://127.0.0.1:5173${endpoint}`, res => {
+    http.get(`http://localhost:5173${endpoint}`, res => {
       let body = '';
       res.on('data', chunk => body += chunk);
       res.on('end', () => resolve({ status: res.statusCode, body }));

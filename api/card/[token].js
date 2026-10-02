@@ -33,7 +33,7 @@ export default async function handler(req, res) {
     // Fetch player by public_token (safe lookup, no private data leak risk)
     const { data: player, error } = await supabase
       .from("players")
-      .select("registration_id, full_name, primary_role, branch, year, program")
+      .select("registration_id, full_name, primary_role, branch, year, program, photo_url")
       .eq("public_token", token)
       .single();
     

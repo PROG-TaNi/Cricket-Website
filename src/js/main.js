@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Public sections (Phase 3) – guard each with element check so
   // importing main.js on other pages doesn't throw.
   if (document.querySelector("#fixture")) initFixture();
-  if (document.querySelector("#stats")) initStats();
+  if (document.querySelector("#stats-section")) initStats();
   if (document.querySelector("#announcements")) initAnnouncements();
   if (document.querySelector("#rules")) initRules();
   if (document.querySelector("#process")) initProcess();

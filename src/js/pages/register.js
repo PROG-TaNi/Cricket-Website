@@ -12,6 +12,8 @@ import { initNav } from "../components/nav.js";
 import { toastMsg } from "../components/toast.js";
 import { siteConfig } from "../../../config/site.js";
 import { generateTrialsCalendar, downloadICS } from "../../../lib/ics.js";
+import QRCode from "qrcode";
+import { downloadPlayerCard, sharePlayerCard } from "../components/player-card-canvas.js";
 
 // ── Lenis / Nav init ──────────────────────────────────────────────
 initLenis();
@@ -339,7 +341,7 @@ function escapeHtml(s) {
 /**
  * @param {any} data
  */
-function renderPlayerCard(data) {
+async function renderPlayerCard(data) {
   const container = document.getElementById("player-card-container");
   if (!container) return;
 
@@ -352,13 +354,28 @@ function renderPlayerCard(data) {
          🏏
        </div>`;
 
+  const regId = data.registration_id || data.registrationId || '';
+  let qrHtml = '';
+  try {
+    const qrDataUrl = await QRCode.toDataURL(regId, { width: 120, margin: 1, color: { dark: '#050807', light: '#F4F1E8' } });
+    qrHtml = `<div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between gap-3">
+      <div class="text-left">
+        <div class="text-[10px] font-mono text-[#31D47B] uppercase tracking-wider">CHECK-IN QR</div>
+        <div class="text-[11px] text-[#A7B2AC]">Scan at VJTI Ground desk</div>
+      </div>
+      <div class="w-14 h-14 bg-white rounded-lg p-1 flex-shrink-0">
+        <img src="${qrDataUrl}" alt="Check-in QR" class="w-full h-full object-contain" />
+      </div>
+    </div>`;
+  } catch (_) {}
+
   container.innerHTML = `
     <div class="player-card" id="player-card-el">
       <div class="flex items-start justify-between gap-3 mb-3">
         <div>
           <div class="player-card-badge">VJTI Cricket Trials 2026–27 · Official Pass</div>
           <div class="player-card-name">${escapeHtml(data.full_name || '')}</div>
-          <div class="player-card-id">${escapeHtml(data.registration_id || '')}</div>
+          <div class="player-card-id">${escapeHtml(regId)}</div>
         </div>
         ${photoHtml}
       </div>
@@ -373,6 +390,7 @@ function renderPlayerCard(data) {
         Trial Day 1: Sat 31 Oct 2026 · Day 2: Sun 1 Nov 2026<br>
         VJTI Cricket Ground, Matunga, Mumbai
       </div>
+      ${qrHtml}
     </div>
   `;
 }
@@ -409,11 +427,7 @@ async function handleSubmit() {
     console.log("📤 Sending registration payload...");
     console.log("Payload:", { ...payload, photo_url: payload.photo_url ? "[base64 data]" : null });
 
-    // Use dev API server for local development
-    const apiUrl = window.location.hostname === 'localhost' 
-      ? 'http://localhost:3001/api/register'
-      : '/api/register';
-    
+    const apiUrl = '/api/register';
     console.log("API URL:", apiUrl);
 
     const res = await fetch(apiUrl, {
@@ -513,73 +527,41 @@ function showSuccessScreen(data) {
     });
   }
 
-  // Download card button - uses the API-generated image
+  // Download card button - uses client-side high-res canvas generator (never blank!)
   const dlBtn = /** @type {HTMLButtonElement | null} */ (document.getElementById("download-card-btn"));
   if (dlBtn) {
     dlBtn.addEventListener("click", async () => {
       try {
-        dlBtn.textContent = "⏳ GENERATING...";
+        dlBtn.textContent = "⏳ GENERATING PASS...";
         dlBtn.disabled = true;
         
-        // Fetch the image from the API
-        const cardUrl = `${siteUrl}/api/card/${data.publicToken}`;
-        const response = await fetch(cardUrl);
-        
-        if (!response.ok) throw new Error("Failed to generate card");
-        
-        const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `VJTI-Cricket-${data.registrationId}.png`;
-        a.click();
-        URL.revokeObjectURL(url);
+        await downloadPlayerCard(data.player || data);
         
         dlBtn.textContent = "⬇ DOWNLOAD PLAYER CARD";
         dlBtn.disabled = false;
-        toastMsg("Player card downloaded!", "success");
+        toastMsg("Player card downloaded! Check your photos / gallery.", "success");
       } catch (err) {
+        console.error("Card download error:", err);
         dlBtn.textContent = "⬇ DOWNLOAD PLAYER CARD";
         dlBtn.disabled = false;
-        toastMsg("Download failed. Try the share button instead.", "error");
+        toastMsg("Download failed. Please try again.", "error");
       }
     });
   }
 
-  // Share to Instagram button
+  // Share to Instagram / mobile story button
   const shareBtn = document.getElementById("share-card-btn");
   if (shareBtn) {
     shareBtn.addEventListener("click", async () => {
       try {
-        const cardUrl = `${siteUrl}/api/card/${data.publicToken}`;
-        const response = await fetch(cardUrl);
-        if (!response.ok) throw new Error("Failed to generate card");
-        
-        const blob = await response.blob();
-        const file = new File([blob], `VJTI-Cricket-${data.registrationId}.png`, { type: "image/png" });
-        
-        // Try Web Share API
-        if (navigator.share && navigator.canShare({ files: [file] })) {
-          await navigator.share({
-            files: [file],
-            title: "VJTI Cricket Trials 2026",
-            text: `I'm registered for VJTI Cricket Trials 2026! ${data.registrationId}`
-          });
+        const result = await sharePlayerCard(data.player || data);
+        if (result.shared) {
           toastMsg("Shared successfully!", "success");
-        } else {
-          // Fallback: download
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = `VJTI-Cricket-${data.registrationId}.png`;
-          a.click();
-          URL.revokeObjectURL(url);
-          toastMsg("Downloaded! Share manually from your gallery.", "info");
+        } else if (result.downloaded) {
+          toastMsg("Card downloaded! Share the photo from your gallery.", "info");
         }
       } catch (err) {
-        if (err.name !== "AbortError") { // User cancelled share
-          toastMsg("Share failed. Download and share manually.", "error");
-        }
+        toastMsg("Share failed. Please download the card instead.", "error");
       }
     });
   }

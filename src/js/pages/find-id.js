@@ -9,6 +9,7 @@ import "../../css/main.css";
 import { initLenis } from "../core/lenis.js";
 import { initNav } from "../components/nav.js";
 import { toastMsg } from "../components/toast.js";
+import { downloadPlayerCard } from "../components/player-card-canvas.js";
 
 initLenis();
 initNav();
@@ -64,10 +65,30 @@ function renderPlayerCard(data) {
       </div>
     </div>
     <div class="flex flex-col gap-3">
+      <button id="dl-found-card" class="btn-primary w-full">⬇ DOWNLOAD PLAYER CARD</button>
       <button id="copy-found-id" class="btn-secondary w-full">⧉ COPY REGISTRATION ID</button>
     </div>
   `;
   container.classList.remove("hidden");
+
+  document.getElementById("dl-found-card")?.addEventListener("click", async () => {
+    const btn = /** @type {HTMLButtonElement | null} */ (document.getElementById("dl-found-card"));
+    if (btn) {
+      btn.textContent = "⏳ GENERATING PASS...";
+      btn.disabled = true;
+    }
+    try {
+      await downloadPlayerCard(data);
+      toastMsg("Player card downloaded! Check your photos / gallery.", "success");
+    } catch (_) {
+      toastMsg("Download failed. Try again.", "error");
+    } finally {
+      if (btn) {
+        btn.textContent = "⬇ DOWNLOAD PLAYER CARD";
+        btn.disabled = false;
+      }
+    }
+  });
 
   document.getElementById("copy-found-id")?.addEventListener("click", () => {
     navigator.clipboard.writeText(data.registration_id).then(() => toastMsg("Copied!", "success"));
@@ -116,9 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const local = saved.find((/** @type {any} */ r) => r.reg_no === regNoVal && r.whatsapp === waNormalised);
 
       // 2. Fetch from /api/find-id
-      const apiUrl = window.location.hostname === 'localhost' 
-        ? 'http://localhost:3001/api/find-id'
-        : '/api/find-id';
+      const apiUrl = '/api/find-id';
       
       console.log('🔍 Looking up player via:', apiUrl);
       console.log('Search criteria:', { reg_no: regNoVal, whatsapp: waNormalised });

@@ -1,105 +1,146 @@
 // @ts-check
-import { gsap, ScrollTrigger } from "../core/gsap.js";
+/**
+ * Stadium Scoreboard - Player Registration Stats
+ * Fetches live counts from the database and animates the numbers
+ */
+
+import { supabase } from '../core/supabase.js';
 
 /**
- * Fetches live stats from /api/stats.
- * Returns zeros on any failure so the scoreboard never breaks.
- *
- * @returns {Promise<{ total: number, batters: number, bowlers: number, keepers: number, live: boolean }>}
+ * Animate number from 0 to target value
+ */
+function animateNumber(element, target, duration = 1500) {
+  const start = 0;
+  const startTime = performance.now();
+  
+  function update(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    
+    // Easing function (ease-out-cubic)
+    const easeOut = 1 - Math.pow(1 - progress, 3);
+    const current = Math.floor(start + (target - start) * easeOut);
+    
+    element.textContent = current;
+    
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    } else {
+      element.textContent = target; // Ensure final value is exact
+    }
+  }
+  
+  requestAnimationFrame(update);
+}
+
+/**
+ * Fetch player stats from database
  */
 async function fetchStats() {
   try {
-    const res = await fetch("/api/stats", { cache: "no-store" });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const json = await res.json();
+    // Check if running in dev mode
+    const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    
+    if (isDev) {
+      // Use dev API server
+      const response = await fetch('http://localhost:3001/api/stats');
+      if (!response.ok) throw new Error('Failed to fetch stats');
+      return await response.json();
+    } else {
+      // Use Supabase directly in production
+      const { data, error } = await supabase
+        .from('players')
+        .select('primary_role');
+      
+      if (error) throw error;
+      
+      const rows = data || [];
+      const batters = rows.filter(r => r.primary_role?.toLowerCase() === 'batter').length;
+      const bowlers = rows.filter(r => r.primary_role?.toLowerCase() === 'bowler').length;
+      const keepers = rows.filter(r => r.primary_role?.toLowerCase() === 'wicketkeeper').length;
+      
+      return {
+        total: rows.length,
+        batters,
+        bowlers,
+        keepers,
+        live: true,
+        updatedAt: new Date().toISOString()
+      };
+    }
+  } catch (error) {
+    console.error('❌ Stats fetch error:', error);
     return {
-      total:   Number(json.total   ?? 0),
-      batters: Number(json.batters ?? 0),
-      bowlers: Number(json.bowlers ?? 0),
-      keepers: Number(json.keepers ?? 0),
-      live:    Boolean(json.live),
+      total: 0,
+      batters: 0,
+      bowlers: 0,
+      keepers: 0,
+      live: false
     };
-  } catch {
-    return { total: 0, batters: 0, bowlers: 0, keepers: 0, live: false };
   }
 }
 
 /**
- * Animates the number displayed in an element to a new target value.
- *
- * @param {Element | null} el
- * @param {number} from
- * @param {number} to
- * @param {number} duration
+ * Update the scoreboard UI with stats
  */
-function animateTo(el, from, to, duration) {
-  if (!el) return;
-  const obj = { v: from };
-  gsap.to(obj, {
-    v: to,
-    duration,
-    ease: "power2.out",
-    onUpdate: () => {
-      el.textContent = String(Math.floor(obj.v));
-    },
-  });
+async function updateScoreboard() {
+  console.log('📊 Fetching player stats...');
+  
+  const stats = await fetchStats();
+  
+  console.log('📊 Stats received:', stats);
+  
+  // Find elements
+  const totalEl = document.querySelector('[data-stat="total"]');
+  const battersEl = document.querySelector('[data-stat="batters"]');
+  const bowlersEl = document.querySelector('[data-stat="bowlers"]');
+  const keepersEl = document.querySelector('[data-stat="keepers"]');
+  
+  if (!totalEl || !battersEl || !bowlersEl || !keepersEl) {
+    console.warn('⚠️ Stats elements not found');
+    return;
+  }
+  
+  // Animate numbers
+  animateNumber(totalEl, stats.total, 2000);
+  setTimeout(() => animateNumber(battersEl, stats.batters, 1200), 400);
+  setTimeout(() => animateNumber(bowlersEl, stats.bowlers, 1200), 600);
+  setTimeout(() => animateNumber(keepersEl, stats.keepers, 1200), 800);
+  
+  // Update timestamp if live
+  if (stats.live) {
+    const timestampEl = document.querySelector('#stats-section .font-mono.text-xs.text-\\[\\#64716A\\]');
+    if (timestampEl) {
+      timestampEl.textContent = 'Updated live';
+      timestampEl.classList.remove('text-[#64716A]');
+      timestampEl.classList.add('text-[#31D47B]');
+    }
+  }
+  
+  console.log('✅ Scoreboard updated successfully');
 }
 
+/**
+ * Initialize the stats section
+ */
 export function initStats() {
-  const statsSection = document.getElementById("stats-section");
-  if (!statsSection) return;
-
-  const totalEl   = statsSection.querySelector("[data-stat='total']");
-  const battersEl = statsSection.querySelector("[data-stat='batters']");
-  const bowlersEl = statsSection.querySelector("[data-stat='bowlers']");
-  const keepersEl = statsSection.querySelector("[data-stat='keepers']");
-  const liveLabel = statsSection.querySelector(".stats-live-badge");
-
-  // Track the current displayed values so updates animate from them
-  let current = { total: 0, batters: 0, bowlers: 0, keepers: 0 };
-
-  /**
-   * Loads stats from the API and animates to new values.
-   * @param {boolean} firstLoad - true → use a longer count-up animation
-   */
-  async function loadAndAnimate(firstLoad = false) {
-    const stats = await fetchStats();
-    const duration = firstLoad ? 2.2 : 0.8;
-
-    animateTo(totalEl,   current.total,   stats.total,   duration);
-    animateTo(battersEl, current.batters, stats.batters, duration);
-    animateTo(bowlersEl, current.bowlers, stats.bowlers, duration);
-    animateTo(keepersEl, current.keepers, stats.keepers, duration);
-
-    // Show/hide "LIVE" badge depending on Supabase connection
-    if (liveLabel) {
-      liveLabel.classList.toggle("opacity-0", !stats.live);
-    }
-
-    current = stats;
+  // Only run on pages with the stats section
+  if (!document.getElementById('stats-section')) {
+    return;
   }
-
-  // Trigger first load when section scrolls into view
-  let hasLoaded = false;
-  ScrollTrigger.create({
-    trigger: statsSection,
-    start: "top 80%",
-    once: true,
-    onEnter: async () => {
-      hasLoaded = true;
-      await loadAndAnimate(true);
-      // Refresh every 30 seconds while the tab is visible
-      const interval = setInterval(() => {
-        if (document.hidden) return;
-        loadAndAnimate(false);
-      }, 30_000);
-      // Stop polling if the section is removed (single-page nav)
-      statsSection.addEventListener("disconnected", () => clearInterval(interval), { once: true });
-    },
-  });
-
-  // Also refresh when tab becomes visible again (user switches back)
-  document.addEventListener("visibilitychange", () => {
-    if (!document.hidden && hasLoaded) loadAndAnimate(false);
+  
+  console.log('🏟️ Initializing Stadium Scoreboard...');
+  
+  // Initial load
+  updateScoreboard();
+  
+  // Refresh every 30 seconds
+  setInterval(updateScoreboard, 30000);
+  
+  // Refresh when user returns to tab
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      updateScoreboard();
+    }
   });
 }

@@ -387,10 +387,11 @@ export async function addWalkInPlayer(player) {
  */
 export async function getSiteSettings() {
   try {
-    const { data } = await supabase.from("site_settings").select("*").eq("id", "current").maybeSingle();
-    if (data) {
-      localStorage.setItem(SETTINGS_CACHE_KEY, JSON.stringify(data));
-      return data;
+    const { data: rows, error } = await supabase.from("settings").select("key, value");
+    if (!error && rows && rows.length > 0) {
+      const mapped = rows.reduce((acc, r) => ({ ...acc, [r.key]: r.value }), {});
+      localStorage.setItem(SETTINGS_CACHE_KEY, JSON.stringify(mapped));
+      return mapped;
     }
   } catch (_) {}
 
@@ -419,7 +420,9 @@ export async function updateSiteSettings(updates) {
   localStorage.setItem(SETTINGS_CACHE_KEY, JSON.stringify(settings));
 
   try {
-    await supabase.from("site_settings").update(updates).eq("id", "current");
+    for (const [key, value] of Object.entries(updates)) {
+      await supabase.from("settings").upsert({ key, value, updated_at: new Date().toISOString() });
+    }
   } catch (_) {}
 
   return settings;
