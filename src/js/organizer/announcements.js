@@ -12,17 +12,24 @@ const ANNOUNCEMENTS_KEY = "vjti_announcements_cache";
 const DEFAULT_ANNOUNCEMENTS = [
   {
     id: "ann-01",
-    title: "Reporting Time Announced: 07:30 AM Sharp",
-    body: "All registered players for Trial Day 1 (Saturday 10 October 2026) must report to the VJTI Cricket Ground Pavilion by 07:30 AM in complete whites. Warm-ups begin at 08:00 AM.",
-    category: "Schedule",
-    created_at: "2026-09-29T10:00:00Z"
+    title: "Trial Reporting Guidelines & Dress Code",
+    body: "All players are reminded that full cricket whites are compulsory. Check-in desks open 45 minutes prior to slot times at VJTI Cricket Ground.",
+    category: "Urgent",
+    created_at: new Date(Date.now() - 86400000).toISOString() // 1 day ago
   },
   {
     id: "ann-02",
-    title: "Mandatory Safety Equipment for Batters & Keepers",
-    body: "Due to hard leather-ball play, all batters and wicketkeepers must carry helmets and abdomen guards. Limited common safety gear is available at the pavilion desk.",
-    category: "Urgent",
-    created_at: "2026-09-28T14:30:00Z"
+    title: "Kit & Safety Gear Recommendations",
+    body: "Batters and keepers are strongly advised to carry helmets and guards. Limited communal batting pads will be available on request.",
+    category: "General",
+    created_at: new Date(Date.now() - 172800000).toISOString() // 2 days ago
+  },
+  {
+    id: "ann-03",
+    title: "VJTI Cricket Ground Location Details",
+    body: "Trials will be conducted at the VJTI Cricket Ground, featuring one centre wicket. Please arrive 30 minutes before your scheduled slot.",
+    category: "General",
+    created_at: new Date(Date.now() - 345600000).toISOString() // 4 days ago
   }
 ];
 
