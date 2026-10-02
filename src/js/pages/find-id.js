@@ -10,9 +10,19 @@ import { initLenis } from "../core/lenis.js";
 import { initNav } from "../components/nav.js";
 import { toastMsg } from "../components/toast.js";
 import { downloadPlayerCard } from "../components/player-card-canvas.js";
+import { renderDeveloperCredit } from "../../lib/credit.js";
 
 initLenis();
 initNav();
+
+// Initialize developer credit
+document.addEventListener("DOMContentLoaded", () => {
+  const creditContainer = document.getElementById('developer-credit');
+  if (creditContainer) {
+    renderDeveloperCredit(creditContainer);
+  }
+});
+
 // @ts-ignore
 
 

@@ -12,12 +12,22 @@ import { initNav } from "../components/nav.js";
 import { toastMsg } from "../components/toast.js";
 import { siteConfig } from "../../../config/site.js";
 import { generateTrialsCalendar, downloadICS, addToGoogleCalendar } from "../../../lib/ics.js";
+import { renderDeveloperCredit } from "../../lib/credit.js";
 import QRCode from "qrcode";
 import { downloadPlayerCard, sharePlayerCard } from "../components/player-card-canvas.js";
 
 // ── Lenis / Nav init ──────────────────────────────────────────────
 initLenis();
 initNav();
+
+// ── Developer Credit init ─────────────────────────────────────────
+document.addEventListener("DOMContentLoaded", () => {
+  const creditContainer = document.getElementById('developer-credit');
+  if (creditContainer) {
+    renderDeveloperCredit(creditContainer);
+  }
+});
+
 // @ts-ignore
 // toast exposed via window.toastMsg only in debug
 

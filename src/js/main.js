@@ -5,6 +5,7 @@ import { initNav } from "./components/nav.js";
 import { initHero } from "./sections/hero.js";
 import "./components/countdown.js";
 import { toast } from "./components/toast.js";
+import { renderDeveloperCredit } from "../lib/credit.js";
 
 // Section controllers – Phase 3
 import { initFixture } from "./sections/fixture.js";
@@ -25,6 +26,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // Core
   initLenis();
   initNav();
+
+  // Developer Credit
+  const creditContainer = document.getElementById('developer-credit');
+  if (creditContainer) {
+    renderDeveloperCredit(creditContainer);
+  }
 
   // Hero (Phase 2)
   initHero();

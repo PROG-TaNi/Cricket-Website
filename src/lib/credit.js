@@ -30,15 +30,15 @@ const CREDIT_DATA = {
   program: "B.Tech Final Year",
   department: "Electronics Engineering",
   institution: "VJTI",
-  year: "2027",
+  year: "2026",
   role: "Full-Stack Developer"
 };
 
 /**
  * Pre-computed hash of the credit string
- * Generated from: "Tarush Nigam|B.Tech Final Year|Electronics Engineering|VJTI|2027|Full-Stack Developer"
+ * Generated from: "Tarush Nigam|B.Tech Final Year|Electronics Engineering|VJTI|2026|Full-Stack Developer"
  */
-const CREDIT_HASH = "5808ea3cc23c286396b3391e1e969fe0d04d86308deb436a3cea9d6380033235";
+const CREDIT_HASH = "1ad17a05ba0b080e73b3ca1a4baef1db2e88b09423eac13c386339606fc2dc54";
 
 /**
  * Verify credit integrity

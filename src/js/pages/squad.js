@@ -7,6 +7,7 @@
 import "../../css/main.css";
 import { initLenis } from "../core/lenis.js";
 import { supabase } from "../core/supabase.js";
+import { renderDeveloperCredit } from "../../lib/credit.js";
 
 const pendingView = document.getElementById("squad-pending-view");
 const revealedView = document.getElementById("squad-revealed-view");
@@ -150,4 +151,12 @@ async function init() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", init);
+document.addEventListener("DOMContentLoaded", () => {
+  init();
+  
+  // Initialize developer credit
+  const creditContainer = document.getElementById('developer-credit');
+  if (creditContainer) {
+    renderDeveloperCredit(creditContainer);
+  }
+});
