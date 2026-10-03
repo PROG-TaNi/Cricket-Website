@@ -306,6 +306,10 @@ async function performCheckIn(status, dayNumber) {
 /**
  * Initialize camera scanner
  */
+let lastScannedCode = null;
+let lastScanTime = 0;
+const SCAN_COOLDOWN = 3000; // 3 seconds cooldown between scans of the same code
+
 async function initCamera() {
   if (!videoEl) return;
 
@@ -314,6 +318,17 @@ async function initCamera() {
       videoEl,
       (result) => {
         const text = typeof result === "string" ? result : result.data;
+        const now = Date.now();
+        
+        // Prevent duplicate scans of the same code within cooldown period
+        if (text === lastScannedCode && now - lastScanTime < SCAN_COOLDOWN) {
+          return; // Ignore duplicate scan
+        }
+        
+        // Update last scanned code and time
+        lastScannedCode = text;
+        lastScanTime = now;
+        
         const candidate = findCandidate(text);
         if (candidate) {
           displayCandidate(candidate);
