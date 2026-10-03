@@ -343,63 +343,30 @@ body {
   pointer-events: auto;
 }
 
-/* Ensure nav content doesn't block interactions */
-#vjti-main-nav > * {
-  pointer-events: auto;
-}
-
-/* Ensure hamburger button stays visible on scroll (highest element) */
+/* Hamburger button — mobile only */
 #nav-mobile-toggle {
   position: relative;
-  z-index: 10001;
+  z-index: 10002;
   flex-shrink: 0;
   pointer-events: auto !important;
   touch-action: manipulation;
   -webkit-tap-highlight-color: rgba(49, 212, 123, 0.3);
+  cursor: pointer;
+  display: none; /* hidden by default; shown only on mobile below */
 }
 
-/* Mobile menu overlay (fullscreen, above all content) */
-#nav-mobile-menu {
-  z-index: 10000 !important;
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  background-color: #050807 !important;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
+/* Show on mobile + tablet (below lg breakpoint = 1024px) */
+@media (max-width: 1023px) {
+  #nav-mobile-toggle {
+    display: flex !important;
+  }
 }
 
-/* Hamburger animation */
-.nav-open .line-top {
-  transform: translateY(7px) rotate(45deg);
-}
-
-.nav-open .line-mid {
-  opacity: 0;
-  transform: scaleX(0);
-}
-
-.nav-open .line-bot {
-  transform: translateY(-7px) rotate(-45deg);
-}
-
-/* Force solid black background when menu is open */
-#vjti-main-nav.nav-menu-open,
-#vjti-main-nav:has(#nav-mobile-menu:not(.hidden)) {
-  background-color: #050807 !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-
-/* Force hamburger button visibility on all backgrounds */
-#nav-mobile-toggle {
-  background-color: rgba(255, 255, 255, 0.05) !important;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+/* Ensure hidden on desktop (lg and above) regardless of class specificity */
+@media (min-width: 1024px) {
+  #nav-mobile-toggle {
+    display: none !important;
+  }
 }
 
 #nav-mobile-toggle:hover {
@@ -408,40 +375,36 @@ body {
 
 #nav-mobile-toggle:active {
   background-color: rgba(255, 255, 255, 0.12) !important;
+  transform: scale(0.95);
 }
 
-/* Ensure hamburger lines are always visible */
-.hamburger-line {
-  position: relative;
-  z-index: 1;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-/* Prevent body scroll when menu is open */
-body:has(#nav-mobile-menu:not(.hidden)) {
-  overflow: hidden !important;
-  position: fixed;
-  width: 100%;
-  height: 100%;
-}
-
-/* Add smooth transitions */
+/* Mobile fullscreen overlay — JS controls display:flex / display:none */
 #nav-mobile-menu {
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 9998;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background-color: #050807;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  flex-direction: column;
+  justify-content: space-between;
+  /* JS sets display:flex to open, display:none to close */
 }
 
-#nav-mobile-menu.hidden {
-  display: none !important;
-  opacity: 0;
-  transform: translateY(-10px);
-  pointer-events: none;
+/* Mobile nav link hover effect */
+.mobile-nav-link:hover {
+  background: rgba(49, 212, 123, 0.08) !important;
+  border-color: rgba(49, 212, 123, 0.35) !important;
 }
 
-#nav-mobile-menu:not(.hidden) {
-  display: flex !important;
-  opacity: 1;
-  transform: translateY(0);
+.mobile-nav-link:active {
+  transform: scale(0.98);
 }
+
 
 /* ────────────────────────────────────────────────
    REGISTRATION FORM COMPONENTS

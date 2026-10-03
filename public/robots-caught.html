@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🤖 Caught Ya, Bot | VJTI Cricket</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@900&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #050807;
+      color: #f4f1e8;
+      font-family: 'Space Mono', monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Scanline overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(49, 212, 123, 0.015) 2px,
+        rgba(49, 212, 123, 0.015) 4px
+      );
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .terminal {
+      width: min(680px, 92vw);
+      background: #0a120d;
+      border: 1px solid rgba(49, 212, 123, 0.3);
+      border-radius: 12px;
+      box-shadow: 0 0 60px rgba(49, 212, 123, 0.08), 0 0 120px rgba(49, 212, 123, 0.04);
+      overflow: hidden;
+    }
+
+    /* Terminal title bar */
+    .terminal-bar {
+      background: #0f1a12;
+      border-bottom: 1px solid rgba(49, 212, 123, 0.2);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-red   { background: #ff5f57; }
+    .dot-amber { background: #ffbd2e; }
+    .dot-green { background: #28c840; }
+    .terminal-title {
+      margin-left: 8px;
+      font-size: 11px;
+      color: #64716a;
+      letter-spacing: 0.08em;
+    }
+
+    /* Terminal body */
+    .terminal-body {
+      padding: 28px 28px 32px;
+    }
+
+    .prompt { color: #31D47B; font-size: 12px; margin-bottom: 4px; }
+    .prompt span { color: #64716a; }
+
+    .robot-ascii {
+      font-size: clamp(8px, 1.6vw, 13px);
+      line-height: 1.3;
+      color: #31D47B;
+      margin: 16px 0;
+      white-space: pre;
+      text-shadow: 0 0 8px rgba(49, 212, 123, 0.5);
+    }
+
+    .output-line {
+      font-size: 13px;
+      line-height: 1.9;
+      color: #a7b2ac;
+      margin-bottom: 2px;
+    }
+    .output-line .green  { color: #31D47B; }
+    .output-line .white  { color: #f4f1e8; font-weight: 700; }
+    .output-line .red    { color: #ff6b6b; }
+    .output-line .yellow { color: #ffd166; }
+    .output-line .dim    { color: #3d4d45; }
+
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(49, 212, 123, 0.12);
+      margin: 20px 0;
+    }
+
+    .blink {
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 24px;
+      padding: 12px 24px;
+      background: #31D47B;
+      color: #050807;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      border-radius: 8px;
+      text-transform: uppercase;
+      transition: opacity 0.2s;
+    }
+    .cta:hover { opacity: 0.85; }
+
+    /* Glitch animation on the big emoji */
+    .glitch {
+      font-size: clamp(48px, 10vw, 80px);
+      display: block;
+      text-align: center;
+      margin-bottom: 8px;
+      animation: glitch 3s infinite;
+      filter: drop-shadow(0 0 20px rgba(49, 212, 123, 0.4));
+    }
+    @keyframes glitch {
+      0%, 90%, 100% { transform: translate(0); }
+      91%  { transform: translate(-3px, 1px); }
+      92%  { transform: translate(3px, -1px); }
+      93%  { transform: translate(-1px, 2px); }
+      94%  { transform: translate(1px, -2px); }
+      95%  { transform: translate(0); }
+    }
+
+    /* Floating particles */
+    .particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: #31D47B;
+      border-radius: 50%;
+      opacity: 0;
+      animation: float linear infinite;
+    }
+    @keyframes float {
+      0%   { transform: translateY(100vh) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.3; }
+      100% { transform: translateY(-10vh) translateX(40px); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating particles -->
+  <div class="particles" id="particles"></div>
+
+  <div class="terminal" style="position:relative;z-index:5;">
+    <div class="terminal-bar">
+      <div class="dot dot-red"></div>
+      <div class="dot dot-amber"></div>
+      <div class="dot dot-green"></div>
+      <span class="terminal-title">bash — robots.txt — 80×24</span>
+    </div>
+
+    <div class="terminal-body">
+      <div class="prompt"><span>vjti-cricket@vercel:~$</span> cat /robots.txt</div>
+
+      <pre class="robot-ascii">
+  ╔══════════════════════════════════════╗
+  ║   .--.      .--.      .--.          ║
+  ║  |o_o |    |o_o |    |o_o |         ║
+  ║  |:_/ |    |:_/ |    |:_/ |         ║
+  ║ //   \ \  //   \ \  //   \ \        ║
+  ║(|     | )(|     | )(|     | )       ║
+  ║/'\_   _/`\'\_   _/`\'\_   _/`\      ║
+  ║\___)=(___/\___)=(___/\___)=(___/    ║
+  ║                                      ║
+  ║   WE SEE YOU, LITTLE BOT 👀         ║
+  ╚══════════════════════════════════════╝</pre>
+
+      <hr class="divider" />
+
+      <div class="output-line"><span class="green">STATUS</span>   <span class="red">INTRUDER DETECTED</span> 🚨</div>
+      <div class="output-line"><span class="green">TARGET</span>   <span class="white">VJTI Cricket Trials 2026–27</span></div>
+      <div class="output-line"><span class="green">FILE</span>     <span class="yellow">/robots.txt</span> → classic move, bro</div>
+      <div class="output-line"><span class="green">IP</span>       <span class="dim">we're not saying we know... but we know</span></div>
+
+      <hr class="divider" />
+
+      <div class="output-line"><span class="white">Here's your robots.txt:</span></div>
+      <br />
+      <div class="output-line"><span class="dim"># User-agent: *</span></div>
+      <div class="output-line"><span class="dim"># Disallow: /your-data-scraping-dreams</span></div>
+      <div class="output-line"><span class="dim"># Disallow: /whatever-you-were-looking-for</span></div>
+      <div class="output-line"><span class="dim"># Allow: /go-touch-grass</span></div>
+      <div class="output-line"><span class="dim"># Sitemap: none-of-your-business.xml</span></div>
+      <br />
+      <div class="output-line">
+        Honestly? Respect the hustle. 🏏 But we're a <span class="green">cricket team</span>,
+        not a data goldmine.
+      </div>
+      <div class="output-line">
+        Our squad was selected on the <span class="white">field</span>, not in your training data.
+      </div>
+
+      <hr class="divider" />
+
+      <div class="output-line">
+        <span class="green">$</span> Still here? Come register for trials instead.
+        <span class="blink">█</span>
+      </div>
+
+      <a class="cta" href="/">← Back to the real action</a>
+    </div>
+  </div>
+
+  <script>
+    // Generate floating particles
+    const container = document.getElementById('particles');
+    for (let i = 0; i < 25; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.animationDuration = (6 + Math.random() * 10) + 's';
+      p.style.animationDelay = (Math.random() * 8) + 's';
+      p.style.width = p.style.height = (Math.random() > 0.7 ? '3px' : '2px');
+      container.appendChild(p);
+    }
+  </script>
+</body>
+</html>
