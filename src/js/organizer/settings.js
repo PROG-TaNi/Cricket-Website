@@ -20,8 +20,30 @@ document.addEventListener("DOMContentLoaded", async () => {
   const inputWaGroup = /** @type {HTMLInputElement | null} */ (document.getElementById("input-wa-group"));
   const inputDay1Time = /** @type {HTMLInputElement | null} */ (document.getElementById("input-day1-time"));
   const inputDay2Time = /** @type {HTMLInputElement | null} */ (document.getElementById("input-day2-time"));
+  const inputRegDeadline = /** @type {HTMLInputElement | null} */ (document.getElementById("input-reg-deadline"));
+  const clearDeadlineBtn = document.getElementById("clear-deadline-btn");
+  const deadlinePreview = document.getElementById("deadline-preview");
   const settingsForm = /** @type {HTMLFormElement | null} */ (document.getElementById("settings-form"));
   const resetDataBtn = document.getElementById("reset-data-btn");
+
+  // Format a YYYY-MM-DD date string to a readable label e.g. "Fri, 25 Oct 2026"
+  function formatDeadlinePreview(/** @type {string} */ dateStr) {
+    if (!dateStr) return "";
+    const d = new Date(dateStr + "T00:00:00");
+    return d.toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short", year: "numeric" });
+  }
+
+  function updateDeadlinePreview() {
+    if (!deadlinePreview || !inputRegDeadline) return;
+    const val = inputRegDeadline.value;
+    if (val) {
+      deadlinePreview.textContent = `→ Will show: "${formatDeadlinePreview(val).toUpperCase()}"`;
+      deadlinePreview.classList.remove("hidden");
+    } else {
+      deadlinePreview.textContent = "";
+      deadlinePreview.classList.add("hidden");
+    }
+  }
 
   // Populate current values
   if (toggleRegOpen) toggleRegOpen.checked = settings.registration_open ?? true;
@@ -30,6 +52,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (inputWaGroup) inputWaGroup.value = settings.whatsapp_group_url || "";
   if (inputDay1Time) inputDay1Time.value = settings.day1_reporting_time || "07:30 AM";
   if (inputDay2Time) inputDay2Time.value = settings.day2_reporting_time || "08:00 AM";
+  if (inputRegDeadline) inputRegDeadline.value = settings.registration_deadline || "";
+  updateDeadlinePreview();
+
+  // Live preview as date changes
+  inputRegDeadline?.addEventListener("input", updateDeadlinePreview);
+
+  // Clear deadline button
+  clearDeadlineBtn?.addEventListener("click", () => {
+    if (inputRegDeadline) inputRegDeadline.value = "";
+    updateDeadlinePreview();
+    inputRegDeadline?.focus();
+  });
 
   // Toggle handlers
   toggleRegOpen?.addEventListener("change", async () => {
@@ -56,7 +90,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const updates = {
       whatsapp_group_url: inputWaGroup?.value || "",
       day1_reporting_time: inputDay1Time?.value || "",
-      day2_reporting_time: inputDay2Time?.value || ""
+      day2_reporting_time: inputDay2Time?.value || "",
+      registration_deadline: inputRegDeadline?.value || ""  // "" = TBA on public site
     };
 
     await updateSiteSettings(updates);

@@ -79,6 +79,28 @@
           />
         </div>
 
+        <!-- Registration Deadline -->
+        <div>
+          <label for="input-reg-deadline" class="block text-[#A7B2AC] mb-1">
+            Registration Close Deadline
+            <span class="text-[#64716A] ml-1">(shown publicly on homepage · leave blank for "TBA")</span>
+          </label>
+          <div class="relative">
+            <input 
+              type="date"
+              id="input-reg-deadline"
+              class="w-full bg-[#07100B] border border-white/15 rounded-xl px-3.5 py-2.5 text-white focus:border-[#31D47B] outline-none [color-scheme:dark]"
+            />
+            <button
+              type="button"
+              id="clear-deadline-btn"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-[#64716A] hover:text-red-400 transition-colors text-xs font-mono"
+              title="Clear deadline (revert to TBA)"
+            >✕ CLEAR</button>
+          </div>
+          <p id="deadline-preview" class="font-mono text-[10px] text-[#31D47B] mt-1 hidden"></p>
+        </div>
+
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label for="input-day1-time" class="block text-[#A7B2AC] mb-1">Day 1 Reporting Time (Sat 31 Oct)</label>
