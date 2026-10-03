@@ -140,12 +140,6 @@ export default async function handler(req, res) {
     return res.status(422).json({ error: errors.join(" ") });
   }
 
-  // ── Turnstile verification ──────────────────────────────────────
-  const turnstileOk = await verifyTurnstile(String(turnstile_token || ""), ip);
-  if (!turnstileOk) {
-    return res.status(403).json({ error: "Security check failed. Please reload and try again." });
-  }
-
   // ── Development / Offline Fallback if Supabase is unconfigured ────
   const isMockSupabase = !SUPABASE_URL || SUPABASE_URL.includes("mock-") || !SUPABASE_SERVICE_ROLE_KEY;
 

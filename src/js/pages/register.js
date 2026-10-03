@@ -31,33 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
 // @ts-ignore
 // toast exposed via window.toastMsg only in debug
 
-// ── Turnstile callback (called by Cloudflare script) ─────────────
-/** @type {string | null} */
-let turnstileToken = null;
-
-// @ts-ignore – injected by Cloudflare Turnstile
-window.onTurnstileSuccess = (/** @type {string} */ token) => {
-  console.log("✓ Turnstile success, token received:", token ? "Yes" : "No");
-  turnstileToken = token;
-  const submitBtn = /** @type {HTMLButtonElement} */ (document.getElementById("submit-btn"));
-  if (submitBtn) {
-    submitBtn.disabled = false;
-    console.log("✓ Submit button enabled");
-  }
-};
-
-// For development: Auto-enable submit button after 2 seconds if Turnstile hasn't loaded
-setTimeout(() => {
-  if (!turnstileToken) {
-    console.warn("⚠ Turnstile token not received after 2s. Auto-enabling submit button for development.");
-    const submitBtn = /** @type {HTMLButtonElement} */ (document.getElementById("submit-btn"));
-    if (submitBtn && submitBtn.disabled) {
-      turnstileToken = "dev-bypass-token";
-      submitBtn.disabled = false;
-    }
-  }
-}, 2000);
-
 // ── Validation helpers ────────────────────────────────────────────
 const REG_NO_REGEX = /^[A-Z0-9]{4,20}$/;
 const NAME_REGEX = /^[A-Za-z\s.''-]{2,80}$/;
@@ -408,7 +381,6 @@ async function renderPlayerCard(data) {
 // ── Submit handler ────────────────────────────────────────────────
 async function handleSubmit() {
   console.log("🚀 Starting registration submission...");
-  console.log("Turnstile token:", turnstileToken ? "Present" : "Missing");
   
   const submitBtn = /** @type {HTMLButtonElement} */ (document.getElementById("submit-btn"));
   const submitLabel = document.getElementById("submit-label");
@@ -431,7 +403,6 @@ async function handleSubmit() {
       past_experience: formData.past_experience || null,
       whatsapp: formData.whatsapp,
       photo_url: formData.photo_data || null,
-      turnstile_token: turnstileToken,
     };
 
     console.log("📤 Sending registration payload...");
@@ -465,10 +436,6 @@ async function handleSubmit() {
     if (submitBtn) submitBtn.disabled = false;
     if (submitLabel) submitLabel.textContent = "SUBMIT REGISTRATION";
     if (submitSpinner) submitSpinner.classList.add("hidden");
-    // Re-enable Turnstile
-    turnstileToken = null;
-    // @ts-ignore
-    if (typeof window.turnstile !== "undefined") window.turnstile.reset();
 
     toastMsg(err.message || "Registration failed. Please try again.", "error");
   }
@@ -800,24 +767,9 @@ function setupFormSubmit() {
     e.preventDefault();
     console.log("📝 Form submit event triggered");
     console.log("Current step:", currentStep);
-    console.log("Turnstile token:", turnstileToken ? "Present" : "Missing");
     
-    if (!turnstileToken) {
-      console.warn("⚠ No Turnstile token, showing error");
-      toastMsg("Please complete the security check.", "error");
-      return;
-    }
     await handleSubmit();
   });
-}
-
-// ── Turnstile site key injection ──────────────────────────────────
-function injectTurnstileSiteKey() {
-  const widget = document.querySelector(".cf-turnstile");
-  if (widget) {
-    const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY || "1x00000000000000000000AA";
-    widget.setAttribute("data-sitekey", siteKey);
-  }
 }
 
 // ── Inline real-time validation feedback (blur) ───────────────────
@@ -939,7 +891,6 @@ document.addEventListener("DOMContentLoaded", () => {
   setupNavButtons();
   setupFormSubmit();
   setupInlineValidation();
-  injectTurnstileSiteKey();
   renderStepper();
 
   // If registration is closed (from config), show closed banner and hide form

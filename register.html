@@ -323,11 +323,8 @@
             <!-- populated by JS -->
           </div>
 
-          <!-- Turnstile Widget -->
-          <div id="turnstile-widget" class="cf-turnstile mb-6 flex justify-center" data-sitekey="1x00000000000000000000AA" data-theme="dark" data-callback="onTurnstileSuccess"></div>
-
           <!-- Submit Button -->
-          <button type="submit" id="submit-btn" class="btn-primary w-full" disabled>
+          <button type="submit" id="submit-btn" class="btn-primary w-full">
             <span id="submit-label">SUBMIT REGISTRATION</span>
             <span id="submit-spinner" class="hidden ml-2">⟳</span>
           </button>
@@ -449,9 +446,6 @@
   </main>
 
   <!-- include:partials/footer.html -->
-
-  <!-- Cloudflare Turnstile -->
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
   <script type="module" src="/src/js/pages/register.js"></script>
 </body>
