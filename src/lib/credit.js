@@ -69,47 +69,193 @@ export async function getDeveloperCredit() {
  * Render developer credit with verification badge
  * @param {HTMLElement} container
  */
-export async function renderDeveloperCredit(container) {
-  const credit = await getDeveloperCredit();
-  if (!credit) {
-    container.innerHTML = `
-      <div class="text-xs text-red-500">
-        ⚠️ Credit verification failed
-      </div>
+  // Inject cricket animation CSS once
+  if (!document.getElementById("cricket-dev-styles")) {
+    const style = document.createElement("style");
+    style.id = "cricket-dev-styles";
+    style.textContent = `
+      .dev-cricket-wrap {
+        position: relative;
+        display: inline-block;
+      }
+
+      /* Pulsing glow ring */
+      .dev-cricket-wrap::before {
+        content: '';
+        position: absolute;
+        inset: -6px;
+        border-radius: 14px;
+        border: 1px solid rgba(49,212,123,0.25);
+        animation: dev-ring-pulse 2.4s ease-in-out infinite;
+        pointer-events: none;
+      }
+      @keyframes dev-ring-pulse {
+        0%,100% { opacity: 0.2; transform: scale(1); }
+        50%      { opacity: 0.7; transform: scale(1.05); }
+      }
+
+      /* Orbiting cricket ball track */
+      .dev-orbit {
+        position: absolute;
+        inset: -14px;
+        border-radius: 50%;
+        pointer-events: none;
+        animation: dev-orbit-spin 3.5s linear infinite;
+      }
+      @keyframes dev-orbit-spin {
+        from { transform: rotate(0deg); }
+        to   { transform: rotate(360deg); }
+      }
+
+      /* The ball itself */
+      .dev-ball {
+        position: absolute;
+        top: -6px;
+        left: 50%;
+        width: 12px;
+        height: 12px;
+        margin-left: -6px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 35% 35%, #ff6b6b, #c0392b);
+        box-shadow: 0 0 6px rgba(192,57,43,0.8), 0 0 12px rgba(192,57,43,0.4);
+        counter-reset: none;
+      }
+      /* Ball seam lines */
+      .dev-ball::before,
+      .dev-ball::after {
+        content: '';
+        position: absolute;
+        border: 0.8px solid rgba(255,255,255,0.35);
+        border-radius: 50%;
+      }
+      .dev-ball::before {
+        width: 60%; height: 100%;
+        left: 20%; top: 0;
+        transform: scaleX(0.4);
+      }
+      .dev-ball::after {
+        width: 100%; height: 60%;
+        top: 20%; left: 0;
+        transform: scaleY(0.4);
+      }
+
+      /* Bat emoji that appears on hover */
+      .dev-bat-hint {
+        position: absolute;
+        bottom: calc(100% + 10px);
+        left: 50%;
+        transform: translateX(-50%) scale(0) rotate(-30deg);
+        font-size: 18px;
+        transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), opacity 0.2s;
+        opacity: 0;
+        pointer-events: none;
+        filter: drop-shadow(0 0 6px rgba(49,212,123,0.6));
+        white-space: nowrap;
+      }
+      .dev-cricket-wrap:hover .dev-bat-hint {
+        transform: translateX(-50%) scale(1) rotate(-10deg);
+        opacity: 1;
+      }
+
+      /* Speed up orbit on hover */
+      .dev-cricket-wrap:hover .dev-orbit {
+        animation-duration: 1s;
+      }
+
+      /* Stumps that pop out on hover */
+      .dev-stump {
+        position: absolute;
+        bottom: -18px;
+        font-size: 10px;
+        opacity: 0;
+        transform: translateY(0) scale(0);
+        transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+        pointer-events: none;
+      }
+      .dev-stump-1 { left: 20%; transition-delay: 0s; }
+      .dev-stump-2 { left: 50%; transform: translateX(-50%) scale(0); transition-delay: 0.05s; }
+      .dev-stump-3 { right: 20%; transition-delay: 0.1s; }
+
+      .dev-cricket-wrap:hover .dev-stump-1 {
+        opacity: 1;
+        transform: translateY(4px) scale(1);
+      }
+      .dev-cricket-wrap:hover .dev-stump-2 {
+        opacity: 1;
+        transform: translateX(-50%) translateY(4px) scale(1);
+      }
+      .dev-cricket-wrap:hover .dev-stump-3 {
+        opacity: 1;
+        transform: translateY(4px) scale(1);
+      }
+
+      /* Pitch line under button */
+      .dev-pitch-line {
+        position: absolute;
+        bottom: -3px;
+        left: 10%;
+        width: 80%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(49,212,123,0.5), transparent);
+        animation: dev-pitch-shimmer 2s linear infinite;
+      }
+      @keyframes dev-pitch-shimmer {
+        0%   { opacity: 0.3; transform: scaleX(0.7); }
+        50%  { opacity: 1;   transform: scaleX(1); }
+        100% { opacity: 0.3; transform: scaleX(0.7); }
+      }
     `;
-    return;
+    document.head.appendChild(style);
   }
 
   const isValid = await verifyCreditIntegrity();
-  
-  // Subtle icon-based credit
+
+  // Subtle icon-based credit wrapped in cricket animation
   container.innerHTML = `
-    <button 
-      class="developer-credit-trigger group flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#31D47B]/30 transition-all duration-200 cursor-pointer"
-      data-verified="${isValid}"
-      aria-label="View developer credit"
-      onclick="this.nextElementSibling.classList.toggle('hidden')"
-    >
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[#64716A] group-hover:text-[#31D47B] transition-colors">
-        <polyline points="16 18 22 12 16 6"></polyline>
-        <polyline points="8 6 2 12 8 18"></polyline>
-      </svg>
-      <span class="font-mono text-xs text-[#64716A] group-hover:text-[#A7B2AC] transition-colors">
-        DEV
-      </span>
-      ${isValid ? `
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="text-[#31D47B]">
-          <circle cx="6" cy="6" r="5" fill="currentColor" opacity="0.2"/>
-          <path d="M8 4L5.5 7.5L4 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <div class="dev-cricket-wrap">
+      <!-- Orbiting cricket ball -->
+      <div class="dev-orbit">
+        <div class="dev-ball"></div>
+      </div>
+
+      <!-- Bat hint on hover -->
+      <div class="dev-bat-hint">🏏 made with love</div>
+
+      <!-- Stumps on hover -->
+      <div class="dev-stump dev-stump-1">🏏</div>
+      <div class="dev-stump dev-stump-2">|</div>
+      <div class="dev-stump dev-stump-3">🏏</div>
+
+      <!-- Pitch shimmer line -->
+      <div class="dev-pitch-line"></div>
+
+      <button
+        class="developer-credit-trigger group flex items-center gap-2 px-3 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#31D47B]/30 transition-all duration-200 cursor-pointer"
+        data-verified="${isValid}"
+        aria-label="View developer credit"
+        onclick="this.nextElementSibling.classList.toggle('hidden')"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[#64716A] group-hover:text-[#31D47B] transition-colors">
+          <polyline points="16 18 22 12 16 6"></polyline>
+          <polyline points="8 6 2 12 8 18"></polyline>
         </svg>
-      ` : `
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="text-[#ff6b6b]">
-          <circle cx="6" cy="6" r="5" fill="currentColor" opacity="0.2"/>
-          <path d="M4 4L8 8M8 4L4 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-      `}
-    </button>
-    
+        <span class="font-mono text-xs text-[#64716A] group-hover:text-[#A7B2AC] transition-colors">
+          DEV
+        </span>
+        ${isValid ? `
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="text-[#31D47B]">
+            <circle cx="6" cy="6" r="5" fill="currentColor" opacity="0.2"/>
+            <path d="M8 4L5.5 7.5L4 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        ` : `
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="text-[#ff6b6b]">
+            <circle cx="6" cy="6" r="5" fill="currentColor" opacity="0.2"/>
+            <path d="M4 4L8 8M8 4L4 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        `}
+      </button>
+    </div>
+
     <!-- Expandable credit card -->
     <div class="developer-credit-card hidden absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-72 p-4 rounded-xl bg-[#0B120E] border border-[#31D47B]/20 shadow-2xl z-50">
       <div class="flex items-start justify-between mb-3">
@@ -134,7 +280,7 @@ export async function renderDeveloperCredit(container) {
           </div>
         `}
       </div>
-      
+
       <div class="space-y-1.5 text-xs text-[#A7B2AC]">
         <div class="flex items-center gap-2">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-[#64716A] flex-shrink-0">
@@ -158,13 +304,13 @@ export async function renderDeveloperCredit(container) {
           <span>${credit.institution} · ${credit.year}</span>
         </div>
       </div>
-      
+
       <div class="mt-3 pt-3 border-t border-white/10 flex items-center justify-between">
         <div class="font-mono text-[9px] text-[#64716A] tracking-wider">
           Protected by SHA-256 verification
         </div>
-        <a 
-          href="https://www.linkedin.com/in/tarush-nigam/" 
+        <a
+          href="https://www.linkedin.com/in/tarush-nigam/"
           target="_blank"
           rel="noopener noreferrer"
           class="flex items-center gap-1.5 px-2 py-1 rounded-md bg-[#0077B5]/10 hover:bg-[#0077B5]/20 border border-[#0077B5]/30 hover:border-[#0077B5]/50 transition-all group"
@@ -184,6 +330,7 @@ export async function renderDeveloperCredit(container) {
     </div>
   `;
 }
+
 
 /**
  * Protect credit in production build
