@@ -1500,56 +1500,68 @@ dialog#legacy-lightbox[open] {
 /* Cricket ball orbit container */
 .cricket-ball-orbit {
   position: absolute;
-  animation: pulse-glow 3s ease-in-out infinite;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  margin-left: -100px;
+  margin-top: -100px;
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* Cricket ball bouncing animation */
 .cricket-ball {
   position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -10px;
+  margin-top: -10px;
   animation: cricket-orbit 8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-  filter: drop-shadow(0 2px 4px rgba(220, 20, 60, 0.4));
+  filter: drop-shadow(0 3px 6px rgba(220, 20, 60, 0.6));
 }
 
 /* Spinning cricket ball */
 .cricket-ball-svg {
   animation: cricket-spin 2s linear infinite;
+  display: block;
 }
 
-/* Orbit path animation - figure-8 pattern around the button */
+/* Orbit path animation - circular pattern around the button */
 @keyframes cricket-orbit {
   0% {
-    transform: translate(0, 0) scale(0.8);
+    transform: translate(0, -80px) scale(0.7);
     opacity: 0;
   }
   5% {
     opacity: 1;
   }
   12.5% {
-    transform: translate(40px, -30px) scale(1);
+    transform: translate(56px, -56px) scale(0.9);
   }
   25% {
-    transform: translate(60px, 0) scale(1.1);
+    transform: translate(80px, 0) scale(1.1);
   }
   37.5% {
-    transform: translate(40px, 30px) scale(1);
+    transform: translate(56px, 56px) scale(0.9);
   }
   50% {
-    transform: translate(0, 40px) scale(0.9);
+    transform: translate(0, 80px) scale(0.7);
   }
   62.5% {
-    transform: translate(-40px, 30px) scale(1);
+    transform: translate(-56px, 56px) scale(0.9);
   }
   75% {
-    transform: translate(-60px, 0) scale(1.1);
+    transform: translate(-80px, 0) scale(1.1);
   }
   87.5% {
-    transform: translate(-40px, -30px) scale(1);
+    transform: translate(-56px, -56px) scale(0.9);
   }
   95% {
     opacity: 1;
   }
   100% {
-    transform: translate(0, 0) scale(0.8);
+    transform: translate(0, -80px) scale(0.7);
     opacity: 0;
   }
 }
@@ -1561,16 +1573,6 @@ dialog#legacy-lightbox[open] {
   }
   to {
     transform: rotate(360deg);
-  }
-}
-
-/* Subtle glow pulse to draw attention */
-@keyframes pulse-glow {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.6;
   }
 }
 
@@ -1589,7 +1591,7 @@ dialog#legacy-lightbox[open] {
 }
 
 /* On hover, pause the animations */
-.developer-credit-trigger:hover ~ .cricket-ball-orbit .cricket-ball {
+.developer-credit-trigger:hover {
   animation-play-state: paused;
 }
 
