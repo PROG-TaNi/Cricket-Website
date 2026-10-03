@@ -3,7 +3,7 @@ import { siteConfig } from "../core/config.js";
 
 /**
  * Custom Element: <vjti-countdown>
- * Displays a live cricket scoreboard countdown to 10 Oct 2026 00:00:00 IST.
+ * Displays a live cricket scoreboard countdown to 31 Oct 2026 00:00:00 IST.
  */
 export class VJtiCountdown extends HTMLElement {
   constructor() {

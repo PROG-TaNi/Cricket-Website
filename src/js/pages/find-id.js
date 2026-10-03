@@ -315,7 +315,7 @@ function renderPlayerCard(data) {
         <span class="player-card-tag">${escapeHtml(data.branch)}</span>
       </div>
       <div class="player-card-event">
-        Trial Day 1: Sat 10 Oct 2026 · Day 2: Sun 11 Oct 2026<br>
+        Trial Day 1: Sat 31 Oct 2026 · Day 2: Sun 1 Nov 2026<br>
         VJTI Cricket Ground, Matunga, Mumbai
       </div>
     </div>
