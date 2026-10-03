@@ -314,9 +314,71 @@
       <button id="save-player-btn" class="btn-primary w-full py-2.5 mt-2">
         SAVE EVALUATION
       </button>
+
+      <!-- Danger Zone: Remove Player -->
+      <div class="border-t border-red-500/20 pt-4 mt-2">
+        <p class="font-mono text-[10px] text-red-400/60 uppercase tracking-widest mb-2">⚠ Danger Zone</p>
+        <button
+          id="delete-player-btn"
+          class="w-full py-2.5 px-4 rounded-xl border border-red-500/40 bg-red-500/10 text-red-400 font-mono text-xs font-bold uppercase tracking-wider hover:bg-red-500/20 hover:border-red-500/60 transition-all flex items-center justify-center gap-2"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
+          Remove Player from Database
+        </button>
+      </div>
     </div>
 
   </aside>
+
+  <!-- ── Confirm Delete Modal ─────────────────────────────── -->
+  <div id="delete-modal-overlay" class="fixed inset-0 z-[60] bg-black/80 backdrop-blur-sm hidden items-center justify-center">
+    <div class="bg-[#07100B] border border-red-500/30 rounded-2xl p-6 w-full max-w-sm mx-4 shadow-2xl">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-full bg-red-500/15 border border-red-500/30 flex items-center justify-center flex-shrink-0">
+          <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-display font-black text-white text-lg">Confirm Deletion</h3>
+          <p class="font-mono text-[10px] text-red-400 uppercase tracking-widest">This cannot be undone</p>
+        </div>
+      </div>
+
+      <p class="text-sm text-[#A7B2AC] mb-1">
+        You are about to permanently remove
+        <span id="delete-modal-name" class="text-white font-bold"></span>
+        from the database.
+      </p>
+      <p class="text-xs text-[#64716A] mb-4 font-mono">
+        Type <span id="delete-modal-reg-id" class="text-red-400 font-bold"></span> to confirm:
+      </p>
+
+      <input
+        id="delete-confirm-input"
+        type="text"
+        placeholder="Type Registration ID here..."
+        class="w-full bg-[#050807] border border-red-500/30 rounded-xl px-4 py-2.5 text-sm text-white font-mono focus:border-red-400 outline-none mb-4 placeholder-[#3d4d45]"
+        autocomplete="off"
+        spellcheck="false"
+      />
+
+      <div class="flex gap-3">
+        <button id="delete-cancel-btn" class="flex-1 py-2.5 rounded-xl border border-white/15 text-[#A7B2AC] font-mono text-xs hover:border-white/30 transition-all">
+          CANCEL
+        </button>
+        <button
+          id="delete-confirm-btn"
+          disabled
+          class="flex-1 py-2.5 rounded-xl bg-red-500/20 border border-red-500/40 text-red-400 font-mono text-xs font-bold uppercase disabled:opacity-40 disabled:cursor-not-allowed hover:enabled:bg-red-500/30 transition-all"
+        >
+          DELETE PERMANENTLY
+        </button>
+      </div>
+    </div>
+  </div>
 
   <script type="module" src="/src/js/organizer/players.js"></script>
 </body>

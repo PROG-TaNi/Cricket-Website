@@ -6,7 +6,7 @@
 
 import "../../css/main.css";
 import { initOrganizerLayout } from "./layout.js";
-import { getPlayers, updatePlayer } from "./data.js";
+import { getPlayers, updatePlayer, deletePlayer } from "./data.js";
 import { exportPlayersToCSV } from "./dashboard.js";
 import { toastMsg } from "../components/toast.js";
 
@@ -325,5 +325,72 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Export CSV button
   document.getElementById("export-csv-btn")?.addEventListener("click", () => {
     exportPlayersToCSV(filteredPlayers);
+  });
+
+  // ── Delete Player Flow ───────────────────────────────────────────────────
+  const deleteModalOverlay = document.getElementById("delete-modal-overlay");
+  const deleteModalName    = document.getElementById("delete-modal-name");
+  const deleteModalRegId   = document.getElementById("delete-modal-reg-id");
+  const deleteConfirmInput = /** @type {HTMLInputElement|null} */ (document.getElementById("delete-confirm-input"));
+  const deleteConfirmBtn   = /** @type {HTMLButtonElement|null} */ (document.getElementById("delete-confirm-btn"));
+  const deleteCancelBtn    = document.getElementById("delete-cancel-btn");
+
+  /** Open the confirm-delete modal for the active drawer player */
+  function openDeleteModal() {
+    if (!activeDrawerPlayer) return;
+    if (deleteModalName)  deleteModalName.textContent  = activeDrawerPlayer.full_name;
+    if (deleteModalRegId) deleteModalRegId.textContent = activeDrawerPlayer.registration_id;
+    if (deleteConfirmInput) { deleteConfirmInput.value = ""; }
+    if (deleteConfirmBtn)   deleteConfirmBtn.disabled = true;
+    deleteModalOverlay?.classList.remove("hidden");
+    deleteModalOverlay?.classList.add("flex");
+    deleteConfirmInput?.focus();
+  }
+
+  /** Close the confirm-delete modal */
+  function closeDeleteModal() {
+    deleteModalOverlay?.classList.add("hidden");
+    deleteModalOverlay?.classList.remove("flex");
+    if (deleteConfirmInput) deleteConfirmInput.value = "";
+    if (deleteConfirmBtn)   deleteConfirmBtn.disabled = true;
+  }
+
+  // "Remove Player" button in drawer opens the modal
+  document.getElementById("delete-player-btn")?.addEventListener("click", openDeleteModal);
+
+  // Typing in the input enables / disables the confirm button
+  deleteConfirmInput?.addEventListener("input", () => {
+    if (!deleteConfirmBtn || !activeDrawerPlayer) return;
+    deleteConfirmBtn.disabled =
+      deleteConfirmInput.value.trim() !== activeDrawerPlayer.registration_id;
+  });
+
+  // Cancel closes the modal
+  deleteCancelBtn?.addEventListener("click", closeDeleteModal);
+  deleteModalOverlay?.addEventListener("click", (e) => {
+    if (e.target === deleteModalOverlay) closeDeleteModal();
+  });
+
+  // Confirm — actually delete
+  deleteConfirmBtn?.addEventListener("click", async () => {
+    if (!activeDrawerPlayer) return;
+    const player = activeDrawerPlayer;
+
+    if (deleteConfirmBtn) deleteConfirmBtn.textContent = "DELETING...";
+    if (deleteConfirmBtn) deleteConfirmBtn.disabled = true;
+
+    const success = await deletePlayer(player.registration_id);
+
+    if (success) {
+      // Remove from local arrays
+      allPlayers = allPlayers.filter((p) => p.registration_id !== player.registration_id);
+      applyFilters();
+      closeDeleteModal();
+      closeDrawer();
+      toastMsg(`${player.full_name} (${player.registration_id}) removed from database.`, "success");
+    } else {
+      toastMsg(`Failed to delete ${player.registration_id}. Check console for details.`, "error");
+      if (deleteConfirmBtn) { deleteConfirmBtn.textContent = "DELETE PERMANENTLY"; deleteConfirmBtn.disabled = false; }
+    }
   });
 });

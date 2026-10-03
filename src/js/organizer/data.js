@@ -350,6 +350,37 @@ export async function updatePlayer(registrationId, updates) {
 }
 
 /**
+ * Permanently delete a player from cache and Supabase
+ * @param {string} registrationId
+ * @returns {Promise<boolean>} true if deleted successfully
+ */
+export async function deletePlayer(registrationId) {
+  // Remove from local cache immediately
+  let players = await getPlayers();
+  const before = players.length;
+  players = players.filter((p) => p.registration_id !== registrationId);
+  localStorage.setItem(PLAYERS_CACHE_KEY, JSON.stringify(players));
+
+  // Delete from Supabase
+  try {
+    const { error } = await supabase
+      .from("players")
+      .delete()
+      .eq("registration_id", registrationId);
+    if (error) {
+      console.error("Supabase delete error:", error);
+      return false;
+    }
+  } catch (e) {
+    console.error("Delete failed:", e);
+    return false;
+  }
+
+  return players.length < before;
+}
+
+
+/**
  * Add a new walk-in player from ground mode
  * @param {Record<string, any>} player
  * @returns {Promise<any>}
