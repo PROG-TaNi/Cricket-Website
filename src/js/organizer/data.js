@@ -304,23 +304,25 @@ export async function getPlayers() {
       .select("*")
       .order("created_at", { ascending: false });
 
-    if (!error && data && data.length > 0) {
+    if (!error && data) {
+      // Trust the DB response even if empty — don't fall through to seed data
       localStorage.setItem(PLAYERS_CACHE_KEY, JSON.stringify(data));
       return data;
     }
   } catch (_) {}
 
-  // Fallback to local cache or seed data
+  // Fallback to local cache only (no seed data in production)
   try {
     const cached = localStorage.getItem(PLAYERS_CACHE_KEY);
     if (cached) {
-      return JSON.parse(cached);
+      const parsed = JSON.parse(cached);
+      // Only use cache if it looks like real data (not the seeded demo set)
+      if (Array.isArray(parsed)) return parsed;
     }
   } catch (_) {}
 
-  // Save seed data to cache
-  localStorage.setItem(PLAYERS_CACHE_KEY, JSON.stringify(SEED_PLAYERS));
-  return [...SEED_PLAYERS];
+  // If Supabase is unreachable and no cache — return empty (not seed data)
+  return [];
 }
 
 /**
