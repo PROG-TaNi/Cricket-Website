@@ -1,6 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /organizer/
-Disallow: /api/organizer/
-
-Sitemap: https://cricket.vjti.ac.in/sitemap.xml
