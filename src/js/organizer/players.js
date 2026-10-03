@@ -17,45 +17,17 @@ let filteredPlayers = [];
 /** @type {any | null} */
 let activeDrawerPlayer = null;
 
-// DOM references
-const tbody = document.getElementById("players-tbody");
-const searchInput = /** @type {HTMLInputElement | null} */ (document.getElementById("player-search-input"));
-const filterRole = /** @type {HTMLSelectElement | null} */ (document.getElementById("filter-role"));
-const filterStatus = /** @type {HTMLSelectElement | null} */ (document.getElementById("filter-status"));
-const filterDay1 = /** @type {HTMLSelectElement | null} */ (document.getElementById("filter-day1"));
-const filterProgram = /** @type {HTMLSelectElement | null} */ (document.getElementById("filter-program"));
-const filterBatch = /** @type {HTMLSelectElement | null} */ (document.getElementById("filter-batch"));
-const countMatchedEl = document.getElementById("players-count-matched");
-const countTotalEl = document.getElementById("players-count-total");
-
-// Drawer DOM references
-const drawer = document.getElementById("player-drawer");
-const drawerOverlay = document.getElementById("player-drawer-overlay");
-const closeDrawerBtn = document.getElementById("close-drawer-btn");
-const drawerRegId = document.getElementById("drawer-reg-id");
-const drawerName = document.getElementById("drawer-name");
-const drawerProgramYear = document.getElementById("drawer-program-year");
-const drawerRegNo = document.getElementById("drawer-reg-no");
-const drawerBranch = document.getElementById("drawer-branch");
-const drawerWaLink = /** @type {HTMLAnchorElement | null} */ (document.getElementById("drawer-wa-link"));
-const drawerRole = document.getElementById("drawer-role");
-const drawerBatting = document.getElementById("drawer-batting");
-const drawerBowling = document.getElementById("drawer-bowling");
-const drawerExperience = document.getElementById("drawer-experience");
-const drawerDay1Select = /** @type {HTMLSelectElement | null} */ (document.getElementById("drawer-day1-select"));
-const drawerDay2Select = /** @type {HTMLSelectElement | null} */ (document.getElementById("drawer-day2-select"));
-const drawerRatingSlider = /** @type {HTMLInputElement | null} */ (document.getElementById("drawer-rating-slider"));
-const drawerRatingVal = document.getElementById("drawer-rating-val");
-const drawerBatchSelect = /** @type {HTMLSelectElement | null} */ (document.getElementById("drawer-batch-select"));
-const drawerNetSelect = /** @type {HTMLSelectElement | null} */ (document.getElementById("drawer-net-select"));
-const drawerNotes = /** @type {HTMLTextAreaElement | null} */ (document.getElementById("drawer-notes"));
-const drawerStatusSelect = /** @type {HTMLSelectElement | null} */ (document.getElementById("drawer-status-select"));
-const savePlayerBtn = document.getElementById("save-player-btn");
-
 /**
  * Filter players based on search and dropdown values
  */
 function applyFilters() {
+  const searchInput = /** @type {HTMLInputElement | null} */ (document.getElementById("player-search-input"));
+  const filterRole = /** @type {HTMLSelectElement | null} */ (document.getElementById("filter-role"));
+  const filterStatus = /** @type {HTMLSelectElement | null} */ (document.getElementById("filter-status"));
+  const filterDay1 = /** @type {HTMLSelectElement | null} */ (document.getElementById("filter-day1"));
+  const filterProgram = /** @type {HTMLSelectElement | null} */ (document.getElementById("filter-program"));
+  const filterBatch = /** @type {HTMLSelectElement | null} */ (document.getElementById("filter-batch"));
+
   const query = (searchInput?.value || "").toLowerCase().trim();
   const role = filterRole?.value || "";
   const status = filterStatus?.value || "";
@@ -99,6 +71,10 @@ function applyFilters() {
  * Render filtered players into the table
  */
 function renderTable() {
+  const tbody = document.getElementById("players-tbody");
+  const countMatchedEl = document.getElementById("players-count-matched");
+  const countTotalEl = document.getElementById("players-count-total");
+
   if (!tbody) return;
 
   if (countMatchedEl) countMatchedEl.textContent = String(filteredPlayers.length);
@@ -173,13 +149,13 @@ function renderTable() {
           ${p.branch}
         </td>
         <td class="p-3.5 text-center whitespace-nowrap font-mono text-[10px]">
-          <span class="px-2 py-0.5 rounded ${day1Badge}">${p.day1_attendance.toUpperCase()}</span>
+          <span class="px-2 py-0.5 rounded ${day1Badge}">${(p.day1_attendance || "pending").toUpperCase()}</span>
         </td>
         <td class="p-3.5 text-center whitespace-nowrap font-mono text-[10px]">
-          <span class="px-2 py-0.5 rounded ${day2Badge}">${p.day2_attendance.toUpperCase()}</span>
+          <span class="px-2 py-0.5 rounded ${day2Badge}">${(p.day2_attendance || "pending").toUpperCase()}</span>
         </td>
         <td class="p-3.5 text-center whitespace-nowrap font-mono text-[10px]">
-          <span class="px-2.5 py-1 rounded-full border ${statusBadge}">${p.status.replace("_", " ").toUpperCase()}</span>
+          <span class="px-2.5 py-1 rounded-full border ${statusBadge}">${(p.status || "registered").replace("_", " ").toUpperCase()}</span>
         </td>
         <td class="p-3.5 text-right pr-5 font-mono font-bold whitespace-nowrap">
           ${p.rating ? `<span class="text-[#31D47B]">${p.rating}</span><span class="text-[#64716A] text-[10px]">/10</span>` : `<span class="text-[#64716A]">—</span>`}
@@ -204,6 +180,27 @@ function renderTable() {
  */
 function openDrawer(player) {
   activeDrawerPlayer = player;
+
+  const drawer = document.getElementById("player-drawer");
+  const drawerOverlay = document.getElementById("player-drawer-overlay");
+  const drawerRegId = document.getElementById("drawer-reg-id");
+  const drawerName = document.getElementById("drawer-name");
+  const drawerProgramYear = document.getElementById("drawer-program-year");
+  const drawerRegNo = document.getElementById("drawer-reg-no");
+  const drawerBranch = document.getElementById("drawer-branch");
+  const drawerWaLink = /** @type {HTMLAnchorElement | null} */ (document.getElementById("drawer-wa-link"));
+  const drawerRole = document.getElementById("drawer-role");
+  const drawerBatting = document.getElementById("drawer-batting");
+  const drawerBowling = document.getElementById("drawer-bowling");
+  const drawerExperience = document.getElementById("drawer-experience");
+  const drawerDay1Select = /** @type {HTMLSelectElement | null} */ (document.getElementById("drawer-day1-select"));
+  const drawerDay2Select = /** @type {HTMLSelectElement | null} */ (document.getElementById("drawer-day2-select"));
+  const drawerRatingSlider = /** @type {HTMLInputElement | null} */ (document.getElementById("drawer-rating-slider"));
+  const drawerRatingVal = document.getElementById("drawer-rating-val");
+  const drawerBatchSelect = /** @type {HTMLSelectElement | null} */ (document.getElementById("drawer-batch-select"));
+  const drawerNetSelect = /** @type {HTMLSelectElement | null} */ (document.getElementById("drawer-net-select"));
+  const drawerNotes = /** @type {HTMLTextAreaElement | null} */ (document.getElementById("drawer-notes"));
+  const drawerStatusSelect = /** @type {HTMLSelectElement | null} */ (document.getElementById("drawer-status-select"));
 
   if (drawerRegId) drawerRegId.textContent = player.registration_id;
   if (drawerName) drawerName.textContent = player.full_name;
@@ -253,6 +250,8 @@ function openDrawer(player) {
  * Close drawer
  */
 function closeDrawer() {
+  const drawer = document.getElementById("player-drawer");
+  const drawerOverlay = document.getElementById("player-drawer-overlay");
   drawer?.classList.add("translate-x-full");
   drawerOverlay?.classList.add("hidden");
   activeDrawerPlayer = null;
@@ -266,15 +265,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderTable();
 
   // Filter & Search input handlers
-  searchInput?.addEventListener("input", applyFilters);
-  filterRole?.addEventListener("change", applyFilters);
-  filterStatus?.addEventListener("change", applyFilters);
-  filterDay1?.addEventListener("change", applyFilters);
-  filterProgram?.addEventListener("change", applyFilters);
-  filterBatch?.addEventListener("change", applyFilters);
+  document.getElementById("player-search-input")?.addEventListener("input", applyFilters);
+  document.getElementById("filter-role")?.addEventListener("change", applyFilters);
+  document.getElementById("filter-status")?.addEventListener("change", applyFilters);
+  document.getElementById("filter-day1")?.addEventListener("change", applyFilters);
+  document.getElementById("filter-program")?.addEventListener("change", applyFilters);
+  document.getElementById("filter-batch")?.addEventListener("change", applyFilters);
 
   // Reset filters
   document.getElementById("reset-filters-btn")?.addEventListener("click", () => {
+    const searchInput = /** @type {HTMLInputElement | null} */ (document.getElementById("player-search-input"));
+    const filterRole = /** @type {HTMLSelectElement | null} */ (document.getElementById("filter-role"));
+    const filterStatus = /** @type {HTMLSelectElement | null} */ (document.getElementById("filter-status"));
+    const filterDay1 = /** @type {HTMLSelectElement | null} */ (document.getElementById("filter-day1"));
+    const filterProgram = /** @type {HTMLSelectElement | null} */ (document.getElementById("filter-program"));
+    const filterBatch = /** @type {HTMLSelectElement | null} */ (document.getElementById("filter-batch"));
     if (searchInput) searchInput.value = "";
     if (filterRole) filterRole.value = "";
     if (filterStatus) filterStatus.value = "";
@@ -285,22 +290,33 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   // Drawer rating slider real-time label update
+  const drawerRatingSlider = /** @type {HTMLInputElement | null} */ (document.getElementById("drawer-rating-slider"));
+  const drawerRatingVal = document.getElementById("drawer-rating-val");
   drawerRatingSlider?.addEventListener("input", () => {
-    if (drawerRatingVal) drawerRatingVal.textContent = `${drawerRatingSlider.value} / 10`;
+    if (drawerRatingVal && drawerRatingSlider) drawerRatingVal.textContent = `${drawerRatingSlider.value} / 10`;
   });
 
   // Drawer Close handlers
-  closeDrawerBtn?.addEventListener("click", closeDrawer);
-  drawerOverlay?.addEventListener("click", closeDrawer);
+  document.getElementById("close-drawer-btn")?.addEventListener("click", closeDrawer);
+  document.getElementById("player-drawer-overlay")?.addEventListener("click", closeDrawer);
 
   // Save Player updates
+  const savePlayerBtn = document.getElementById("save-player-btn");
   savePlayerBtn?.addEventListener("click", async () => {
     if (!activeDrawerPlayer) return;
+
+    const drawerDay1Select = /** @type {HTMLSelectElement | null} */ (document.getElementById("drawer-day1-select"));
+    const drawerDay2Select = /** @type {HTMLSelectElement | null} */ (document.getElementById("drawer-day2-select"));
+    const drawerRatingSliderEl = /** @type {HTMLInputElement | null} */ (document.getElementById("drawer-rating-slider"));
+    const drawerBatchSelect = /** @type {HTMLSelectElement | null} */ (document.getElementById("drawer-batch-select"));
+    const drawerNetSelect = /** @type {HTMLSelectElement | null} */ (document.getElementById("drawer-net-select"));
+    const drawerNotes = /** @type {HTMLTextAreaElement | null} */ (document.getElementById("drawer-notes"));
+    const drawerStatusSelect = /** @type {HTMLSelectElement | null} */ (document.getElementById("drawer-status-select"));
 
     const updates = {
       day1_attendance: drawerDay1Select?.value,
       day2_attendance: drawerDay2Select?.value,
-      rating: parseFloat(drawerRatingSlider?.value || "7"),
+      rating: parseFloat(drawerRatingSliderEl?.value || "7"),
       trial_batch: drawerBatchSelect?.value,
       trial_net: drawerNetSelect?.value,
       notes: drawerNotes?.value || "",

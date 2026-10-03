@@ -927,8 +927,22 @@ body {
 }
 
 /* Hide the "For testing only" message in development */
-.cf-turnstile::after {
+.cf-turnstile::after,
+.cf-turnstile::before {
   display: none !important;
+  content: none !important;
+  visibility: hidden !important;
+}
+
+/* Hide the test message container */
+.cf-turnstile [style*="position: absolute"],
+.cf-turnstile div[style*="bottom"],
+.cf-turnstile span:contains("testing") {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
 }
 
 /* Target the actual Turnstile widget inner elements */
@@ -967,6 +981,16 @@ body {
 /* Force dark backgrounds on all Turnstile children */
 #turnstile-widget * {
   border-color: rgba(49, 212, 123, 0.2) !important;
+}
+
+/* Aggressively hide Cloudflare test message */
+#turnstile-widget iframe {
+  clip-path: inset(0 0 25px 0) !important; /* Clip bottom 25px where message appears */
+}
+
+#turnstile-widget {
+  overflow: hidden !important;
+  max-height: 65px !important;
 }
 
 /* Override inline styles */
@@ -1492,122 +1516,3 @@ dialog#legacy-lightbox[open] {
   }
 }
 
-
-/* ===================================================================
-   CRICKET BALL ANIMATION FOR DEV BUTTON
-   =================================================================== */
-
-/* Cricket ball orbit container */
-.cricket-ball-orbit {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 200px;
-  height: 200px;
-  margin-left: -100px;
-  margin-top: -100px;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Cricket ball bouncing animation */
-.cricket-ball {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-left: -10px;
-  margin-top: -10px;
-  animation: cricket-orbit 8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-  filter: drop-shadow(0 3px 6px rgba(220, 20, 60, 0.6));
-}
-
-/* Spinning cricket ball */
-.cricket-ball-svg {
-  animation: cricket-spin 2s linear infinite;
-  display: block;
-}
-
-/* Orbit path animation - circular pattern around the button */
-@keyframes cricket-orbit {
-  0% {
-    transform: translate(0, -80px) scale(0.7);
-    opacity: 0;
-  }
-  5% {
-    opacity: 1;
-  }
-  12.5% {
-    transform: translate(56px, -56px) scale(0.9);
-  }
-  25% {
-    transform: translate(80px, 0) scale(1.1);
-  }
-  37.5% {
-    transform: translate(56px, 56px) scale(0.9);
-  }
-  50% {
-    transform: translate(0, 80px) scale(0.7);
-  }
-  62.5% {
-    transform: translate(-56px, 56px) scale(0.9);
-  }
-  75% {
-    transform: translate(-80px, 0) scale(1.1);
-  }
-  87.5% {
-    transform: translate(-56px, -56px) scale(0.9);
-  }
-  95% {
-    opacity: 1;
-  }
-  100% {
-    transform: translate(0, -80px) scale(0.7);
-    opacity: 0;
-  }
-}
-
-/* Ball spinning effect */
-@keyframes cricket-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Add slight bounce to the DEV button when ball passes */
-.developer-credit-trigger {
-  animation: dev-button-idle 4s ease-in-out infinite;
-}
-
-@keyframes dev-button-idle {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-2px);
-  }
-}
-
-/* On hover, pause the animations */
-.developer-credit-trigger:hover {
-  animation-play-state: paused;
-}
-
-/* Mobile optimizations */
-@media (max-width: 768px) {
-  .cricket-ball-orbit {
-    display: none; /* Hide on mobile to avoid performance issues */
-  }
-}
-
-/* Reduce motion for accessibility */
-@media (prefers-reduced-motion: reduce) {
-  .cricket-ball-orbit,
-  .cricket-ball,
-  .cricket-ball-svg,
-  .developer-credit-trigger {
-    animation: none !important;
-  }
-}
