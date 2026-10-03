@@ -43,15 +43,7 @@ export function initHero() {
         end: "+=150%",
         pin: true,
         scrub: 1,
-        anticipatePin: 1,
-        onUpdate: (self) => {
-          // Remove blur as user scrolls (0% = full blur, 20% = no blur)
-          if (self.progress > 0.2) {
-            heroSection.classList.add("blur-removed");
-          } else {
-            heroSection.classList.remove("blur-removed");
-          }
-        }
+        anticipatePin: 1
       }
     });
 
@@ -122,15 +114,7 @@ export function initHero() {
         end: "+=100%",
         pin: true,
         scrub: 1,
-        anticipatePin: 1,
-        onUpdate: (self) => {
-          // Remove blur as user scrolls (0% = full blur, 30% = no blur)
-          if (self.progress > 0.3) {
-            heroSection.classList.add("blur-removed");
-          } else {
-            heroSection.classList.remove("blur-removed");
-          }
-        }
+        anticipatePin: 1
       }
     });
 

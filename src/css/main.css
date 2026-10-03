@@ -862,51 +862,14 @@ body {
 }
 
 /* ────────────────────────────────────────────────
-   HERO SECTION BACKGROUND BLUR (MOBILE FIX)
+   NAVIGATION RESPONSIVE TWEAKS
 ──────────────────────────────────────────────── */
 
-/* Add a blurred overlay on mobile to improve text readability */
-#hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, 
-    rgba(11, 18, 14, 0.7) 0%, 
-    rgba(11, 18, 14, 0.5) 50%, 
-    rgba(11, 18, 14, 0.3) 100%
-  );
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: 1;
-  pointer-events: none;
-  transition: opacity 0.3s ease-out;
-}
-
-/* Desktop: lighter blur for better visibility */
-@media (min-width: 769px) {
-  #hero::before {
-    background: linear-gradient(to bottom, 
-      rgba(11, 18, 14, 0.4) 0%, 
-      rgba(11, 18, 14, 0.2) 50%, 
-      transparent 100%
-    );
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+/* Hide "Trials 2026-27" text on mobile and tablet */
+@media (max-width: 1023px) {
+  .nav-trials-text {
+    display: none !important;
   }
-}
-
-/* Class to remove blur when scrolling (controlled by JS) */
-#hero.blur-removed::before {
-  opacity: 0;
-  backdrop-filter: blur(0px);
-  -webkit-backdrop-filter: blur(0px);
-}
-
-/* Ensure hero content is above the blur overlay */
-.hero-content,
-.hero-scroll-indicator {
-  position: relative;
-  z-index: 10;
 }
 
 
