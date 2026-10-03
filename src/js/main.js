@@ -7,6 +7,10 @@ import "./components/countdown.js";
 import { toast } from "./components/toast.js";
 import { renderDeveloperCredit } from "../lib/credit.js";
 import { supabase } from "./core/supabase.js";
+import { inject } from "@vercel/analytics";
+
+// Vercel Analytics — tracks page views automatically
+inject();
 
 // Section controllers – Phase 3
 import { initFixture } from "./sections/fixture.js";

@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const updateMatchdayUI = (/** @type {boolean} */ isMatchday) => {
     if (bannerTitle) bannerTitle.textContent = isMatchday ? "MATCHDAY MODE ACTIVE — GROUND CHECK-IN LIVE" : "TRIALS COUNTDOWN ACTIVE";
-    if (bannerDesc) bannerDesc.textContent = isMatchday ? "Selectors & coordinators: use Ground Mode for real-time QR scanning and net tracking." : "Scheduled for Sat 10 Oct & Sun 11 Oct 2026 at VJTI Cricket Ground.";
+    if (bannerDesc) bannerDesc.textContent = isMatchday ? "Selectors & coordinators: use Ground Mode for real-time QR scanning and net tracking." : "Scheduled for Sat 31 Oct & Sun 1 Nov 2026 at VJTI Cricket Ground.";
     if (toggleBtn) toggleBtn.textContent = isMatchday ? "DISABLE MATCHDAY MODE" : "ACTIVATE MATCHDAY MODE";
   };
 
