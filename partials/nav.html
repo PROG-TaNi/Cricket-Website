@@ -1,4 +1,4 @@
-<nav id="vjti-main-nav" class="fixed top-0 left-0 right-0 z-[9999] transition-all duration-300 py-4 px-4 md:px-8 border-b border-transparent">
+<nav id="vjti-main-nav" class="fixed top-0 left-0 right-0 z-[9999] transition-all duration-300 py-4 px-4 lg:px-8 border-b border-transparent">
   <div class="max-w-7xl mx-auto flex items-center justify-between">
     <!-- Brand: Logo + Wordmark -->
     <a href="/" class="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#31d47b] rounded-lg">
@@ -6,7 +6,7 @@
         <img src="/brand/vjti-logo.png" alt="VJTI Logo" class="w-full h-full object-contain rounded-full" width="40" height="40" loading="eager" />
       </div>
       <div class="flex flex-col">
-        <span class="font-display font-extrabold text-xl md:text-2xl tracking-wider text-white leading-none">
+        <span class="font-display font-extrabold text-xl lg:text-2xl tracking-wider text-white leading-none">
           VJTI <span class="text-[#31d47b]">CRICKET</span>
         </span>
         <span class="font-mono text-[9px] tracking-widest text-[#a7b2ac] uppercase mt-0.5">
@@ -15,8 +15,8 @@
       </div>
     </a>
 
-    <!-- Desktop Navigation Links -->
-    <div class="hidden md:flex items-center gap-8">
+    <!-- Desktop Navigation Links (lg and above only) -->
+    <div class="hidden lg:flex items-center gap-8">
       <a href="/" class="text-sm font-semibold tracking-wider text-[#a7b2ac] hover:text-[#f4f1e8] transition-colors uppercase">Home</a>
       <a href="/schedule.html" class="text-sm font-semibold tracking-wider text-[#a7b2ac] hover:text-[#f4f1e8] transition-colors uppercase">Schedule</a>
       <a href="/rules.html" class="text-sm font-semibold tracking-wider text-[#a7b2ac] hover:text-[#f4f1e8] transition-colors uppercase">Rules</a>
@@ -26,8 +26,8 @@
       <a href="/#faq" class="text-sm font-semibold tracking-wider text-[#a7b2ac] hover:text-[#f4f1e8] transition-colors uppercase">FAQ</a>
     </div>
 
-    <!-- Right Action Slot (Desktop CTA or Player Chip) -->
-    <div class="hidden md:flex items-center gap-3">
+    <!-- Right Action Slot (Desktop CTA or Player Chip — lg and above only) -->
+    <div class="hidden lg:flex items-center gap-3">
       <!-- Find My ID Button -->
       <a href="/find-id.html" class="btn-ghost py-2.5 px-4 text-sm tracking-wider flex items-center gap-2">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -35,7 +35,7 @@
         </svg>
         <span>FIND ID</span>
       </a>
-      
+
       <!-- Register Button / Player Chip -->
       <div id="nav-cta-slot">
         <a href="/register.html" class="btn-primary py-2.5 px-5 text-sm tracking-widest">
@@ -45,89 +45,121 @@
       </div>
     </div>
 
-    <!-- Mobile Hamburger Toggle with 3-bar animation -->
-    <button id="nav-mobile-toggle" type="button" class="md:hidden p-2.5 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#31d47b] active:scale-95 transition-all z-[10001] relative" aria-label="Toggle Navigation Menu">
-      <div class="w-5 h-4 flex flex-col justify-between items-center relative">
-        <span class="hamburger-line line-top w-5 h-0.5 bg-white rounded-full transition-all duration-300"></span>
-        <span class="hamburger-line line-mid w-5 h-0.5 bg-[#31D47B] rounded-full transition-all duration-300"></span>
-        <span class="hamburger-line line-bot w-5 h-0.5 bg-white rounded-full transition-all duration-300"></span>
+    <!-- Hamburger Toggle (mobile + tablet, hidden on lg and above) -->
+    <button
+      id="nav-mobile-toggle"
+      type="button"
+      aria-label="Toggle Navigation Menu"
+      aria-expanded="false"
+      aria-controls="nav-mobile-menu"
+      class="lg:hidden"
+      style="align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);cursor:pointer;position:relative;z-index:10002;flex-shrink:0;touch-action:manipulation;-webkit-tap-highlight-color:rgba(49,212,123,0.3);outline:none;padding:0;">
+      <div style="width:22px;height:16px;display:flex;flex-direction:column;justify-content:space-between;position:relative;">
+        <span id="hb-top" style="display:block;width:22px;height:2px;background:#ffffff;border-radius:2px;transition:transform 0.3s ease,opacity 0.2s ease;transform-origin:center;"></span>
+        <span id="hb-mid" style="display:block;width:22px;height:2px;background:#31D47B;border-radius:2px;transition:transform 0.3s ease,opacity 0.2s ease;transform-origin:center;"></span>
+        <span id="hb-bot" style="display:block;width:22px;height:2px;background:#ffffff;border-radius:2px;transition:transform 0.3s ease,opacity 0.2s ease;transform-origin:center;"></span>
       </div>
     </button>
   </div>
+</nav>
 
-  <!-- Mobile Fullscreen Drawer / Menu with App-like polish -->
-  <div id="nav-mobile-menu" class="hidden md:hidden fixed inset-0 top-0 bg-[#050807] z-[10000] flex flex-col justify-between overflow-y-auto border-t border-white/10" style="padding-top: 76px;">
-    <div class="flex flex-col gap-2.5 pt-2 px-6">
-      <a href="/" class="mobile-nav-link flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:border-[#31d47b]/40 hover:bg-[#31d47b]/10 active:scale-95 transition-all">
-        <div class="flex items-center gap-3">
-          <span class="font-mono text-xs text-[#31D47B] font-bold">01</span>
-          <span class="font-display font-extrabold text-xl text-white tracking-wider">HOME</span>
-        </div>
-        <span class="text-white/40 text-sm">→</span>
-      </a>
-      <a href="/schedule.html" class="mobile-nav-link flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:border-[#31d47b]/40 hover:bg-[#31d47b]/10 active:scale-95 transition-all">
-        <div class="flex items-center gap-3">
-          <span class="font-mono text-xs text-[#31D47B] font-bold">02</span>
-          <span class="font-display font-extrabold text-xl text-white tracking-wider">SCHEDULE & VENUE</span>
-        </div>
-        <span class="text-white/40 text-sm">→</span>
-      </a>
-      <a href="/rules.html" class="mobile-nav-link flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:border-[#31d47b]/40 hover:bg-[#31d47b]/10 active:scale-95 transition-all">
-        <div class="flex items-center gap-3">
-          <span class="font-mono text-xs text-[#31D47B] font-bold">03</span>
-          <span class="font-display font-extrabold text-xl text-white tracking-wider">RULES & GEAR</span>
-        </div>
-        <span class="text-white/40 text-sm">→</span>
-      </a>
-      <a href="/selection.html" class="mobile-nav-link flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:border-[#31d47b]/40 hover:bg-[#31d47b]/10 active:scale-95 transition-all">
-        <div class="flex items-center gap-3">
-          <span class="font-mono text-xs text-[#31D47B] font-bold">04</span>
-          <span class="font-display font-extrabold text-xl text-white tracking-wider">SELECTION PROCESS</span>
-        </div>
-        <span class="text-white/40 text-sm">→</span>
-      </a>
-      <a href="/squad.html" class="mobile-nav-link flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:border-[#31d47b]/40 hover:bg-[#31d47b]/10 active:scale-95 transition-all">
-        <div class="flex items-center gap-3">
-          <span class="font-mono text-xs text-[#31D47B] font-bold">05</span>
-          <span class="font-display font-extrabold text-xl text-white tracking-wider">SQUAD</span>
-        </div>
-        <span class="text-white/40 text-sm">→</span>
-      </a>
-      <a href="/announcements.html" class="mobile-nav-link flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:border-[#31d47b]/40 hover:bg-[#31d47b]/10 active:scale-95 transition-all">
-        <div class="flex items-center gap-3">
-          <span class="font-mono text-xs text-[#31D47B] font-bold">06</span>
-          <span class="font-display font-extrabold text-xl text-white tracking-wider">ANNOUNCEMENTS</span>
-        </div>
-        <span class="text-white/40 text-sm">→</span>
-      </a>
-      <a href="/#faq" class="mobile-nav-link flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/5 hover:border-[#31d47b]/40 hover:bg-[#31d47b]/10 active:scale-95 transition-all">
-        <div class="flex items-center gap-3">
-          <span class="font-mono text-xs text-[#31D47B] font-bold">07</span>
-          <span class="font-display font-extrabold text-xl text-white tracking-wider">FAQ</span>
-        </div>
-        <span class="text-white/40 text-sm">→</span>
-      </a>
-      <a href="/find-id.html" class="mobile-nav-link flex items-center justify-between p-3 rounded-xl bg-[#31D47B]/10 border border-[#31D47B]/30 hover:bg-[#31D47B]/20 active:scale-95 transition-all mt-1">
-        <div class="flex items-center gap-3">
-          <svg class="w-5 h-5 text-[#31D47B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-          </svg>
-          <span class="font-mono text-sm text-[#31D47B] font-bold tracking-wider">FIND MY REGISTRATION ID</span>
-        </div>
-        <span class="text-[#31D47B] text-sm">→</span>
+<!-- Mobile Full-screen Menu Overlay — fixed independently, sibling to <nav> -->
+<div
+  id="nav-mobile-menu"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Navigation Menu"
+  style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9998;background-color:#050807;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;flex-direction:column;justify-content:space-between;">
+
+  <!-- Nav Links -->
+  <div style="display:flex;flex-direction:column;gap:10px;padding:90px 20px 20px;">
+
+    <a href="/" class="mobile-nav-link"
+      style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);text-decoration:none;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-family:monospace;font-size:11px;color:#31D47B;font-weight:700;">01</span>
+        <span style="font-weight:800;font-size:20px;color:#ffffff;letter-spacing:0.05em;">HOME</span>
+      </div>
+      <span style="color:rgba(255,255,255,0.35);font-size:18px;">→</span>
+    </a>
+
+    <a href="/schedule.html" class="mobile-nav-link"
+      style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);text-decoration:none;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-family:monospace;font-size:11px;color:#31D47B;font-weight:700;">02</span>
+        <span style="font-weight:800;font-size:20px;color:#ffffff;letter-spacing:0.05em;">SCHEDULE &amp; VENUE</span>
+      </div>
+      <span style="color:rgba(255,255,255,0.35);font-size:18px;">→</span>
+    </a>
+
+    <a href="/rules.html" class="mobile-nav-link"
+      style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);text-decoration:none;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-family:monospace;font-size:11px;color:#31D47B;font-weight:700;">03</span>
+        <span style="font-weight:800;font-size:20px;color:#ffffff;letter-spacing:0.05em;">RULES &amp; GEAR</span>
+      </div>
+      <span style="color:rgba(255,255,255,0.35);font-size:18px;">→</span>
+    </a>
+
+    <a href="/selection.html" class="mobile-nav-link"
+      style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);text-decoration:none;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-family:monospace;font-size:11px;color:#31D47B;font-weight:700;">04</span>
+        <span style="font-weight:800;font-size:20px;color:#ffffff;letter-spacing:0.05em;">SELECTION PROCESS</span>
+      </div>
+      <span style="color:rgba(255,255,255,0.35);font-size:18px;">→</span>
+    </a>
+
+    <a href="/squad.html" class="mobile-nav-link"
+      style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);text-decoration:none;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-family:monospace;font-size:11px;color:#31D47B;font-weight:700;">05</span>
+        <span style="font-weight:800;font-size:20px;color:#ffffff;letter-spacing:0.05em;">SQUAD</span>
+      </div>
+      <span style="color:rgba(255,255,255,0.35);font-size:18px;">→</span>
+    </a>
+
+    <a href="/announcements.html" class="mobile-nav-link"
+      style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);text-decoration:none;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-family:monospace;font-size:11px;color:#31D47B;font-weight:700;">06</span>
+        <span style="font-weight:800;font-size:20px;color:#ffffff;letter-spacing:0.05em;">ANNOUNCEMENTS</span>
+      </div>
+      <span style="color:rgba(255,255,255,0.35);font-size:18px;">→</span>
+    </a>
+
+    <a href="/#faq" class="mobile-nav-link"
+      style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);text-decoration:none;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-family:monospace;font-size:11px;color:#31D47B;font-weight:700;">07</span>
+        <span style="font-weight:800;font-size:20px;color:#ffffff;letter-spacing:0.05em;">FAQ</span>
+      </div>
+      <span style="color:rgba(255,255,255,0.35);font-size:18px;">→</span>
+    </a>
+
+    <a href="/find-id.html" class="mobile-nav-link"
+      style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:12px;background:rgba(49,212,123,0.08);border:1px solid rgba(49,212,123,0.28);text-decoration:none;margin-top:4px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <svg style="width:18px;height:18px;flex-shrink:0;" fill="none" stroke="#31D47B" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+        <span style="font-family:monospace;font-size:13px;color:#31D47B;font-weight:700;letter-spacing:0.07em;">FIND MY REGISTRATION ID</span>
+      </div>
+      <span style="color:#31D47B;font-size:18px;">→</span>
+    </a>
+  </div>
+
+  <!-- Bottom CTA -->
+  <div style="padding:20px;border-top:1px solid rgba(255,255,255,0.1);display:flex;flex-direction:column;gap:12px;">
+    <div id="nav-mobile-cta-slot">
+      <a href="/register.html"
+        style="display:block;width:100%;box-sizing:border-box;text-align:center;padding:16px;border-radius:12px;background:#31D47B;color:#050807;font-weight:900;font-size:16px;letter-spacing:0.1em;text-decoration:none;text-transform:uppercase;box-shadow:0 8px 24px rgba(49,212,123,0.25);">
+        REGISTER FOR TRIALS →
       </a>
     </div>
-
-    <div class="pt-5 border-t border-white/10 flex flex-col gap-3 pb-6 px-6">
-      <div id="nav-mobile-cta-slot">
-        <a href="/register.html" class="btn-primary w-full text-center py-3.5 text-base tracking-wider font-display font-black shadow-lg shadow-[#31D47B]/20">
-          REGISTER FOR TRIALS →
-        </a>
-      </div>
-      <div class="flex items-center justify-between font-mono text-[10px] text-[#64716A] px-1">
-        <span>31 OCT–1 NOV 2026</span>
-        <span>VJTI CRICKET GROUND</span>
-      </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;font-family:monospace;font-size:10px;color:#64716A;padding:0 4px;">
+      <span>31 OCT–1 NOV 2026</span>
+      <span>VJTI CRICKET GROUND</span>
     </div>
   </div>
-</nav>
+</div>

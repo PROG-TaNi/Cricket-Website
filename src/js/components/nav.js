@@ -1,109 +1,139 @@
 // @ts-check
 import { getRegisteredPlayer } from "../core/storage.js";
 
+/**
+ * Initialize the navigation bar with scroll effects and mobile menu toggle.
+ * The mobile menu (#nav-mobile-menu) is a fixed full-screen overlay
+ * that is a sibling of <nav>, NOT nested inside it.
+ */
 export function initNav() {
-  console.log("🔧 initNav called");
   const nav = document.getElementById("vjti-main-nav");
   const toggle = document.getElementById("nav-mobile-toggle");
   const menu = document.getElementById("nav-mobile-menu");
   const ctaSlot = document.getElementById("nav-cta-slot");
   const mobileCtaSlot = document.getElementById("nav-mobile-cta-slot");
 
-  console.log("📱 Nav elements found:", {
-    nav: !!nav,
-    toggle: !!toggle,
-    menu: !!menu,
-    ctaSlot: !!ctaSlot,
-    mobileCtaSlot: !!mobileCtaSlot
-  });
+  // Hamburger bar elements (styled via inline styles in HTML)
+  const hbTop = document.getElementById("hb-top");
+  const hbMid = document.getElementById("hb-mid");
+  const hbBot = document.getElementById("hb-bot");
 
-  // Scroll blur & background
-  const onScroll = () => {
-    if (!nav) return;
+  if (!nav || !toggle || !menu) {
+    console.error("Nav init failed — missing elements:", { nav: !!nav, toggle: !!toggle, menu: !!menu });
+    return;
+  }
+
+  let isMenuOpen = false;
+
+  /* ── Scroll styling ───────────────────────────────────────────── */
+  const handleScroll = () => {
+    if (isMenuOpen) return; // keep solid bg while menu is open
     if (window.scrollY > 80) {
-      nav.classList.add("bg-[#050807]/90", "backdrop-blur-md", "border-white/10", "shadow-xl");
-      nav.classList.remove("border-transparent", "py-4");
-      nav.classList.add("py-3");
+      nav.style.backgroundColor = "rgba(5,8,7,0.92)";
+      nav.style.backdropFilter = "blur(14px)";
+      nav.style.webkitBackdropFilter = "blur(14px)";
+      nav.style.borderBottomColor = "rgba(255,255,255,0.1)";
+      nav.style.boxShadow = "0 4px 24px rgba(0,0,0,0.4)";
+      nav.style.paddingTop = "12px";
+      nav.style.paddingBottom = "12px";
     } else {
-      nav.classList.remove("bg-[#050807]/90", "backdrop-blur-md", "border-white/10", "shadow-xl", "py-3");
-      nav.classList.add("border-transparent", "py-4");
+      nav.style.backgroundColor = "";
+      nav.style.backdropFilter = "";
+      nav.style.webkitBackdropFilter = "";
+      nav.style.borderBottomColor = "transparent";
+      nav.style.boxShadow = "";
+      nav.style.paddingTop = "";
+      nav.style.paddingBottom = "";
     }
   };
 
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
+  /* ── Hamburger animation helpers ─────────────────────────────── */
+  const animateOpen = () => {
+    if (!hbTop || !hbMid || !hbBot) return;
+    hbTop.style.transform = "translateY(7px) rotate(45deg)";
+    hbMid.style.opacity = "0";
+    hbMid.style.transform = "scaleX(0)";
+    hbBot.style.transform = "translateY(-7px) rotate(-45deg)";
+  };
 
-  // Mobile menu toggle
-  if (toggle && menu) {
-    console.log("✅ Setting up mobile menu toggle");
-    
-    // Test if the button is visible
-    const rect = toggle.getBoundingClientRect();
-    console.log("📐 Toggle button position:", rect);
-    console.log("👆 Toggle button styles:", {
-      display: window.getComputedStyle(toggle).display,
-      visibility: window.getComputedStyle(toggle).visibility,
-      pointerEvents: window.getComputedStyle(toggle).pointerEvents,
-      zIndex: window.getComputedStyle(toggle).zIndex
-    });
-    
-    const handleToggle = (e) => {
-      console.log("🖱️ HAMBURGER CLICKED!", e.type);
-      e.preventDefault();
-      e.stopPropagation();
-      
-      const isOpen = !menu.classList.contains("hidden");
-      console.log("Menu currently open?", isOpen);
-      if (isOpen) {
-        // Close menu
-        console.log("🔴 Closing menu");
-        menu.classList.add("hidden");
-        toggle.classList.remove("nav-open");
-        document.body.style.overflow = "";
-        // Remove solid black background from nav
-        if (nav) {
-          nav.classList.remove("!bg-[#050807]", "!border-white/20");
-          // Restore scroll-based styling
-          onScroll();
-        }
-      } else {
-        // Open menu
-        console.log("🟢 Opening menu");
-        menu.classList.remove("hidden");
-        toggle.classList.add("nav-open");
-        document.body.style.overflow = "hidden";
-        // Make nav solid black when menu is open
-        if (nav) {
-          nav.classList.add("!bg-[#050807]", "!border-white/20", "backdrop-blur-md", "shadow-xl");
-        }
-      }
-    };
-    
-    // Add both click and touchstart for mobile compatibility
-    toggle.addEventListener("click", handleToggle);
-    toggle.addEventListener("touchstart", handleToggle, { passive: false });
-    console.log("📱 Added click and touchstart listeners");
+  const animateClose = () => {
+    if (!hbTop || !hbMid || !hbBot) return;
+    hbTop.style.transform = "";
+    hbMid.style.opacity = "1";
+    hbMid.style.transform = "";
+    hbBot.style.transform = "";
+  };
 
-    // Close on mobile link click
-    menu.querySelectorAll(".mobile-nav-link").forEach((link) => {
-      link.addEventListener("click", () => {
-        console.log("🔗 Mobile nav link clicked");
-        menu.classList.add("hidden");
-        toggle.classList.remove("nav-open");
-        document.body.style.overflow = "";
-        // Remove solid black background from nav
-        if (nav) {
-          nav.classList.remove("!bg-[#050807]", "!border-white/20");
-          // Restore scroll-based styling
-          onScroll();
-        }
-      });
-    });
-  } else {
-    console.error("❌ Toggle or menu not found!", { toggle, menu });
-  }
+  /* ── Open menu ───────────────────────────────────────────────── */
+  const openMenu = () => {
+    isMenuOpen = true;
 
-  // Check if player is already registered
+    // Show the overlay
+    menu.style.display = "flex";
+    menu.setAttribute("aria-hidden", "false");
+    toggle.setAttribute("aria-expanded", "true");
+
+    // Animate hamburger → X
+    animateOpen();
+
+    // Give nav a solid background while menu is open
+    nav.style.backgroundColor = "#050807";
+    nav.style.borderBottomColor = "rgba(255,255,255,0.15)";
+    nav.style.backdropFilter = "blur(14px)";
+    nav.style.webkitBackdropFilter = "blur(14px)";
+
+    // Prevent body scroll without layout shift
+    document.body.style.overflow = "hidden";
+  };
+
+  /* ── Close menu ──────────────────────────────────────────────── */
+  const closeMenu = () => {
+    isMenuOpen = false;
+
+    // Hide the overlay
+    menu.style.display = "none";
+    menu.setAttribute("aria-hidden", "true");
+    toggle.setAttribute("aria-expanded", "false");
+
+    // Animate X → hamburger
+    animateClose();
+
+    // Restore body scroll
+    document.body.style.overflow = "";
+
+    // Restore scroll-based nav styling
+    handleScroll();
+  };
+
+  /* ── Toggle ──────────────────────────────────────────────────── */
+  const toggleMenu = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    isMenuOpen ? closeMenu() : openMenu();
+  };
+
+  /* ── Event listeners ─────────────────────────────────────────── */
+  toggle.addEventListener("click", toggleMenu);
+  toggle.addEventListener("touchend", (e) => { e.preventDefault(); toggleMenu(e); }, { passive: false });
+
+  // Close when a nav link is tapped
+  menu.querySelectorAll(".mobile-nav-link").forEach((link) => {
+    link.addEventListener("click", closeMenu);
+  });
+
+  // Close on Escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && isMenuOpen) closeMenu();
+  });
+
+  // Scroll styling
+  window.addEventListener("scroll", handleScroll, { passive: true });
+  handleScroll();
+
+  // Set initial aria states
+  menu.setAttribute("aria-hidden", "true");
+
+  /* ── Player registration chip ────────────────────────────────── */
   const player = getRegisteredPlayer();
   if (player && player.registrationId) {
     const chipHtml = `
@@ -115,4 +145,6 @@ export function initNav() {
     if (ctaSlot) ctaSlot.innerHTML = chipHtml;
     if (mobileCtaSlot) mobileCtaSlot.innerHTML = chipHtml;
   }
+
+  console.log("✅ Nav initialized — mobile menu ready");
 }
